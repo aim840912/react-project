@@ -1,0 +1,1 @@
+{"version":3,"file":"static/css/1904.9f30b8ff.chunk.css","mappings":"AAEQ,+CAEJ,gEACA","sources":["page/dashboard/index.scss"],"sourcesContent":[".dashboard{\r\n    .area{\r\n        p{color: #666;line-height: 30px;}\r\n    }\r\n    .icon{font-size: 60px;color: #7da1f7;margin-right: 20px;}\r\n    .wrap{text-align: center;height: 300px;}\r\n}"],"names":[],"sourceRoot":""}

@@ -1,0 +1,1 @@
+{"version":3,"file":"static/css/1851.94ebb32d.chunk.css","mappings":"AAEM,+CAEF","sources":["page/energy/style.scss"],"sourcesContent":[".dashboard{\r\n    .area{\r\n      p{color: #666;line-height: 30px;}  \r\n    }\r\n    .icon{font-size: 60px;color:#7da1f7;margin-right: 20px;}\r\n}"],"names":[],"sourceRoot":""}

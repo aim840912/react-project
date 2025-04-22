@@ -1,0 +1,1 @@
+{"version":3,"file":"static/css/2151.cda4a2d6.chunk.css","mappings":"AACI,YACI,mBACA,iCACA","sources":["page/estate/index.scss"],"sourcesContent":[".room{\r\n    .item{\r\n        margin-bottom: 10px;\r\n        h1{text-align: center;}\r\n        p{font-weight: bold;}\r\n    }\r\n}"],"names":[],"sourceRoot":""}
