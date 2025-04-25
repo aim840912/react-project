@@ -1,0 +1,2 @@
+"use strict";(self.webpackChunkreact_project=self.webpackChunkreact_project||[]).push([[6189],{6189:(e,c,r)=>{r.r(c),r.d(c,{default:()=>n});var t=r(579);const n=function(){return(0,t.jsx)("div",{children:"\u6211\u662f\u65b0\u589e\u79df\u6237"})}}}]);
+//# sourceMappingURL=6189.c50f08ad.chunk.js.map
