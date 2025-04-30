@@ -1,0 +1,1 @@
+{"version":3,"file":"static/css/4627.079ba13b.chunk.css","mappings":"AAAA,aACI,gBACA,YACA,cAEA,eACA,SAAQ,CAFR,yBAEA","sources":["page/personal/index.scss"],"sourcesContent":[".link-button {\n    background: none;\n    border: none;\n    color: #1677ff;\n    text-decoration: underline;\n    cursor: pointer;\n    padding: 0;\n}\n"],"names":[],"sourceRoot":""}
