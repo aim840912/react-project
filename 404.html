@@ -1,15 +1,18 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 
 <head>
     <meta charset="UTF-8" />
+    <title>Redirecting...</title>
+    <script>
+        // 自動把錯誤網址重新導向回 React Router 控制的路由上
+        const redirectPath = "/react-project" + location.pathname + location.search + location.hash;
+        location.replace(redirectPath);
+    </script>
 </head>
 
 <body>
-    <script>
-        // 如果網址不正確，強制導回 react-project 路由
-        location.replace("/react-project" + location.pathname + location.search + location.hash);
-    </script>
+    <h1>Redirecting...</h1>
 </body>
 
 </html>
