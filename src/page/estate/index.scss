@@ -1,0 +1,20 @@
+.room {
+    .item {
+        margin-bottom: 10px;
+        h1 {
+            text-align: center;
+        }
+        p {
+            font-weight: bold;
+        }
+    }
+}
+.link-button {
+    background: none;
+    border: none;
+    color: #1677ff;
+    padding: 0;
+    cursor: pointer;
+    text-decoration: underline;
+    font-size: inherit;
+}
