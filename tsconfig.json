@@ -5,6 +5,8 @@
     "module": "ESNext",
     "target": "ESNext",
     "moduleResolution": "Bundler",
-    "types": ["vite/client", "msw"]
+    "types": ["vite/client", "msw"],
+    "noUnusedLocals": false,
+    "noUnusedParameters": false
   }
 }
