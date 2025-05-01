@@ -76,63 +76,28 @@ const option3 = {
     ]
 };
 
-interface EnergySeries {
-    name: string;
-    data: number[];
-}
+const initialOption: EChartsOption = {
+    title: { text: "當日能源消耗" },
+    tooltip: { trigger: "axis" },
+    legend: { data: [] as string[] },
+    grid: {
+        left: "%",
+        right: "4%",
+        bottom: "3%",
+        containLabel: true,
+    },
+    toolbox: { feature: { saveAsImage: {} } },
+    xAxis: {
+        type: "category",
+        boundaryGap: false,
+        data: ["0:00", "4:00", "8:00", "12:00", "16:00", "20:00", "24:00"],
+    },
+    yAxis: { type: "value" },
+    series: [],
+};
+
 
 function Dashboard() {
-    const initialOption: EChartsOption = {
-        title: { text: "當日能源消耗" },
-        tooltip: { trigger: "axis" },
-        legend: { data: [] as string[] },
-        grid: {
-            left: "%",
-            right: "4%",
-            bottom: "3%",
-            containLabel: true,
-        },
-        toolbox: { feature: { saveAsImage: {} } },
-        xAxis: {
-            type: "category",
-            boundaryGap: false,
-            data: ["0:00", "4:00", "8:00", "12:00", "16:00", "20:00", "24:00"],
-        },
-        yAxis: { type: "value" },
-        series: [],
-    };
-
-    const [data, setData] = useState<EChartsOption>(initialOption);
-
-
-
-    useEffect(() => {
-        const loadData = async () => {
-            const { data: apiData } = await getEnergyData();
-
-            const dataList: LineSeriesOption[] = (apiData as EnergySeries[]).map((item) => ({
-                name: item.name,
-                data: item.data,
-                type: "line",
-                stack: "Total",
-            }));
-
-            const legend: LegendComponentOption = {
-                data: dataList.map((item) => item.name) as LegendComponentOption['data'],
-            };
-
-            const updatedOption: EChartsOption = {
-                ...data,
-                legend,
-                series: dataList,
-            };
-
-            setData(updatedOption);
-        };
-
-        loadData();
-    }, [data]);
-
     return <div className="dashboard">
         <Row gutter={16}>
             <Col span={6}>
@@ -183,7 +148,7 @@ function Dashboard() {
         <Row gutter={16} className="mt">
             <Col span={12}>
                 <Card title="能源消耗情況">
-                    <ReactECharts option={data}></ReactECharts>
+                    <ReactECharts option={initialOption}></ReactECharts>
                 </Card>
             </Col>
             <Col span={12}>

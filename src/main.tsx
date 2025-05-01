@@ -7,19 +7,22 @@ import { Provider } from 'react-redux';
 import { store } from './store';
 
 // 啟動 MSW（只在開發環境）
-if (import.meta.env.DEV) {
-  const { worker } = await import('./mocks/browser');
-  worker.start({
-    serviceWorker: {
-      url: '/mockServiceWorker.js',
-    }
-  });
+async function enableMSW() {
+  if (import.meta.env.DEV) {
+    const { worker } = await import('./mocks/browser');
+    await worker.start({
+      serviceWorker: {
+        url: '/mockServiceWorker.js',
+      }
+    });
+  }
 }
-
-createRoot(document.getElementById('root')!).render(
-  <StrictMode>
-    <Provider store={store}>
-      <App />
-    </Provider>
-  </StrictMode>,
-)
+enableMSW().then(() => {
+  createRoot(document.getElementById('root')!).render(
+    <StrictMode>
+      <Provider store={store}>
+        <App />
+      </Provider>
+    </StrictMode>,
+  )
+})
