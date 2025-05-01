@@ -11,6 +11,11 @@ dist/
 .env.local
 .env.*.local
 
+# Local environment files
+.env
+.env.production
+.env.development
+
 # logs
 npm-debug.log*
 yarn-debug.log*

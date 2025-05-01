@@ -2,6 +2,10 @@ import { http } from 'msw';
 import { faker } from '@faker-js/faker';
 import { menu } from './data';
 
+
+const API_BASE = import.meta.env.VITE_API_BASE || 'https://fake.api.mock';
+
+
 // 假資料來源
 const menuByRole = {
     admin: menu.menuList, // ← 這裡貼上你原本的 menuList 陣列內容
@@ -22,7 +26,7 @@ const createUser = (role: keyof typeof menuByRole) => ({
 });
 
 const handlers = [
-    http.post('https://www.demo.com/login', async ({ request }) => {
+    http.post(`${API_BASE}/login`, async ({ request }) => {
         const { username, password } = await request.json() as { username: string; password: string };
 
         if (username === password && ['admin', 'manager', 'user'].includes(username)) {
@@ -40,7 +44,7 @@ const handlers = [
         });
     }),
 
-    http.get('https://www.demo.com/menu', () => {
+    http.get(`${API_BASE}/menu`, () => {
         const token = sessionStorage.getItem('token');
         const role = token?.replace('mocktoken123456', '') as keyof typeof menuByRole;
         const data = menuByRole[role] || [];
@@ -51,7 +55,7 @@ const handlers = [
         });
     }),
 
-    http.post('https://www.demo.com/userList', async ({ request }) => {
+    http.post(`${API_BASE}/userList`, async ({ request }) => {
         const { pageSize = 10 } = await request.json() as { pageSize: number };
         const list = Array.from({ length: pageSize }, () => ({
             id: faker.string.numeric(6),
@@ -72,7 +76,7 @@ const handlers = [
         });
     }),
 
-    http.post('https://www.demo.com/deleteUser', async ({ request }) => {
+    http.post(`${API_BASE}/deleteUser`, async ({ request }) => {
         const { id } = await request.json() as { id: string };
         console.log('刪除企業', id);
         return new Response(JSON.stringify({ code: 200, message: '成功', data: '操作成功' }), {
@@ -81,7 +85,7 @@ const handlers = [
         });
     }),
 
-    http.post('https://www.demo.com/roomList', async () => {
+    http.post(`${API_BASE}/roomList`, async () => {
         const rooms = Array.from({ length: 50 }, (_, i) => {
             const floor = 1 + Math.floor(i / 6);
             const roomNumber = floor * 100 + (101 + (i % 6));
@@ -99,7 +103,7 @@ const handlers = [
         });
     }),
 
-    http.post('https://www.demo.com/contractList', async ({ request }) => {
+    http.post(`${API_BASE}/contractList`, async ({ request }) => {
         const { pageSize = 10 } = await request.json() as { pageSize: number };
         const list = Array.from({ length: pageSize }, () => ({
             contractNo: faker.string.numeric(6),
@@ -118,7 +122,7 @@ const handlers = [
         });
     }),
 
-    http.post('https://www.demo.com/equipmentList', async ({ request }) => {
+    http.post(`${API_BASE}/equipmentList`, async ({ request }) => {
         const { pageSize = 10 } = await request.json() as { pageSize: number };
         const list = Array.from({ length: pageSize }, (_, i) => ({
             id: 1000 + i,
@@ -142,7 +146,7 @@ const handlers = [
         });
     }),
 
-    http.post('https://www.demo.com/billList', async ({ request }) => {
+    http.post(`${API_BASE}/billList`, async ({ request }) => {
         const { pageSize = 10 } = await request.json() as { pageSize: number };
         const list = Array.from({ length: pageSize }, () => ({
             accountNo: faker.string.numeric(6),
@@ -167,7 +171,7 @@ const handlers = [
         });
     }),
 
-    http.post('https://www.demo.com/accountList', () => {
+    http.post(`${API_BASE}/accountList`, () => {
         const list = ['admin', 'user', 'manager', 'customize'].map((role, i) => ({
             id: 1001 + i,
             accountName: `${role}01`,
