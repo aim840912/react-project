@@ -1,7 +1,7 @@
 import { Card, Table, Row, Col, Input, Button, Tag, Pagination } from "antd"
 import { useCallback, useEffect, useState } from "react"
 import { TableProps } from "antd";
-import { getContractList } from "../../../api/users";
+import { getContractList } from "../../api/users";
 import { setData, setTotal, setCurrent, setFormList, setSize } from "../../store/finance/contractSlice";
 import { useDispatch } from "react-redux";
 import { PaginationProps } from "antd";

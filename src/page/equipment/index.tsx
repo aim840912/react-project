@@ -1,7 +1,7 @@
 import { Card, Table, Row, Col, Input, Button, Pagination, Tag } from "antd"
 import { TableProps } from "antd";
 import useDataList from "../../hooks/useDataList";
-import { getEquipmentList } from "../../../api/equipment";
+import { getEquipmentList } from "../../api/equipment";
 interface SearchType {
     name: string;
     person: string;

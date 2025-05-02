@@ -1,4 +1,4 @@
-import { post } from "../src/utils/http/http";
+import { post } from "../utils/http/http";
 
 interface SearchData {
     name: string;

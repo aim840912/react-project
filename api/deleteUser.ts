@@ -1,4 +1,4 @@
-import type { DeleteUserRequest, ApiResponse } from '../types/api';
+import type { DeleteUserRequest, ApiResponse } from '../src/types/api';
 
 export default function handler(req: { body: DeleteUserRequest; method: string }, res: { status: Function; json: (body: ApiResponse) => void; end: () => void }) {
     if (req.method === 'POST') {

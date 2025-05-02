@@ -1,7 +1,7 @@
 import { Card, Row, Col, Input, Table, Pagination, Statistic, DatePicker, Select, Button, Tag } from "antd"
 import { DownloadOutlined, DeleteOutlined } from '@ant-design/icons';
 import { TableProps } from "antd";
-import { getBillList } from "../../../api/users";
+import { getBillList } from "../../api/users";
 import { useCallback, useEffect, useMemo, useState } from "react";
 import { exportToExcel } from "../../utils/exportToExcel";
 import { RangePickerProps } from "antd/es/date-picker";

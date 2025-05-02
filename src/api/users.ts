@@ -1,4 +1,4 @@
-import { post, get } from "../src/utils/http/http";
+import { post, get } from "../utils/http/http";
 
 import type {
     LoginRequest,
@@ -11,7 +11,7 @@ import type {
     searchType,
     SearchData,
     SearchData2,
-} from "../src/types/api";
+} from "../types/api";
 
 export function login(data: LoginRequest): Promise<ApiResponse<LoginResponse>> {
     return post("/api/login", data);

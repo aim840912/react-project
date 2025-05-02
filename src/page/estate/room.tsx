@@ -1,6 +1,6 @@
 import { Card, Row, Col, Image, Radio, Spin } from "antd"
 import { useEffect, useState } from "react"
-import { getRoomList } from "../../../api/room"
+import { getRoomList } from "../../api/room"
 import "./index.scss"
 import { RadioChangeEvent } from "antd/lib";
 import roomPic from "../../assets/roomPic.jpg"

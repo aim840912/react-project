@@ -1,5 +1,5 @@
 // /api/batchDeleteUser.ts
-import type { ApiResponse } from "../types/api";
+import type { ApiResponse } from "../src/types/api";
 
 export default function handler(
     req: { method: string; body: { keys: string[] } },
