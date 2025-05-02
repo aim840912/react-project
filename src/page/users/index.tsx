@@ -1,7 +1,7 @@
 import { Card, Row, Col, Input, Button, Table, Pagination, Tag, Popconfirm, message } from "antd"
 import React, { useCallback, useEffect, useMemo, useState } from "react"
 import type { DataType } from "./interface"
-import { getUserList, batchDeleteUser, deleteUser } from "../../api/users"
+import { getUserList, batchDeleteUser, deleteUser } from "../../../api/users"
 import type { TableProps, PaginationProps } from "antd"
 import UserForm from "./userForm"
 import { useDispatch } from "react-redux"

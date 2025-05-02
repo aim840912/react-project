@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { createBrowserRouter } from "react-router-dom";
-import { getMenu } from "../api/users";
+import { getMenu } from "../../api/users";
 import { generateRoutes } from "../utils/generatesRoutes";
 import { useAppDispatch, useAppSelector } from "../store/hooks";
 import { setMenu } from "../store/login/authSlice";

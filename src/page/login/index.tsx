@@ -5,7 +5,7 @@ import lgbg from "../../assets/lgbg.jpg"
 
 import { Button, Form, Input } from 'antd';
 import { UserOutlined, LockOutlined } from '@ant-design/icons';
-import { login } from "../../api/users";
+import { login } from "../../../api/users";
 import { setToken } from "../../store/login/authSlice";
 import { useDispatch } from "react-redux";
 import { useNavigate } from "react-router-dom"
