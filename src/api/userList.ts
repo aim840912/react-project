@@ -1,36 +1,32 @@
-import { post } from "../utils/http/request";
-import type { DataType } from "../page/users/interface";
+// File: /api/userList.ts
+import type { VercelRequest, VercelResponse } from '@vercel/node';
+import { faker } from '@faker-js/faker';
 
-interface searchType {
-    page: number;
-    pageSize: number;
-    companyName?: string;
-    contact?: string;
-    tel?: string;
+function generateUserList(count: number) {
+    return Array.from({ length: count }, (_, i) => ({
+        key: faker.string.uuid(),
+        name: faker.person.fullName(),
+        phone: faker.phone.number(),
+        email: faker.internet.email(),
+        company: faker.company.name(),
+        address: faker.location.city(),
+        age: faker.number.int({ min: 18, max: 65 }),
+        createdAt: faker.date.past().toISOString(),
+    }));
 }
 
-interface ApiResponse<T> {
-    code: number;
-    message: string;
-    data: T;
-}
+export default function handler(req: VercelRequest, res: VercelResponse) {
+    if (req.method !== 'POST') {
+        return res.status(405).json({ message: 'Method Not Allowed' });
+    }
 
-export function getUserList<T = unknown>(data: searchType): Promise<ApiResponse<T>> {
-    return post<T>("/userList", data);
-}
+    const { pageSize = 10 } = req.body || {};
+    const list = generateUserList(pageSize);
 
-
-// 刪除客戶
-export function deleteUser(id: string) {
-    return post("/deleteUser", { id })
-}
-
-// 批量刪除客戶
-export function batchDeleteUser(ids: React.Key[]) {
-    return post("/batchDeleteUser", { ids })
-}
-
-// 編輯/新增 企業接口
-export function editUser(data: DataType) {
-    return post("/editUser", data)
+    return res.status(200).json({
+        data: {
+            list,
+            total: 50,
+        },
+    });
 }

@@ -112,7 +112,7 @@ function Equipment() {
         onChange,
         handleChange,
         reset
-    } = useDataList<SearchType, DataType>({ name: "", person: "" }, getEquipmentList<EquipmentListResponse>)
+    } = useDataList<SearchType, DataType>({ name: "", person: "" }, getEquipmentList)
     return <div>
         <Card className="search">
             <Row gutter={16}>

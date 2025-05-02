@@ -1,5 +1,4 @@
-import { post } from "../utils/http/request";
-import type { ApiResponse } from "../utils/http/request";
+import { post } from "../utils/http/http";
 
 interface SearchData {
     name: string;
@@ -8,6 +7,6 @@ interface SearchData {
     pageSize: number;
 }
 
-export function getEquipmentList<T = unknown>(data: SearchData): Promise<ApiResponse<T>> {
-    return post<T>("/equipmentList", data);
+export function getEquipmentList(data: SearchData) {
+    return post("/equipmentList", data);
 }

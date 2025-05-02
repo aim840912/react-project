@@ -1,7 +1,7 @@
 import { Card, Row, Col, Input, Table, Pagination, Statistic, DatePicker, Select, Button, Tag } from "antd"
 import { DownloadOutlined, DeleteOutlined } from '@ant-design/icons';
 import { TableProps } from "antd";
-import { getBillList } from "../../api/contract";
+import { getBillList } from "../../api/users";
 import { useCallback, useEffect, useMemo, useState } from "react";
 import { exportToExcel } from "../../utils/exportToExcel";
 import { RangePickerProps } from "antd/es/date-picker";
@@ -203,7 +203,7 @@ function Bill() {
 
     const loadData = useCallback(async () => {
         setLoading(true);
-        const { data: { list, total } } = await getBillList<BillListResponse>({
+        const { data: { list, total } } = await getBillList({
             page,
             pageSize,
             startDate: formData.date[0],

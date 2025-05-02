@@ -1,9 +1,13 @@
 import { useState, useCallback, useEffect } from "react";
-
-interface DataFetcher<T, R> {
-    (args: T & { page: number; pageSize: number }): Promise<R>;
+type MyFormData = {
+    [key: string]: any
 }
-function useDataList<T extends { [K in keyof T]: string | number | boolean }, U>(initialFormData: T, fetchData: DataFetcher<T, { data: { list: U[]; total: number } }>) {
+
+interface DataFetcher<T> {
+    (args: T & { page: number; pageSize: number }): Promise<any>
+}
+
+function useDataList<T extends MyFormData, U>(initialFormData: T, fetchData: DataFetcher<T>) {
     const [dataList, setDataList] = useState<U[]>([])
     const [page, setPage] = useState<number>(1);
     const [pageSize, setPageSize] = useState<number>(10);

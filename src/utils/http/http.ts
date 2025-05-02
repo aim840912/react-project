@@ -1,14 +1,16 @@
-import axios, { AxiosInstance, InternalAxiosRequestConfig, AxiosResponse } from 'axios';
+import axios, { AxiosInstance, AxiosRequestConfig, AxiosResponse } from 'axios';
 import { message } from 'antd';
 import { store } from "../../store"
 
-const http: AxiosInstance = axios.create({
-    baseURL: import.meta.env.VITE_API_BASE,
+const config: AxiosRequestConfig = {
+    baseURL: import.meta.env.VITE_API_BASE || '',
     timeout: 5000,
-})
+};
+
+const http: AxiosInstance = axios.create(config);
 
 // 請求攔截器
-http.interceptors.request.use((config: InternalAxiosRequestConfig) => {
+http.interceptors.request.use((config) => {
     const { token } = store.getState().authSlice
 
     if (token) {
@@ -19,12 +21,21 @@ http.interceptors.request.use((config: InternalAxiosRequestConfig) => {
 
 // 響應攔截器
 http.interceptors.response.use((response: AxiosResponse) => {
-    const res = response.data;
-    if (res.code !== 200) {
-        message.error(res.code + " : " + res.message);
-        return Promise.reject(new Error(res.message))
-    }
+    // 直接回傳資料，不檢查 code
     return response.data;
+}, (error) => {
+    message.error(error.message || "請求錯誤");
+    return Promise.reject(error);
 });
+
+// 封裝 get/post 方法
+export function get(url: string, params?: any) {
+    return http.get(url, { params });
+}
+
+export function post(url: string, data?: any,) {
+    return http.post(url, data);
+}
+
 
 export default http;

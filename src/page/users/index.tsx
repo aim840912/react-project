@@ -1,23 +1,12 @@
 import { Card, Row, Col, Input, Button, Table, Pagination, Tag, Popconfirm, message } from "antd"
 import React, { useCallback, useEffect, useMemo, useState } from "react"
 import type { DataType } from "./interface"
-import { getUserList, deleteUser, batchDeleteUser } from "../../api/userList"
+import { getUserList, batchDeleteUser, deleteUser } from "../../api/users"
 import type { TableProps, PaginationProps } from "antd"
 import UserForm from "./userForm"
 import { useDispatch } from "react-redux"
 import { setUserData, emptyUserData } from "../../store/user/userSlice"
-
-interface searchType {
-    companyName: string;
-    contact: string;
-    phone: string
-
-}
-
-interface UserListResponse {
-    total: number;
-    list: DataType[];
-}
+import type { searchType } from "../../types/api";
 
 function Users() {
     const [dataList, setDataList] = useState<DataType[]>([]);
@@ -30,9 +19,11 @@ function Users() {
     const [title, setTitle] = useState<string>("")
     const dispatch = useDispatch()
     const [formData, setFormData] = useState<searchType>({
+        page: 1,
+        pageSize: 20,
         companyName: "",
         contact: "",
-        phone: ""
+        tel: "",
     })
 
     const disabled = useMemo(() => {
@@ -41,7 +32,11 @@ function Users() {
 
     const loadData = useCallback(async () => {
         setLoading(true)
-        const { data: { total, list } } = await getUserList<UserListResponse>({ ...formData, page, pageSize });
+        const response = await getUserList({ ...formData, page, pageSize });
+
+        if (!response.data) return;
+
+        const { list, total } = response.data;
         setDataList(list)
         setTotal(total)
         setLoading(false)
@@ -76,9 +71,11 @@ function Users() {
     const reset = () => {
         setSelectedRowKeys([])
         setFormData({
+            page: 1,
+            pageSize: 20,
             companyName: "",
             contact: "",
-            phone: ""
+            tel: ""
         })
         setPage(1)
         setPageSize(10)
@@ -208,7 +205,7 @@ function Users() {
                     <Input name="contact" value={formData.contact} onChange={handleChange} /></Col>
                 <Col span={7}>
                     <p>連絡電話:</p>
-                    <Input name="phone" value={formData.phone} onChange={handleChange} /></Col>
+                    <Input name="phone" value={formData.tel} onChange={handleChange} /></Col>
                 <Col span={3}>
                     <Button type="primary" onClick={loadData}>查詢</Button>
                     <Button className="ml" onClick={reset}>重置</Button>

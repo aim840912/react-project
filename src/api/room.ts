@@ -1,6 +1,6 @@
-import { post } from "../utils/http/request";
-import type { ApiResponse } from "../utils/http/request";
+import { post } from "../utils/http/http";
 
-export function getRoomList<T = unknown>(roomid: string): Promise<ApiResponse<T>> {
-    return post<T>("/roomList", { roomid });
+
+export function getRoomList(roomid: string) {
+    return post("/roomList", { roomid });
 }

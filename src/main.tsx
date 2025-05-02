@@ -6,23 +6,12 @@ import '@ant-design/v5-patch-for-react-19';
 import { Provider } from 'react-redux';
 import { store } from './store';
 
-// 啟動 MSW（只在開發環境）
-async function enableMSW() {
-  if (import.meta.env.DEV) {
-    const { worker } = await import('./mocks/browser');
-    await worker.start({
-      serviceWorker: {
-        url: '/mockServiceWorker.js',
-      }
-    });
-  }
-}
-enableMSW().then(() => {
-  createRoot(document.getElementById('root')!).render(
-    <StrictMode>
-      <Provider store={store}>
-        <App />
-      </Provider>
-    </StrictMode>,
-  )
-})
+
+createRoot(document.getElementById('root')!).render(
+  <StrictMode>
+    <Provider store={store}>
+      <App />
+    </Provider>
+  </StrictMode>,
+)
+

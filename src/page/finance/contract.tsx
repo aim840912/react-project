@@ -1,7 +1,7 @@
 import { Card, Table, Row, Col, Input, Button, Tag, Pagination } from "antd"
 import { useCallback, useEffect, useState } from "react"
 import { TableProps } from "antd";
-import { getContractList } from "../../api/contract";
+import { getContractList } from "../../api/users";
 import { setData, setTotal, setCurrent, setFormList, setSize } from "../../store/finance/contractSlice";
 import { useDispatch } from "react-redux";
 import { PaginationProps } from "antd";
@@ -61,7 +61,7 @@ function Dashboard() {
 
     const loadData = useCallback(async (page: number, pageSize: number) => {
         setLoading(true);
-        const { data: { list, total } } = await getContractList<ContractListResponse>({ ...formData, page, pageSize });
+        const { data: { list, total } } = await getContractList({ ...formData, page, pageSize });
         setLoading(false);
         dispatch(setData(list));
         dispatch(setTotal(total));

@@ -6,17 +6,11 @@ import lgbg from "../../assets/lgbg.jpg"
 import { Button, Form, Input } from 'antd';
 import { UserOutlined, LockOutlined } from '@ant-design/icons';
 import { login } from "../../api/users";
-
 import { setToken } from "../../store/login/authSlice";
 import { useDispatch } from "react-redux";
 import { useNavigate } from "react-router-dom"
 import { useState } from "react";
-
-interface LoginResponse {
-    token: string;
-    username: string;
-    btnAuth: string[];
-}
+import type { LoginRequest, LoginResponse, ApiResponse } from "../../types/api";
 
 
 function Login() {
@@ -26,23 +20,40 @@ function Login() {
     const navigate = useNavigate()
 
     function handleLogin() {
-        form.validateFields().then(async (res) => {
-            setLoading(true)
-            const { data: { token, username, btnAuth } } = await login<LoginResponse>(res)
-            setLoading(false)
-            dispatch(setToken(token))
-            sessionStorage.setItem("username", username)
-            sessionStorage.setItem("btnAuth", JSON.stringify(btnAuth))
-            navigate("/dashboard", { replace: true })
+        form.validateFields().then(async (res: LoginRequest) => {
+            setLoading(true);
+            try {
+                const response: ApiResponse<LoginResponse> = await login(res);
+
+                if (!response.data) {
+                    throw new Error("登入失敗，無法取得資料");
+                }
+
+                const { token, username, btnAuth } = response.data;
+
+                dispatch(setToken(token));
+                sessionStorage.setItem("username", username);
+                sessionStorage.setItem("btnAuth", JSON.stringify(btnAuth));
+                navigate("/dashboard", { replace: true });
+            } catch (err) {
+                console.error("登入失敗:", err);
+            } finally {
+                setLoading(false);
+            }
         }).catch((err) => {
-            setLoading(false)
-            console.log(err)
-        })
+            setLoading(false);
+            console.log("驗證失敗:", err);
+        });
     }
 
     async function cutomeLogin(account: string, password: string) {
         setLoading(true)
-        const { data: { token, username, btnAuth } } = await login<LoginResponse>({ username: account, password })
+
+        const response: ApiResponse<LoginResponse> = await login({ username: account, password });
+        if (!response.data) {
+            throw new Error("登入失敗，無法取得資料");
+        }
+        const { token, username, btnAuth } = response.data;
         setLoading(false)
         dispatch(setToken(token))
         sessionStorage.setItem("username", username)

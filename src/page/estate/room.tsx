@@ -13,9 +13,7 @@ interface RoomType {
     src: string
 }
 
-interface RoomListResponse {
-    rooms: RoomType[];
-}
+
 
 function Room() {
     const [visible, setVisible] = useState<boolean>(false)
@@ -25,7 +23,7 @@ function Room() {
 
     const loadRoom = async (roomid: string) => {
         setLoading(true)
-        const { data: { rooms } } = await getRoomList<RoomListResponse>(roomid);
+        const { data: { rooms } } = await getRoomList(roomid);
         setLoading(false)
         setRoom(rooms)
     }

@@ -5,13 +5,8 @@ import { generateRoutes } from "../utils/generatesRoutes";
 import { useAppDispatch, useAppSelector } from "../store/hooks";
 import { setMenu } from "../store/login/authSlice";
 import { routes } from "../router";
+import type { MenuItem } from "../types/api";
 
-interface MenuItem {
-    key: string;
-    label: string;
-    icon: string;
-    children?: MenuItem[];
-}
 
 
 // 建立空 router 作為預設值
@@ -39,7 +34,7 @@ export function useAppRouter() {
                     return;
                 }
 
-                const { data } = await getMenu<MenuItem[]>();
+                const { data } = await getMenu();
                 if (data.length) {
                     dispatch(setMenu(data));
                     const dynamicRoutes = generateRoutes(data);

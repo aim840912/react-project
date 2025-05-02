@@ -1,5 +1,5 @@
-import { get } from "../utils/http/request";
+import { get } from "../utils/http/http";
 
-export function getEnergyData(){
+export function getEnergyData() {
     return get("/energyData")
 }

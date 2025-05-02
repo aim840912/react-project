@@ -205,7 +205,7 @@ function Settings() {
     const [accountName, setAccountName] = useState<string>("當前用戶")
     const { menuList } = useAppSelector((state) => state.authSlice)
     const [checkedKeys, setCheckedKeys] = useState<React.Key[]>([])
-    const { dataList, page, pageSize, total, loading, formData, onChange, handleChange } = useDataList<SearchType, DataType>({ accountName: "" }, getAccountList<AccountListResponse>)
+    const { dataList, page, pageSize, total, loading, formData, onChange, handleChange } = useDataList<SearchType, DataType>({ accountName: "" }, getAccountList)
 
     useEffect(() => {
         setCheckedKeys(extractTreeKeys(menuList))

@@ -1,6 +1,6 @@
 import { Modal, Row, Col, Form, Input, Radio, message } from "antd"
 import { useEffect } from "react";
-import { editUser } from "../../api/userList";
+import editUser from "../../api/editUser";
 import { useAppSelector } from "../../store/hooks";
 import type { UserFormData } from "../../store/user/userSlice";
 
@@ -15,16 +15,22 @@ function UserForm(props: FormProps) {
     const [form] = Form.useForm();
     const userData: UserFormData = useAppSelector((state) => state.userSlice.userData);
     const { visible, hideModal, title, loadData } = props
+
     const handleOk = () => {
         form.validateFields().then(async (res) => {
-            const { data } = await editUser(res);
-            message.success(data as string)
-            hideModal();
-            loadData()
+            try {
+                const response = await editUser(res);
+                message.success(response.data || "操作成功");
+                hideModal();
+                loadData();
+            } catch (err) {
+                message.error("更新失敗");
+            }
         }).catch((err) => {
-            console.log(err)
-        })
-    }
+            console.log("表單驗證失敗:", err);
+        });
+    };
+
     useEffect(() => {
         title === "新增企業" ? form.resetFields() : form.setFieldsValue(userData)
     }, [visible, form, title, userData])
