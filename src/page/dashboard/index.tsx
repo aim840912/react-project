@@ -1,10 +1,8 @@
 import { Row, Col, Card, Progress, Statistic, Timeline, Tag } from "antd"
 import { RadarChartOutlined, SnippetsOutlined, DollarOutlined, LaptopOutlined } from "@ant-design/icons"
 import ReactECharts from "echarts-for-react"
-import { getEnergyData } from "../../api/dashboard"
-import { useEffect, useState } from "react"
 import "./index.scss"
-import type { EChartsOption, LegendComponentOption, LineSeriesOption } from "echarts"
+import type { EChartsOption, } from "echarts"
 const option2 = {
     title: {
         text: '企業資質情況(家)'
