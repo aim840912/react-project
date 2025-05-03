@@ -1,39 +1,15 @@
-import { Card, Table, Row, Col, Input, Button, Tag, Pagination } from "antd"
+import { Card, Table, Row, Col, Input, Button, Tag, Pagination, TableProps, PaginationProps } from "antd"
 import { useCallback, useEffect, useState } from "react"
-import { TableProps } from "antd";
 import { getContractList } from "../../api/users";
 import { setData, setTotal, setCurrent, setFormList, setSize } from "../../store/finance/contractSlice";
 import { useDispatch } from "react-redux";
-import { PaginationProps } from "antd";
 import { useNavigate, useSearchParams } from "react-router";
 import { useAppSelector } from "../../store/hooks";
-
-interface SearchType {
-    contractNo: string;
-    person: string;
-    tel: string;
-}
-
-interface DataType {
-    key: string;
-    contractNo: string;
-    type: string;
-    name: string;
-    startDate: string;
-    endDate: string;
-    jia: string;
-    yi: string;
-    status: string;
-}
-
-interface ContractListResponse {
-    list: DataType[];
-    total: number;
-}
+import { ContractDataType, ContractSearchType } from "../../types";
 
 function Dashboard() {
     const { data, total, formList, size, current } = useAppSelector((state) => state.contractSlice);
-    const [formData, setFormData] = useState<SearchType>({
+    const [formData, setFormData] = useState<ContractSearchType>({
         contractNo: "",
         person: "",
         tel: ""
@@ -97,7 +73,7 @@ function Dashboard() {
         }
     }, [isReturn, data.length, loadData, page, pageSize, formList, current, size]);
 
-    const columns: TableProps<DataType>["columns"] = [
+    const columns: TableProps<ContractDataType>["columns"] = [
         { title: "No.", key: "index", render(value, record, index) { return index + 1; } },
         { title: "合同編號", dataIndex: "contractNo", key: "contractNo" },
         { title: "合同類別", dataIndex: "type", key: "type" },
@@ -119,7 +95,7 @@ function Dashboard() {
         {
             title: "操作",
             key: "operate",
-            render(_value: unknown, record: DataType) {
+            render(_value: unknown, record: ContractDataType) {
                 return <Button type="primary" size="small" onClick={() => detail(record.contractNo)}>合同詳情</Button>;
             }
         }

@@ -1,16 +1,8 @@
 import { Card, Table, Button, Row, Col, Input, Tag } from "antd"
 import type { TableProps } from 'antd';
-interface DataType {
-    key: string;
-    orderNo: string;
-    name: string;
-    tel: string;
-    address: string;
-    description: string;
-    status: string;
-    time: string;
-}
-const columns: TableProps<DataType>['columns'] = [
+import { RepairDataType } from "../../types";
+
+const columns: TableProps<RepairDataType>['columns'] = [
     {
         title: "No.",
         key: "index",
@@ -83,7 +75,7 @@ const columns: TableProps<DataType>['columns'] = [
 
 ];
 
-const data: DataType[] = [
+const data: RepairDataType[] = [
     {
         key: '1',
         orderNo: 'BX1236984',

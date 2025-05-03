@@ -10,8 +10,6 @@ import { setToken } from "../../store/login/authSlice";
 import { useDispatch } from "react-redux";
 import { useNavigate } from "react-router-dom"
 import { useState } from "react";
-import type { LoginRequest, LoginResponse, ApiResponse } from "../../types/api";
-
 
 function Login() {
     const [form] = Form.useForm();
@@ -20,40 +18,23 @@ function Login() {
     const navigate = useNavigate()
 
     function handleLogin() {
-        form.validateFields().then(async (res: LoginRequest) => {
-            setLoading(true);
-            try {
-                const response: ApiResponse<LoginResponse> = await login(res);
-
-                if (!response.data) {
-                    throw new Error("登入失敗，無法取得資料");
-                }
-
-                const { token, username, btnAuth } = response.data;
-
-                dispatch(setToken(token));
-                sessionStorage.setItem("username", username);
-                sessionStorage.setItem("btnAuth", JSON.stringify(btnAuth));
-                navigate("/dashboard", { replace: true });
-            } catch (err) {
-                console.error("登入失敗:", err);
-            } finally {
-                setLoading(false);
-            }
+        form.validateFields().then(async (res) => {
+            setLoading(true)
+            const { data: { token, username, btnAuth } } = await login(res);
+            setLoading(false)
+            dispatch(setToken(token))
+            sessionStorage.setItem("username", username)
+            sessionStorage.setItem("btnAuth", JSON.stringify(btnAuth))
+            navigate("/", { replace: true })
         }).catch((err) => {
-            setLoading(false);
-            console.log("驗證失敗:", err);
-        });
+            setLoading(false)
+            console.log(err)
+        })
     }
 
     async function cutomeLogin(account: string, password: string) {
         setLoading(true)
-
-        const response: ApiResponse<LoginResponse> = await login({ username: account, password });
-        if (!response.data) {
-            throw new Error("登入失敗，無法取得資料");
-        }
-        const { token, username, btnAuth } = response.data;
+        const { data: { token, username, btnAuth } } = await login({ username: account, password });
         setLoading(false)
         dispatch(setToken(token))
         sessionStorage.setItem("username", username)

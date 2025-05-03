@@ -1,34 +1,11 @@
 import { Card, Row, Col, Table, Input, Button, Pagination, Popconfirm, Tree } from "antd"
+import type { TreeDataNode, TreeProps, ButtonProps } from 'antd';
 import { getAccountList } from "../../api/users";
 import useDataList from "../../hooks/useDataList";
-import type { TreeDataNode, TreeProps } from 'antd';
 import { useEffect, useState } from "react";
 import withPermissions from "../../utils/withPermissions";
-import type { ButtonProps } from "antd";
 import { useAppSelector } from "../../store/hooks";
-interface MenuType {
-    label: string;
-    icon: string;
-    key: string;
-    children?: MenuType[]
-}
-interface DataType {
-    id: number;
-    accountName: string;
-    auth: string;
-    person: string;
-    tel: string;
-    department: string;
-    menu: MenuType[];
-}
-interface SearchType {
-    accountName: string
-}
-
-interface AccountListResponse {
-    list: DataType[];
-    total: number;
-}
+import { MenuType, SettingsDataType, SettingsSearchType } from "../../types";
 
 const treeData: TreeDataNode[] = [
     {
@@ -137,8 +114,6 @@ function extractTreeKeys(data: MenuType[]): string[] {
     return keys;
 }
 
-
-
 function Settings() {
     const AuthButton: React.FC<ButtonProps> = withPermissions(
         ["delete"],
@@ -155,7 +130,7 @@ function Settings() {
         {
             title: "No.",
             key: "index",
-            render: (_text: unknown, _record: DataType, index: number) => index + 1,
+            render: (_text: unknown, _record: SettingsDataType, index: number) => index + 1,
         },
         {
             title: "帳號名稱",
@@ -185,7 +160,7 @@ function Settings() {
         {
             title: "操作",
             key: "operate",
-            render(_value: unknown, record: DataType) {
+            render(_value: unknown, record: SettingsDataType) {
                 return <>
                     <Button size="small" type="primary" className="mr" onClick={() => edit(record.menu, record.accountName)}>修改權限</Button>
                     <Popconfirm
@@ -205,7 +180,7 @@ function Settings() {
     const [accountName, setAccountName] = useState<string>("當前用戶")
     const { menuList } = useAppSelector((state) => state.authSlice)
     const [checkedKeys, setCheckedKeys] = useState<React.Key[]>([])
-    const { dataList, page, pageSize, total, loading, formData, onChange, handleChange } = useDataList<SearchType, DataType>({ accountName: "" }, getAccountList)
+    const { dataList, page, pageSize, total, loading, formData, onChange, handleChange } = useDataList<SettingsSearchType, SettingsDataType>({ accountName: "" }, getAccountList)
 
     useEffect(() => {
         setCheckedKeys(extractTreeKeys(menuList))

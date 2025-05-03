@@ -1,5 +1,4 @@
-import { Card } from "antd"
-import { Row, Col, Calendar, Avatar, List, Tag, Progress, Badge } from 'antd';
+import { Card, Row, Col, Calendar, Avatar, List, Tag, Progress, Badge } from 'antd';
 import "./index.scss"
 
 const data = [
@@ -7,15 +6,9 @@ const data = [
         title: 'Ant Design Title 1',
     }
 ];
-
-
 export default function Personal() {
-
-
     return <div>
-
         <Row gutter={16}>
-
             <Col span={6}>
                 <Card>
                     <List
@@ -194,7 +187,6 @@ export default function Personal() {
                     </Col>
                 </Row>
             </Col>
-
         </Row>
     </div>
 }

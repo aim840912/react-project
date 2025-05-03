@@ -1,28 +1,10 @@
 import { Card, Row, Col, Table, Input, Button, Tabs, Image } from "antd"
 import type { TabsProps, TableProps } from 'antd';
 import come from "../../assets/come.jpg"
-interface DataType {
-    key: string;
-    orderNo: string;
-    date: string;
-    carNo: string;
-    type: string;
-    startDate: string;
-    time: string;
-    count: string;
-    cost: string;
-}
-interface DataType2 {
-    key: string;
-    carNo: string;
-    name: string;
-    tel: string;
-    type: string;
-    rest: string;
-    time: string;
-    pic: string;
-}
-const columns: TableProps<DataType>['columns'] = [
+import { EstateRecordDataType, InParkCatDataType } from "../../types";
+
+
+const columns: TableProps<EstateRecordDataType>['columns'] = [
     {
         title: "No.",
         key: "index",
@@ -83,7 +65,7 @@ const columns: TableProps<DataType>['columns'] = [
 
 ];
 
-const data: DataType[] = [
+const data: EstateRecordDataType[] = [
     {
         key: '1',
         orderNo: 'CD9872380',
@@ -175,7 +157,7 @@ const data: DataType[] = [
 
 ];
 
-const columns2: TableProps<DataType2>['columns'] = [
+const columns2: TableProps<InParkCatDataType>['columns'] = [
     {
         title: "No.",
         key: "index",
@@ -243,7 +225,7 @@ const columns2: TableProps<DataType2>['columns'] = [
     },
 
 ];
-const data2: DataType2[] = [
+const data2: InParkCatDataType[] = [
     {
         key: '1',
         carNo: '京A88888',

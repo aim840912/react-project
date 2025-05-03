@@ -297,59 +297,6 @@ const managerMenuList = [
         "key": "/personal",
     }
 ]
-const customizeMenuList = [
-    {
-        "icon": "DashboardOutlined",
-        "label": "工作台",
-        "key": "/dashboard",
-    },
-    {
-
-        "icon": "TeamOutlined",
-        "label": "租戶管理",
-        "key": "/users",
-        "children": [
-            {
-                "icon": "UnorderedListOutlined",
-                "label": "租戶列表",
-                "key": "/users/list",
-            },
-        ]
-    },
-    {
-        "icon": "LaptopOutlined",
-        "label": "物業管理",
-        "key": "/estate",
-        "children": [
-            {
-                "icon": "InsertRowLeftOutlined",
-                "label": "樓宇管理",
-                "key": "/estate/tenement",
-            },
-
-        ]
-    },
-    {
-        "icon": "ToolOutlined",
-        "label": "報修管理",
-        "key": "/repair"
-    },
-    {
-        "icon": "ToolOutlined",
-        "label": "設備管理",
-        "key": "/equipment",
-    },
-    {
-        "icon": "ThunderboltOutlined",
-        "label": "能源消耗",
-        "key": "/energy",
-    },
-    {
-        "icon": "UserOutlined",
-        "label": "個人中心",
-        "key": "/personal",
-    }
-]
 
 import type { VercelRequest, VercelResponse } from '@vercel/node';
 

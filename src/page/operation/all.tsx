@@ -1,5 +1,6 @@
 import { Row, Col, Card, Badge, Statistic } from "antd"
 import "./index.scss"
+
 function All() {
     return <div>
         <Row gutter={16}>

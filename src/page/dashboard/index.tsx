@@ -2,8 +2,12 @@ import { Row, Col, Card, Progress, Statistic, Timeline, Tag } from "antd"
 import { RadarChartOutlined, SnippetsOutlined, DollarOutlined, LaptopOutlined } from "@ant-design/icons"
 import ReactECharts from "echarts-for-react"
 import "./index.scss"
-import type { EChartsOption, } from "echarts"
-const option2 = {
+import { useEffect, useState } from "react"
+import { loadEnergyData } from "../../api/dashboard"
+import { EnergyChartSeries, EnergyItem } from '../../types/energy';
+import type { EChartsOption } from 'echarts';
+
+const option2: EChartsOption = {
     title: {
         text: '企業資質情況(家)'
     },
@@ -22,7 +26,7 @@ const option2 = {
     },
     xAxis: {
         type: 'category',
-        boundaryGap: [0, 0.01],
+        boundaryGap: true,
         data: ['2014', '2016', '2018', '2020', '2022', "2024"]
     },
     yAxis: {
@@ -47,7 +51,7 @@ const option2 = {
         }
     ]
 };
-const option3 = {
+const option3: EChartsOption = {
     legend: {
         top: '10px'
     },
@@ -74,28 +78,51 @@ const option3 = {
     ]
 };
 
-const initialOption: EChartsOption = {
-    title: { text: "當日能源消耗" },
-    tooltip: { trigger: "axis" },
-    legend: { data: [] as string[] },
-    grid: {
-        left: "%",
-        right: "4%",
-        bottom: "3%",
-        containLabel: true,
-    },
-    toolbox: { feature: { saveAsImage: {} } },
-    xAxis: {
-        type: "category",
-        boundaryGap: false,
-        data: ["0:00", "4:00", "8:00", "12:00", "16:00", "20:00", "24:00"],
-    },
-    yAxis: { type: "value" },
-    series: [],
-};
-
-
 function Dashboard() {
+
+    const initialOption: EChartsOption = {
+        title: { text: "當日能源消耗" },
+        tooltip: { trigger: "axis" },
+        legend: { data: [] },
+        grid: {
+            left: "%",
+            right: "4%",
+            bottom: "3%",
+            containLabel: true,
+        },
+        toolbox: { feature: { saveAsImage: {} } },
+        xAxis: {
+            type: "category" as const,
+            boundaryGap: false,
+            data: ["0:00", "4:00", "8:00", "12:00", "16:00", "20:00", "24:00"],
+        },
+        yAxis: { type: "value" },
+        series: [],
+    };
+
+    const [chartOption, setChartOption] = useState<EChartsOption>(initialOption)
+
+    useEffect(() => {
+        const loadData = async () => {
+            const { data: apiData } = await loadEnergyData();
+            const dataList: EnergyChartSeries[] = apiData.map((item: EnergyItem) => ({
+                name: item.name,
+                data: item.data,
+                type: "line",
+                stack: "Total"
+            }));
+            const updataOption = {
+                ...chartOption,
+                legend: {
+                    data: dataList.map((item: EnergyChartSeries) => item.name),
+                },
+                series: dataList
+            }
+            setChartOption(updataOption)
+        }
+        loadData()
+    }, [])
+
     return <div className="dashboard">
         <Row gutter={16}>
             <Col span={6}>
@@ -146,7 +173,7 @@ function Dashboard() {
         <Row gutter={16} className="mt">
             <Col span={12}>
                 <Card title="能源消耗情況">
-                    <ReactECharts option={initialOption}></ReactECharts>
+                    <ReactECharts option={chartOption}></ReactECharts>
                 </Card>
             </Col>
             <Col span={12}>

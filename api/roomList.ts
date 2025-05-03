@@ -1,4 +1,3 @@
-// File: /api/roomList.ts
 import type { VercelRequest, VercelResponse } from '@vercel/node';
 import { faker } from '@faker-js/faker';
 

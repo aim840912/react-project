@@ -1,9 +1,8 @@
-// File: /api/userList.ts
 import type { VercelRequest, VercelResponse } from '@vercel/node';
 import { faker } from '@faker-js/faker';
 
 function generateUserList(count: number) {
-    return Array.from({ length: count }, (_, i) => ({
+    return Array.from({ length: count }, () => ({
         key: faker.string.uuid(),
         name: faker.person.fullName(),
         phone: faker.phone.number(),

@@ -1,6 +1,6 @@
 import { post } from "../utils/http/http";
-import type { ApiResponse, UserItem } from "../types/api";
+import { User } from "../types";
 
-export default function editUser(data: Partial<UserItem>): Promise<ApiResponse<string>> {
+export default function editUser(data: User) {
     return post("/api/editUser", data);
 }

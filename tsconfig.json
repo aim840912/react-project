@@ -1,12 +1,16 @@
 {
-  "files": [],
-  "references": [{ "path": "./tsconfig.app.json" }, { "path": "./tsconfig.node.json" }],
-  "compilerOptions": {
-    "module": "ESNext",
-    "target": "ESNext",
-    "moduleResolution": "Bundler",
-    "types": ["vite/client", "msw"],
-    "noUnusedLocals": false,
-    "noUnusedParameters": false
-  }
+    "files": [],
+    "references": [{ "path": "./tsconfig.app.json" }, { "path": "./tsconfig.node.json" }],
+    "compilerOptions": {
+        "module": "ESNext",
+        "target": "ESNext",
+        "moduleResolution": "Bundler",
+        "types": ["vite/client", "msw"],
+        "noUnusedLocals": false,
+        "noUnusedParameters": false,
+        "paths": {
+            "@/*": ["src/*"]
+        },
+        "baseUrl": "."
+    }
 }

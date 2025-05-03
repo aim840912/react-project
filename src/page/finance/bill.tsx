@@ -1,45 +1,14 @@
-import { Card, Row, Col, Input, Table, Pagination, Statistic, DatePicker, Select, Button, Tag } from "antd"
+import { Card, Row, Col, Input, Table, Pagination, Statistic, DatePicker, Select, Button, Tag, TableProps } from "antd"
 import { DownloadOutlined, DeleteOutlined } from '@ant-design/icons';
-import { TableProps } from "antd";
 import { getBillList } from "../../api/users";
 import { useCallback, useEffect, useMemo, useState } from "react";
 import { exportToExcel } from "../../utils/exportToExcel";
 import { RangePickerProps } from "antd/es/date-picker";
+import { BillDataType, BillSearchType } from "../../types";
 const { RangePicker } = DatePicker
 
-interface DataType {
-    key?: string;
-    accountNo: string;
-    status?: string;
-    roomNo?: string;
-    carNo?: string;
-    tel?: string;
-    costName1?: string;
-    costName2?: string;
-    costName3?: string;
-    startDate?: string;
-    endDate?: string;
-    preferential?: number;
-    money?: number;
-    pay?: string;
-
-}
-
-interface SearchType {
-    date: string[];
-    no: string;
-    status: string;
-    page: number;
-    pageSize: number
-}
-
-interface BillListResponse {
-    list: DataType[];
-    total: number;
-}
-
 function Bill() {
-    const columns: TableProps<DataType>["columns"] = [
+    const columns: TableProps<BillDataType>["columns"] = [
         {
             title: "No.",
             key: "index",
@@ -147,22 +116,24 @@ function Bill() {
         }
     ]
 
-    const [formData, setFormData] = useState<SearchType>({
-        date: [],
+    const [formData, setFormData] = useState<BillSearchType>({
+        startDate: "",
+        endDate: "",
         no: "",
         status: "",
         page: 1,
         pageSize: 10
     })
-    const [dataList, setDataList] = useState<DataType[]>([]);
+
+    const [dataList, setDataList] = useState<BillDataType[]>([]);
     const [page, setPage] = useState<number>(1)
     const [pageSize, setPageSize] = useState<number>(10);
     const [loading, setLoading] = useState<boolean>(false);
     const [total, setTotal] = useState<number>(0)
     const [selectedRowKeys, setSelectedRowKeys] = useState<React.Key[]>([])
-    const [selectedRows, setSelectedRows] = useState<DataType[]>([])
+    const [selectedRows, setSelectedRows] = useState<BillDataType[]>([])
 
-    const handleChange: RangePickerProps['onChange'] = (value, dateString) => {
+    const handleDateChange: RangePickerProps['onChange'] = (value, dateString) => {
         console.log(value, dateString)
         setFormData(prevState => ({
             ...prevState,
@@ -170,7 +141,7 @@ function Bill() {
         }))
     }
 
-    const handleChange1 = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const handleNumChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         const { value } = e.target;
         setFormData(prevState => ({
             ...prevState,
@@ -178,14 +149,14 @@ function Bill() {
         }))
     }
 
-    const handleChange2 = (value: string) => {
+    const handleBillChange = (value: string) => {
         setFormData(prevState => ({
             ...prevState,
             status: value
         }))
     }
 
-    const onSelectChange = (selectedRowKeys: React.Key[], selectedRows: DataType[]) => {
+    const onSelectChange = (selectedRowKeys: React.Key[], selectedRows: BillDataType[]) => {
         console.log(selectedRows)
         setSelectedRowKeys(selectedRowKeys)
         setSelectedRows(selectedRows)
@@ -206,8 +177,8 @@ function Bill() {
         const { data: { list, total } } = await getBillList({
             page,
             pageSize,
-            startDate: formData.date[0],
-            endDate: formData.date[1],
+            startDate: formData.startDate,
+            endDate: formData.endDate,
             no: formData.no,
             status: formData.status
         });
@@ -260,11 +231,11 @@ function Bill() {
             <Row gutter={16}>
                 <Col span={6}>
                     <p>帳單日期</p>
-                    <RangePicker name="date" style={{ width: "100%" }} onChange={handleChange} />
+                    <RangePicker name="date" style={{ width: "100%" }} onChange={handleDateChange} />
                 </Col>
                 <Col span={6}>
                     <p>房/車號：</p>
-                    <Input placeholder="請輸入門牌號或者車位號" value={formData.no} onChange={handleChange1} />
+                    <Input placeholder="請輸入門牌號或者車位號" value={formData.no} onChange={handleNumChange} />
                 </Col>
                 <Col span={6}>
                     <p>繳費情況</p>
@@ -275,11 +246,11 @@ function Bill() {
                             { value: "2", label: "已繳納" },
                             { value: "3", label: "未繳納" }
                         ]}
-                        onChange={handleChange2}
+                        onChange={handleBillChange}
                     ></Select>
                 </Col>
                 <Col span={6}>
-                    <Button type="primary" className="mr" onClick={loadData}>查询</Button>
+                    <Button type="primary" className="mr" onClick={loadData}>查詢</Button>
                     <Button>重置</Button>
                 </Col>
             </Row>

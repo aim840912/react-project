@@ -1,23 +1,17 @@
 import type { FormProps } from 'antd';
 import { Button, Form, Input, Card, DatePicker, Radio } from 'antd';
+import { ArticleFieldType } from '../../types';
 
-type FieldType = {
-    username?: string;
-    password?: string;
-    remember?: string;
-};
-
-
-const onFinish: FormProps<FieldType>['onFinish'] = (values) => {
+const onFinish: FormProps<ArticleFieldType>['onFinish'] = (values) => {
     console.log('Success:', values);
 };
 
-const onFinishFailed: FormProps<FieldType>['onFinishFailed'] = (errorInfo) => {
+const onFinishFailed: FormProps<ArticleFieldType>['onFinishFailed'] = (errorInfo) => {
     console.log('Failed:', errorInfo);
 };
+
 function Article() {
     return <div>
-
         <Card>
             <Form
                 name="basic"
@@ -29,32 +23,32 @@ function Article() {
                 onFinishFailed={onFinishFailed}
                 autoComplete="off"
             >
-                <Form.Item<FieldType>
+                <Form.Item<ArticleFieldType>
                     label="文章標題"
-                    name="username"
-                    rules={[{ required: true, message: 'Please input your username!' }]}
+                    name="subtitle"
+                    rules={[{ required: true, message: 'Please input your subtitle!' }]}
                 >
                     <Input />
                 </Form.Item>
 
-                <Form.Item<FieldType>
+                <Form.Item<ArticleFieldType>
                     label="副標題"
-                    name="password"
+                    name="articleTitle"
                     rules={[{ required: true, message: 'Please input your password!' }]}
                 >
                     <Input />
                 </Form.Item>
-                <Form.Item<FieldType>
+                <Form.Item<ArticleFieldType>
                     label="發佈時間"
-                    name="password"
-                    rules={[{ required: true, message: 'Please input your password!' }]}
+                    name="time"
+                    rules={[{ required: true, message: 'Please input your time!' }]}
                 >
                     <DatePicker />
                 </Form.Item>
-                <Form.Item<FieldType>
+                <Form.Item<ArticleFieldType>
                     label="可見範圍"
-                    name="password"
-                    rules={[{ required: true, message: 'Please input your password!' }]}
+                    name="allowChoose"
+                    rules={[{ required: true, message: 'Please input your allowChoose"!' }]}
                 >
                     <Radio.Group >
                         <Radio value={1}>所有</Radio>
@@ -63,10 +57,10 @@ function Article() {
 
                     </Radio.Group>
                 </Form.Item>
-                <Form.Item<FieldType>
+                <Form.Item<ArticleFieldType>
                     label="文章內容"
-                    name="password"
-                    rules={[{ required: true, message: 'Please input your password!' }]}
+                    name="content"
+                    rules={[{ required: true, message: 'Please input your content!' }]}
                 >
                     <Input.TextArea rows={4} />
                 </Form.Item>

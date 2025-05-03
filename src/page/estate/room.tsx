@@ -1,18 +1,10 @@
-import { Card, Row, Col, Image, Radio, Spin } from "antd"
-import { useEffect, useState } from "react"
-import { getRoomList } from "../../api/room"
 import "./index.scss"
+import { useEffect, useState } from "react"
+import { Card, Row, Col, Image, Radio, Spin } from "antd"
 import { RadioChangeEvent } from "antd/lib";
+import { RoomType } from "../../types"
+import { getRoomList } from "../../api/room"
 import roomPic from "../../assets/roomPic.jpg"
-
-interface RoomType {
-    roomNumber: number;
-    decorationType: "毛坯" | "精裝";
-    area: number;
-    unitPrice: number;
-    src: string
-}
-
 
 
 function Room() {

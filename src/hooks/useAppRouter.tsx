@@ -5,9 +5,6 @@ import { generateRoutes } from "../utils/generatesRoutes";
 import { useAppDispatch, useAppSelector } from "../store/hooks";
 import { setMenu } from "../store/login/authSlice";
 import { routes } from "../router";
-import type { MenuItem } from "../types/api";
-
-
 
 // 建立空 router 作為預設值
 const fallbackRouter = createBrowserRouter([

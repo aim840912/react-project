@@ -1,19 +1,7 @@
 import { post, get } from "../utils/http/http";
+import { LoginData, User, UserSearchType, AccountData, ContractSearchType, BillSearchType } from "../types";
 
-import type {
-    LoginRequest,
-    AccountData,
-    LoginResponse,
-    MenuResponse,
-    UserListResponse,
-    ApiResponse,
-    DataType,
-    searchType,
-    SearchData,
-    SearchData2,
-} from "../types/api";
-
-export function login(data: LoginRequest): Promise<ApiResponse<LoginResponse>> {
+export function login(data: LoginData) {
     return post("/api/login", data);
 }
 
@@ -21,34 +9,33 @@ export function getMenu() {
     return get("/api/menu");
 }
 
-export function getAccountList(data: AccountData): Promise<ApiResponse<UserListResponse>> {
+export function getAccountList(data: AccountData) {
     return post("/api/accountList", data);
 }
 
-export function getUserList(params: Record<string, any>): Promise<ApiResponse<UserListResponse>> {
-    return post("/api/userList", params);
+export function getUserList(data: UserSearchType) {
+    return post("/api/userList", data);
 }
 
 export function deleteUser(id: string) {
     return post("/api/deleteUser", { id })
 }
 
-//批量删除客户
 export function batchDeleteUser(ids: React.Key[]) {
     return post("/api/batchDeleteUser", { ids })
 }
 
-//編輯/新增 企業接口
-export function editUser(data: DataType) {
+export function editUser(data: User) {
     return post("/editUser", data)
 }
 
 
-export function getContractList(data: SearchData) {
-    return post("/contractList", data)
+export function getContractList(data: ContractSearchType) {
+    return post("/api/contractList", data)
 }
 
 
-export function getBillList(data: SearchData2) {
-    return post("/billList", data)
+export function getBillList(data: BillSearchType) {
+    return post("/api/billList", data)
 }
+

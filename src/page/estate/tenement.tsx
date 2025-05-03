@@ -1,17 +1,8 @@
 import { Card, Row, Col, Table, Input, Button, Tag, Progress, Badge } from "antd"
 import type { TableProps } from "antd"
+import { EstateDataType } from "../../types"
 
-interface DataType {
-    key: string;
-    name: string;
-    person: string;
-    tel: string;
-    status: string;
-    vacancyRate: number;
-    propertyFee: string;
-}
-
-const columns: TableProps<DataType>['columns'] = [
+const columns: TableProps<EstateDataType>['columns'] = [
     {
         title: "No.",
         key: "index",
@@ -73,7 +64,7 @@ const columns: TableProps<DataType>['columns'] = [
         }
     },
 ]
-const data: DataType[] = [
+const data: EstateDataType[] = [
     {
         key: '1',
         name: 'A1幢寫字樓',

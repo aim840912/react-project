@@ -1,41 +1,44 @@
-import axios, { AxiosInstance, AxiosRequestConfig, AxiosResponse } from 'axios';
+import axios, { AxiosInstance, InternalAxiosRequestConfig, AxiosResponse } from 'axios';
 import { message } from 'antd';
 import { store } from "../../store"
 
-const config: AxiosRequestConfig = {
+const http: AxiosInstance = axios.create({
     baseURL: import.meta.env.VITE_API_BASE || '',
-    timeout: 5000,
-};
-
-const http: AxiosInstance = axios.create(config);
+    timeout: 10000,
+});
 
 // 請求攔截器
-http.interceptors.request.use((config) => {
+http.interceptors.request.use((config: InternalAxiosRequestConfig) => {
     const { token } = store.getState().authSlice
 
-    if (token) {
+    if (token && config.headers) {
         config.headers['Authorization'] = `Bearer ${token}`
     }
     return config;
-});
+},
+    (error) => {
+        message.error(error.message || "請求錯誤");
+    }
+)
 
 // 響應攔截器
-http.interceptors.response.use((response: AxiosResponse) => {
-    // 直接回傳資料，不檢查 code
-    return response.data;
-}, (error) => {
-    message.error(error.message || "請求錯誤");
-    return Promise.reject(error);
-});
+http.interceptors.response.use(
+    (response: AxiosResponse) => {
+        return response.data;
+    },
+    (error) => {
+        const msg = error.response?.data?.message || error.message || '請求錯誤';
+        message.error(msg);
+        return Promise.reject(error);
+    }
+);
 
-// 封裝 get/post 方法
-export function get(url: string, params?: any) {
+export function get<T = any>(url: string, params?: any): Promise<T> {
     return http.get(url, { params });
 }
 
-export function post(url: string, data?: any,) {
+export function post<T = any>(url: string, data?: any): Promise<T> {
     return http.post(url, data);
 }
-
 
 export default http;

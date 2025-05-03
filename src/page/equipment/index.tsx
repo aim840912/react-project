@@ -2,30 +2,10 @@ import { Card, Table, Row, Col, Input, Button, Pagination, Tag } from "antd"
 import { TableProps } from "antd";
 import useDataList from "../../hooks/useDataList";
 import { getEquipmentList } from "../../api/equipment";
-interface SearchType {
-    name: string;
-    person: string;
-}
-interface DataType {
-    id: number
-    no: string,
-    name: string;
-    person: string;
-    tel: number;
-    time: string;
-    rest: string;
-    status: string;
-    last: string;
-    type: string;
-    from: string
-}
+import { SearchType, EquipmentDataType } from "../../types";
 
-interface EquipmentListResponse {
-    list: DataType[];
-    total: number;
-}
 
-const columns: TableProps<DataType>["columns"] = [
+const columns: TableProps<EquipmentDataType>["columns"] = [
     {
         title: "No.",
         key: "index",
@@ -112,7 +92,8 @@ function Equipment() {
         onChange,
         handleChange,
         reset
-    } = useDataList<SearchType, DataType>({ name: "", person: "" }, getEquipmentList)
+    } = useDataList<SearchType, EquipmentDataType>({ name: "", person: "" }, getEquipmentList)
+
     return <div>
         <Card className="search">
             <Row gutter={16}>

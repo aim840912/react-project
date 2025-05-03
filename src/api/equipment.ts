@@ -8,5 +8,5 @@ interface SearchData {
 }
 
 export function getEquipmentList(data: SearchData) {
-    return post("/equipmentList", data);
+    return post("/api/equipmentList", data);
 }

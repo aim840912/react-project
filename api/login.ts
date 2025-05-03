@@ -1,4 +1,3 @@
-// File: /api/login.ts
 import type { VercelRequest, VercelResponse } from '@vercel/node';
 
 const users = {

@@ -2,14 +2,9 @@ import "./style.scss"
 import ReactECharts from "echarts-for-react"
 import { Card, Col, Row, Table } from 'antd';
 import type { ColumnsType } from "antd/es/table";
+import { EnterpriseEnergyData } from "../../types/energy";
+import type { EChartsOption } from 'echarts';
 
-interface EnterpriseEnergyData {
-    name: string;
-    building: string;
-    elec: number;
-    hot: number;
-    c: number;
-}
 const columns: ColumnsType<EnterpriseEnergyData> = [
     {
         title: "No.",
@@ -88,7 +83,7 @@ const data: EnterpriseEnergyData[] = [
     }
 ]
 function Energy() {
-    const option = {
+    const option: EChartsOption = {
         title: {
             text: '當日能源消耗'
         },
@@ -150,8 +145,7 @@ function Energy() {
             }
         ]
     };
-
-    const option2 = {
+    const option2: EChartsOption = {
         title: {
             text: '資源消耗總覽'
         },
@@ -170,12 +164,11 @@ function Energy() {
         },
         xAxis: {
             type: 'category',
-            boundaryGap: [0, 0.01],
+            boundaryGap: true,
             data: ['2024-01', '2024-02', '2024-03', '2024-04', '2024-05', "2024-06"]
         },
         yAxis: {
             type: 'value',
-            data: ['Brazil', 'Indonesia', 'USA', 'India', 'China', 'World']
         },
         series: [
             {
@@ -195,7 +188,7 @@ function Energy() {
             }
         ]
     };
-    const option3 = {
+    const option3: EChartsOption = {
         legend: {
             top: 'left'
         },
@@ -229,6 +222,7 @@ function Energy() {
             }
         ]
     };
+
     return <div className="dashboard">
         <Row gutter={16} className="mt">
             <Col span={12}>

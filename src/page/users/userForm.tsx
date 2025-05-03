@@ -24,7 +24,7 @@ function UserForm(props: FormProps) {
                 hideModal();
                 loadData();
             } catch (err) {
-                message.error("更新失敗");
+                message.error("更新失敗 : " + err);
             }
         }).catch((err) => {
             console.log("表單驗證失敗:", err);

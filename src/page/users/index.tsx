@@ -1,15 +1,14 @@
 import { Card, Row, Col, Input, Button, Table, Pagination, Tag, Popconfirm, message } from "antd"
-import React, { useCallback, useEffect, useMemo, useState } from "react"
-import type { DataType } from "./interface"
-import { getUserList, batchDeleteUser, deleteUser } from "../../api/users"
 import type { TableProps, PaginationProps } from "antd"
+import React, { useCallback, useEffect, useMemo, useState } from "react"
+import { getUserList, batchDeleteUser, deleteUser } from "../../api/users"
 import UserForm from "./userForm"
 import { useDispatch } from "react-redux"
 import { setUserData, emptyUserData } from "../../store/user/userSlice"
-import type { searchType } from "../../types/api";
+import { User, UserSearchType } from "../../types"
 
 function Users() {
-    const [dataList, setDataList] = useState<DataType[]>([]);
+    const [dataList, setDataList] = useState<User[]>([]);
     const [page, setPage] = useState<number>(1)
     const [pageSize, setPageSize] = useState<number>(10)
     const [total, setTotal] = useState<number>(0)
@@ -18,7 +17,7 @@ function Users() {
     const [isModelOpen, setIsModalOpen] = useState<boolean>(false)
     const [title, setTitle] = useState<string>("")
     const dispatch = useDispatch()
-    const [formData, setFormData] = useState<searchType>({
+    const [formData, setFormData] = useState<UserSearchType>({
         page: 1,
         pageSize: 20,
         companyName: "",
@@ -54,7 +53,7 @@ function Users() {
         }))
     }
 
-    const OnSelectChange = (selectedRowKeys: React.Key[], _selectedRows: DataType[]) => {
+    const OnSelectChange = (selectedRowKeys: React.Key[], _selectedRows: User[]) => {
         setSelectedRowKeys(selectedRowKeys)
     }
 
@@ -94,7 +93,7 @@ function Users() {
         loadData()
     }
 
-    const edit = (record: DataType) => {
+    const edit = (record: User) => {
         setIsModalOpen(true)
         setTitle("編輯企業");
         dispatch(setUserData(record))
@@ -110,7 +109,7 @@ function Users() {
         setIsModalOpen(false)
     }, [])
 
-    const columns: TableProps<DataType>['columns'] = [
+    const columns: TableProps<User>['columns'] = [
         {
             title: "No.",
             key: "index",

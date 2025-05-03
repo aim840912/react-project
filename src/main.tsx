@@ -6,6 +6,10 @@ import '@ant-design/v5-patch-for-react-19';
 import { Provider } from 'react-redux';
 import { store } from './store';
 
+if (import.meta.env.DEV) {
+  const { worker } = await import('./mocks/browser');
+  await worker.start();
+}
 
 createRoot(document.getElementById('root')!).render(
   <StrictMode>

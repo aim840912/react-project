@@ -1,6 +1,7 @@
 import { Card, Button, Descriptions } from "antd"
 import { useNavigate, useSearchParams } from "react-router"
 import type { DescriptionsProps } from "antd";
+
 const items: DescriptionsProps['items'] = [
     {
         key: '1',
