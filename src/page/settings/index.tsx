@@ -115,10 +115,8 @@ function extractTreeKeys(data: MenuType[]): string[] {
 }
 
 function Settings() {
-    const AuthButton: React.FC<ButtonProps> = withPermissions(
-        ["delete"],
-        JSON.parse(sessionStorage.getItem("btnAuth") as string)
-    )(Button);
+    const authList = JSON.parse(sessionStorage.getItem("btnAuth") || "[]");
+    const AuthButton = withPermissions<ButtonProps>(["delete"], authList)(Button);
 
     const edit = (menu: MenuType[], accountName: string) => {
         setAccountName(accountName);
@@ -180,7 +178,7 @@ function Settings() {
     const [accountName, setAccountName] = useState<string>("當前用戶")
     const { menuList } = useAppSelector((state) => state.authSlice)
     const [checkedKeys, setCheckedKeys] = useState<React.Key[]>([])
-    const { dataList, page, pageSize, total, loading, formData, onChange, handleChange } = useDataList<SettingsSearchType, SettingsDataType>({ accountName: "" }, getAccountList)
+    const { dataList, page, pageSize, total, loading, formData, handlePageChange, handleChange } = useDataList<SettingsSearchType, SettingsDataType>({ accountName: "" }, getAccountList)
 
     useEffect(() => {
         setCheckedKeys(extractTreeKeys(menuList))
@@ -240,7 +238,7 @@ function Settings() {
                         rowKey={record => record.id}
                         pagination={false}
                     />
-                    <Pagination className="fr mr" showQuickJumper total={total} current={page} pageSize={pageSize} onChange={onChange} />
+                    <Pagination className="fr mr" showQuickJumper total={total} current={page} pageSize={pageSize} onChange={handlePageChange} />
                 </Card>
 
             </Col>

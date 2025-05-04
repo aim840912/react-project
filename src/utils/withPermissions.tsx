@@ -1,4 +1,5 @@
 import React from 'react';
+import { ButtonProps } from 'antd';
 
 /**
  * 高階組件 (HOC)：根據權限條件渲染組件

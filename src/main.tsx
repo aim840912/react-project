@@ -15,11 +15,9 @@ if (import.meta.env.DEV) {
 
 createRoot(document.getElementById('root')!).render(
   <StrictMode>
-    <ErrorBoundary>
-      <Provider store={store}>
-        <App />
-      </Provider>
-    </ErrorBoundary>
+    <Provider store={store}>
+      <App />
+    </Provider>
   </StrictMode>,
 )
 

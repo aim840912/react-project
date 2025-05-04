@@ -89,7 +89,7 @@ function Equipment() {
         loading,
         formData,
         loadData,
-        onChange,
+        handlePageChange,
         handleChange,
         reset
     } = useDataList<SearchType, EquipmentDataType>({ name: "", person: "" }, getEquipmentList)
@@ -119,7 +119,7 @@ function Equipment() {
                 rowKey={(record) => record.id}
                 pagination={false}
             />
-            <Pagination className="fr mt" showQuickJumper defaultCurrent={1} total={total} onChange={onChange} current={page} pageSize={pageSize} />
+            <Pagination className="fr mt" showQuickJumper defaultCurrent={1} total={total} onChange={handlePageChange} current={page} pageSize={pageSize} />
         </Card>
     </div>
 }

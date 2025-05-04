@@ -1,6 +1,9 @@
+import { FormFieldValue } from "./settings";
+
 export interface SearchType {
     name: string;
     person: string;
+    [key: string]: FormFieldValue;
 }
 
 export interface EquipmentDataType {

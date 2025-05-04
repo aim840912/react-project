@@ -15,8 +15,11 @@ export interface SettingsDataType {
     menu: MenuType[];
 }
 
+export type FormFieldValue = string | number | boolean | null | undefined;
+
 export interface SettingsSearchType {
-    accountName: string
+    accountName: string,
+    [key: string]: FormFieldValue;
 }
 
 export interface AccountData {
