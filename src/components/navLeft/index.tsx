@@ -1,53 +1,33 @@
-import React, { useCallback, useEffect, useState } from 'react';
+import React, { useCallback, useEffect, useMemo, useState } from 'react';
 import { Menu } from 'antd';
 import icons from './iconList'
 import logo from "../../assets/logo.png"
 import { useNavigate, useLocation } from 'react-router-dom';
-
 import "./index.scss"
 import { useAppSelector } from '../../store/hooks';
-interface MenuItem {
-    key: string,
-    label: string,
-    icon?: React.ReactNode,
-    children?: MenuItem[]
-}
-interface MenuItemFromData {
-    key: string,
-    label: string,
-    icon: string,
-    children?: MenuItemFromData[]
-}
+import { MenuItem, MenuItemFromData } from '../../types';
 
-function NavLeft() {
+const NavLeft: React.FC = () => {
     const { menuList } = useAppSelector((state) => state.authSlice)
     const navigate = useNavigate()
-    const [menuData, setMenuData] = useState<MenuItem[]>([])
     const location = useLocation();
 
-    // 將返回的菜單數據轉換成我們需要的格式
-    const mapMenuItems = useCallback((items: MenuItemFromData[]): MenuItem[] => {
-        return items.map((item: MenuItemFromData) => ({
-            key: item.key,
-            label: item.label,
-            icon: icons[item.icon],
-            children: item.children ? mapMenuItems(item.children) : undefined
-        }));
-    }, []);
+    const menuData = useMemo(() => {
+        const mapMenuItems = (items: MenuItemFromData[]): MenuItem[] => {
+            return items.map((item: MenuItemFromData) => ({
+                key: item.key,
+                label: item.label,
+                icon: item.icon ? icons[item.icon] : null, // 添加圖標存在性檢查
+                children: item.children ? mapMenuItems(item.children) : undefined
+            }));
+        };
 
-    const configMenu = useCallback(() => {
-        const mappedMenuItems: MenuItem[] = mapMenuItems(menuList)
-        setMenuData(mappedMenuItems)
-    }, [menuList, mapMenuItems])
+        return mapMenuItems(menuList || []);
+    }, [menuList]);
 
-    useEffect(() => {
-        configMenu()
-    }, [configMenu])
-
-    function handleClick({ key }: { key: string }) {
-        navigate(key)
-    }
-
+    const handleMenuClick = (info: { key: string }) => {
+        navigate(info.key);
+    };
 
     return <div className='navleft'>
         <div className='logo'>
@@ -60,10 +40,46 @@ function NavLeft() {
             mode="inline"
             theme="dark"
             items={menuData}
-            onClick={handleClick}
+            onClick={handleMenuClick}
             selectedKeys={[location.pathname]}
+            defaultOpenKeys={getDefaultOpenKeys(location.pathname, menuList)}
         />
     </div>
+}
+
+function getDefaultOpenKeys(pathname: string, menuItems: MenuItemFromData[]): string[] {
+    const openKeys: string[] = [];
+
+    const findPath = (
+        path: string,
+        items: MenuItemFromData[],
+        parents: string[] = []
+    ): boolean => {
+        for (const item of items) {
+            const currentPath = [...parents];
+
+            if (item.key) {
+                currentPath.push(item.key);
+            }
+
+            //找到匹配的路徑
+            if (item.key === path) {
+                openKeys.push(...parents);
+                return true;
+            }
+
+            //遞歸檢查子菜單
+            if (item.children && item.children.length > 0) {
+                const found = findPath(path, item.children, currentPath);
+                if (found) return true;
+            }
+        }
+
+        return false;
+    };
+
+    findPath(pathname, menuItems);
+    return openKeys;
 }
 
 export default NavLeft

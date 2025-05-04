@@ -1,54 +1,70 @@
 import { UserOutlined, PoweroffOutlined, DownOutlined } from '@ant-design/icons';
 import type { MenuProps } from 'antd';
-import { Dropdown, Space } from 'antd';
-import { clearToken } from '../../store/login/authSlice';
+import { Avatar, Dropdown, message, Space } from 'antd';
+import { clearToken, setMenu } from '../../store/login/authSlice';
 import { useDispatch } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
-import { setMenu } from '../../store/login/authSlice';
 import './index.scss'
+import { useMemo } from 'react';
+import { useAppSelector } from '../../store/hooks';
 
-const items: MenuProps['items'] = [
-    {
-        key: '1',
-        label: (
-            <span>個人中心</span>
-        ),
-        icon: <UserOutlined />,
-    },
-    {
-        key: '2',
-        label: (
-            <span>退出登錄</span>
-        ),
-        icon: <PoweroffOutlined />,
-    },
+enum UserMenuKey {
+    PROFILE = 'profile',
+    LOGOUT = 'logout',
+}
 
-];
-function MyHeader() {
+const MyHeader: React.FC = () => {
     const dispatch = useDispatch()
     const navigate = useNavigate()
-    const onClick: MenuProps['onClick'] = ({ key }) => {
-        if (key === "1") {
-            //跳轉到個人中心
-            navigate("/personal")
-        } else {
-            dispatch(clearToken());
-            dispatch(setMenu([]))
-            sessionStorage.clear()
+    const username = useAppSelector(state => state.authSlice.username) || sessionStorage.getItem("username") || '用戶';
+    const menuItems: MenuProps['items'] = useMemo(() => [
+        {
+            key: UserMenuKey.PROFILE,
+            label: <span>個人中心</span>,
+            icon: <UserOutlined />,
+        },
+        {
+            key: UserMenuKey.LOGOUT,
+            label: <span>退出登錄</span>,
+            icon: <PoweroffOutlined />,
+            danger: true,
+        },
+    ], []);
+
+    const handleMenuClick: MenuProps['onClick'] = ({ key }) => {
+        switch (key) {
+            case UserMenuKey.PROFILE:
+                navigate("/personal");
+                break;
+
+            case UserMenuKey.LOGOUT:
+                dispatch(clearToken());
+                dispatch(setMenu([]));
+                sessionStorage.clear();
+                message.success('成功退出登錄');
+                navigate("/login", { replace: true });
+                break;
+
+            default:
+                break;
         }
+    };
 
-    }
-    return <div>
-        <Dropdown menu={{ items, onClick }}>
-            <span role="button" className="dropdown-trigger">
-                <Space>
-                    歡迎您,{sessionStorage.getItem("username")}
-                    <DownOutlined />
-                </Space>
-            </span>
-
-        </Dropdown>
-    </div>
-}
+    return (
+        <div className="my-header">
+            <div className="header-right">
+                <Dropdown menu={{ items: menuItems, onClick: handleMenuClick }}>
+                    <span role="button" className="dropdown-trigger">
+                        <Space>
+                            <Avatar size="small" icon={<UserOutlined />} />
+                            歡迎您, {username}
+                            <DownOutlined />
+                        </Space>
+                    </span>
+                </Dropdown>
+            </div>
+        </div>
+    );
+};
 
 export default MyHeader

@@ -10,12 +10,14 @@ import { setToken } from "../../store/login/authSlice";
 import { useDispatch } from "react-redux";
 import { useNavigate } from "react-router-dom"
 import { useState } from "react";
+import { useTranslation } from 'react-i18next';
 
 function Login() {
     const [form] = Form.useForm();
     const [loading, setLoading] = useState<boolean>(false)
     const dispatch = useDispatch()
     const navigate = useNavigate()
+    const { t, i18n } = useTranslation();
 
     function handleLogin() {
         form.validateFields().then(async (res) => {
@@ -71,16 +73,20 @@ function Login() {
                     <Form.Item >
                         <Button type="primary" className="mb" style={{ width: '100%' }}
                             onClick={handleLogin} loading={loading}>
-                            登入
+                            {t('login')}
                         </Button>
                         <Button type="primary" className="mb" style={{ width: '100%' }}
                             onClick={() => { cutomeLogin("admin", "admin") }} loading={loading}>
-                            管理員登入
+                            {t('adminLogin')}
                         </Button>
                         <Button type="primary" className="mb" style={{ width: '100%' }}
                             onClick={() => { cutomeLogin("user", "user") }} loading={loading}>
-                            普通使用者登入
+                            {t('userLogin')}
                         </Button>
+                        <div >
+                            <Button onClick={() => i18n.changeLanguage('en')}>English</Button>
+                            <Button onClick={() => i18n.changeLanguage('zh')}>中文</Button>
+                        </div>
                     </Form.Item>
                 </Form>
             </div>

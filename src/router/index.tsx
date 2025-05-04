@@ -12,10 +12,9 @@ export const routes: RouteObject[] = [
         path: "/",
         element: <RequireAuth needLogin={true} redirectTo="/login"><Home /></RequireAuth>,
         children: [{
-            // ✅ 登入後進入 "/"，自動轉去 dashboard
             index: true,
             element: <Navigate to="/dashboard" replace />,
-        },], // 動態路由會塞進來
+        },],
     },
     {
         path: "/login",

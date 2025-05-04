@@ -99,9 +99,7 @@ export const handlers = [
             }
         });
     }),
-    http.post('/api/roomList', async ({ request }) => {
-        const body = await request.json() as { roomid: string };
-
+    http.post('/api/roomList', async ({ }) => {
         return HttpResponse.json({
             code: 200,
             message: '獲取成功',
@@ -138,7 +136,7 @@ export const handlers = [
     }),
     http.post('/api/billList', async ({ request }) => {
         const body = await request.json() as { page?: number; pageSize?: number; companyName?: string; contact?: string; phone?: string };
-        const { page = 1, pageSize = 10, companyName, contact, phone } = body;
+        const { pageSize = 10 } = body;
 
         return HttpResponse.json({
             code: 200,
@@ -149,7 +147,7 @@ export const handlers = [
             },
         });
     }),
-    http.post('/api/accountList', async ({ request }) => {
+    http.post('/api/accountList', async ({ }) => {
         return HttpResponse.json({
             code: 200,
             message: '成功',

@@ -6,3 +6,4 @@ export * from './finance';
 export * from './operation';
 export * from './repair';
 export * from './settings';
+export * from './menu';

@@ -4,6 +4,7 @@ export const authSlice = createSlice({
     name: "auth",
     initialState: {
         token: sessionStorage.getItem("token") || null,
+        username: sessionStorage.getItem("username") || null,
         menuList: []
     },
     reducers: {
