@@ -1,7 +1,9 @@
 # 🧩 React Admin Dashboard
-[![CI](https://github.com/aim840912/react-project/actions/workflows/ci.yml/badge.svg)](https://github.com/aim840912/react-project/actions/workflows/ci.yml) [![Vercel](https://img.shields.io/badge/Deploy-Vercel-000?logo=vercel&labelColor=black)](https://react-project-git-main-tienchihchengs-projects.vercel.app/login)
 
-一個基於 React 18、Redux Toolkit、TypeScript、Ant Design 和 ECharts 的現代化後台管理系統，支援多角色權限控制、數據可視化、Excel 導出等功能。
+一個基於 React 18、Redux Toolkit、TypeScript、Ant Design 和 ECharts 的現代化後台管理系統，支援多角色權限控制、數據可視化、Excel 匯出等功能。
+
+[![CI](https://github.com/aim840912/react-project/actions/workflows/test.yml/badge.svg)](https://github.com/aim840912/react-project/actions/workflows/test.yml)
+[![Vercel](https://vercelbadge.vercel.app/api/aim840912/react-project)](https://react-project-git-main-tienchihchengs-projects.vercel.app/login)
 
 ---
 
@@ -41,23 +43,46 @@ cd react-project
 # 2. 安裝依賴
 npm install
 
-# 3. 啟動開發伺服器
-npm start
+# 啟動開發伺服器
+npm run dev
+
+# 開啟瀏覽器訪問
+http://localhost:5173
 ```
 
 ---
 
-## 🧪 測試與建構
+## 🧪 測試與覆蓋率
+
 ```bash
-# 執行 ESLint 檢查
-npm run lint
+# 執行所有測試
+npx vitest run
 
-# 執行測試（使用 CRA 內建的測試框架）
-npm test
-
-# 建構生產環境版本
-npm run build
+# 執行測試並產生覆蓋率報告
+npx vitest run --coverage
 ```
+
+- 測試框架：Vitest + React Testing Library
+- 覆蓋率報告：`./coverage/lcov-report/index.html`
+
+---
+
+## ⚙️ CI/CD 自動化流程
+
+本專案使用 GitHub Actions 自動化測試流程，設定檔位於 `.github/workflows/test.yml`。
+
+- 每次 push 或 PR 到 `main` 分支時，自動執行：
+  - 安裝依賴
+  - 執行測試與覆蓋率檢查
+  - （可選）部署至 Vercel
+
+---
+
+## 🌐 自動部署
+
+已透過 Vercel 進行自動部署，部署連結如下：
+
+🔗 [https://react-project-git-main-tienchihchengs-projects.vercel.app/login](https://react-project-git-main-tienchihchengs-projects.vercel.app/login)
 
 ---
 
@@ -76,6 +101,15 @@ npm run format  # 自動格式化程式碼
 
 ---
 
+## 🌍 國際化 (i18n)
+本專案使用 react-i18next 做多語系支援。
+目前只在登入頁面實作
+
+- 🇺🇸 英文 (en)
+- 🇹🇼 中文 (zh)
+
+---
+
 ##　📁 專案結構
 ```csharp
 react-project/
@@ -84,17 +118,24 @@ react-project/
 │   ├── assets/           # 靜態資源
 │   ├── components/       # 可重用組件
 │   ├── hooks/            # 自定義 Hooks
+│   ├── i18n/             # 國際化
+│   ├── mocks/            # 模擬後臺給資料
 │   ├── pages/            # 頁面組件
-│   ├── redux/            # Redux 狀態管理
 │   ├── router/           # React Router 路由設定
+│   ├── store/            # RTK
 │   ├── utils/            # 工具方法
+│   ├── test/
+│   ├── types/            # 類型
 │   ├── App.tsx           # 主組件
 │   └── index.tsx         # 入口檔案
-├── .eslintrc.js          # ESLint 設定
+├── .eslint.config.js     # ESLint 設定
+├── .vercel.json          # vercel 設定
 ├── .prettierrc           # Prettier 設定
 ├── .vercel.json          # 部署設定
+├── tsconfig.json
 ├── package.json
-└── tsconfig.json
+├── vite.config.ts
+└── README.md
 
 ```
 
@@ -135,6 +176,6 @@ react-project/
 
 ## 🔚 總結
 
-本專案著重於前端工程化與模組化設計，透過抽象公共邏輯、權限控制、高效渲染等手段提升開發效率與專案可維護性，適合作為中大型 React 專案的參考模板。
+本專案著重於前端工程化與模組化設計，透過抽象公共邏輯、權限控制、高效渲染等手段提升開發效率與專案可維護性。
 
 ---
