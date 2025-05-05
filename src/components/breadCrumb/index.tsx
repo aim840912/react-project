@@ -7,74 +7,73 @@ import "./index.scss";
 import { MenuItem } from "../../types";
 
 /**
- * 查找当前路径对应的面包屑路径
- * @param path 当前路径
- * @param menuItems 菜单项数组
- * @returns 包含面包屑路径的数组，每项包含label和对应的路径
+ *查找當前路徑對應的麵包屑路徑
+ *@param path 當前路徑
+ *@param menuItems 菜單項數組
+ *@returns 包含麵包屑路徑的數組，每項包含label和對應的路徑
  */
 function findBreadcrumbPath(path: string, menuItems: MenuItem[]): Array<{ label: string, path: string }> {
-    // 用于存储结果的数组
+    //用於存儲結果的數組
     const result: Array<{ label: string, path: string }> = [];
 
-    // 递归查找路径
+    //遞歸查找路徑
     const find = (currentPath: string, items: MenuItem[], parentPath: string = ""): boolean => {
         for (const item of items) {
-            // 构建完整的路径key
+            //構建完整的路徑key
             const itemPath = item.key;
 
-            // 检查当前路径是否匹配或者是当前项的子路径
+            //檢查當前路徑是否匹配或者是當前項的子路徑
             if (currentPath === itemPath || currentPath.startsWith(`${itemPath}/`)) {
-                // 添加当前项到结果
+                //添加當前項到結果
                 result.push({
                     label: item.label,
                     path: itemPath
                 });
 
-                // 如果有子项且路径不完全匹配，继续在子项中查找
+                //如果有子項且路徑不完全匹配，繼續在子項中查找
                 if (item.children && currentPath !== itemPath) {
                     const found = find(currentPath, item.children, itemPath);
-                    // 如果在子项中找到，返回true
+                    //如果在子項中找到，返回true
                     if (found) return true;
 
-                    // 如果没找到，回溯（移除当前项）
+                    //如果沒找到，回溯（移除當前項）
                     result.pop();
                 } else {
-                    // 找到完全匹配的路径
+                    //找到完全匹配的路徑
                     return true;
                 }
             }
         }
 
-        // 在当前层级没有找到匹配的项
+        //在當前層級沒有找到匹配的項
         return false;
     };
 
-    // 开始查找
+    //開始查找
     find(path, menuItems);
     return result;
 }
 
 /**
- * 面包屑导航组件
- * 根据当前路径和菜单数据生成面包屑导航
+ *麵包屑導航組件
+ *根據當前路徑和菜單數據生成麵包屑導航
  */
 const MyBreadcrumb: React.FC = () => {
     const location = useLocation();
     const { menuList } = useAppSelector((state) => state.authSlice);
 
-    // 使用useMemo缓存面包屑计算结果，避免不必要的重复计算
+    //使用useMemo緩存麵包屑計算結果，避免不必要的重複計算
     const breadcrumbItems = useMemo(() => {
         if (!menuList || menuList.length === 0) {
-            return [{ title: "首页", href: "/" }];
+            return [{ title: "首頁", href: "/" }];
         }
 
-        // 首页永远是第一项
-        const homeItem = { title: "首页", href: "/" };
+        //首頁永遠是第一項
+        const homeItem = { title: "首頁", href: "/" };
 
-        // 查找当前路径的面包屑
+        //查找當前路徑的麵包屑
         const pathItems = findBreadcrumbPath(location.pathname, menuList);
-
-        // 将面包屑路径转换为antd Breadcrumb所需的格式
+        //將麵包屑路徑轉換為antd Breadcrumb所需的格式
         const items = pathItems.map((item, index) => {
             const isLast = index === pathItems.length - 1;
             return {
@@ -85,11 +84,11 @@ const MyBreadcrumb: React.FC = () => {
             };
         });
 
-        // 合并首页和路径项
+        //合併首頁和路徑項
         return [homeItem, ...items];
     }, [location.pathname, menuList]);
 
-    // 如果没有面包屑项，不渲染组件
+    //如果沒有麵包屑項，不渲染組件
     if (breadcrumbItems.length <= 1) {
         return null;
     }

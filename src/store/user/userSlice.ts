@@ -1,23 +1,13 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
-
-export interface UserFormData {
-    name: string;
-    tel: string;
-    status: string;
-    business: string;
-    email: string;
-    creditCode: string;
-    industryNum: string;
-    organizationCode: string;
-    legalPerson: string;
-}
+import { User } from "../../types";
 
 interface UserState {
-    userData: UserFormData;
+    userData: User;
 }
 
 const initialState: UserState = {
     userData: {
+        id: "",
         name: "",
         tel: "",
         status: "",
@@ -30,7 +20,8 @@ const initialState: UserState = {
     }
 };
 
-export const emptyUserData: UserFormData = {
+export const emptyUserData: User = {
+    id: "",
     name: "",
     tel: "",
     status: "",
@@ -46,7 +37,7 @@ export const userSlice = createSlice({
     name: "user",
     initialState,
     reducers: {
-        setUserData: (state, action: PayloadAction<UserFormData>) => {
+        setUserData: (state, action: PayloadAction<User>) => {
             state.userData = action.payload;
         }
     }

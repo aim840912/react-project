@@ -18,8 +18,8 @@ export default function Personal() {
                             <List.Item>
                                 <List.Item.Meta
                                     avatar={<Avatar src={`https://randomuser.me/api/portraits/thumb/men/52.jpg`} />}
-                                    title={<a href="https://ant.design">趙鐵柱 -運營專員</a>}
-                                    description="無論是打工還是生存，都要盡已所能全力以赴，優秀才是常態。"
+                                    title={<a href="https://ant.design">田智丞 -運營專員</a>}
+                                    description="無論是工作還是生存，都要盡已所能全力以赴，優秀才是常態。"
                                 />
                             </List.Item>
                         )}

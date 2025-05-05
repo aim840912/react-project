@@ -13,11 +13,11 @@ const LoadingScreen = () => (
 const RouterError = ({ error, onRetry }: { error: Error | null; onRetry: () => void }) => (
   <Result
     status="error"
-    title="路由加载失败"
-    subTitle={error?.message || "加载应用路由时出现错误"}
+    title="路由加載失敗"
+    subTitle={error?.message || "加載應用路由時出現錯誤"}
     extra={
       <Button type="primary" onClick={onRetry}>
-        重试
+        重試
       </Button>
     }
   />

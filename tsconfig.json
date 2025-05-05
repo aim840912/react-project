@@ -12,6 +12,8 @@
             "@/*": ["src/*"]
         },
         "noImplicitAny": true,
-        "baseUrl": "."
+        "baseUrl": ".",
+        "jsx": "react",
+        "esModuleInterop": true
     }
 }

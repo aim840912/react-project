@@ -6,16 +6,18 @@ import lgbg from "../../assets/lgbg.jpg"
 import { Button, Form, Input } from 'antd';
 import { UserOutlined, LockOutlined } from '@ant-design/icons';
 import { login } from "../../api/users";
-import { setToken } from "../../store/login/authSlice";
+import { setAuth } from "../../store/login/authSlice";
 import { useDispatch } from "react-redux";
 import { useNavigate } from "react-router-dom"
 import { useState } from "react";
 import { useTranslation } from 'react-i18next';
+import { setPermissions } from "../../store/permissionSlice";
+import { useAppDispatch } from "../../store/hooks";
 
 function Login() {
     const [form] = Form.useForm();
     const [loading, setLoading] = useState<boolean>(false)
-    const dispatch = useDispatch()
+    const dispatch = useAppDispatch();
     const navigate = useNavigate()
     const { t, i18n } = useTranslation();
 
@@ -24,9 +26,8 @@ function Login() {
             setLoading(true)
             const { data: { token, username, btnAuth } } = await login(res);
             setLoading(false)
-            dispatch(setToken(token))
-            sessionStorage.setItem("username", username)
-            sessionStorage.setItem("btnAuth", JSON.stringify(btnAuth))
+            dispatch(setAuth({ token, username, btnAuth }))
+            dispatch(setPermissions(btnAuth))
             navigate("/", { replace: true })
         }).catch((err) => {
             setLoading(false)
@@ -38,9 +39,8 @@ function Login() {
         setLoading(true)
         const { data: { token, username, btnAuth } } = await login({ username: account, password });
         setLoading(false)
-        dispatch(setToken(token))
-        sessionStorage.setItem("username", username)
-        sessionStorage.setItem("btnAuth", JSON.stringify(btnAuth))
+        dispatch(setAuth({ token, username, btnAuth }))
+        dispatch(setPermissions(btnAuth))
         navigate("/dashboard", { replace: true })
     }
 

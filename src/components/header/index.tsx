@@ -1,7 +1,7 @@
 import { UserOutlined, PoweroffOutlined, DownOutlined } from '@ant-design/icons';
 import type { MenuProps } from 'antd';
 import { Avatar, Dropdown, message, Space } from 'antd';
-import { clearToken, setMenu } from '../../store/login/authSlice';
+import { clearToken, logout, setMenu } from '../../store/login/authSlice';
 import { useDispatch } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 import './index.scss'
@@ -38,9 +38,8 @@ const MyHeader: React.FC = () => {
                 break;
 
             case UserMenuKey.LOGOUT:
-                dispatch(clearToken());
+                dispatch(logout());
                 dispatch(setMenu([]));
-                sessionStorage.clear();
                 message.success('成功退出登錄');
                 navigate("/login", { replace: true });
                 break;
