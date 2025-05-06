@@ -1,87 +1,47 @@
-import { useCallback, useEffect, useState } from "react";
+import { useMemo } from "react";
 import { createBrowserRouter, RouteObject } from "react-router-dom";
 import { getMenu } from "../api/users";
 import { generateRoutes } from "../utils/generatesRoutes";
 import { useAppDispatch, useAppSelector } from "../store/hooks";
 import { setMenu } from "../store/login/authSlice";
-import { routes } from "../router";
+import { baseRoutes } from "../router";
 
-const createLoadingRouter = () => createBrowserRouter([
-    {
-        path: "/",
-        element: <div>Loading...</div>,
-    },
-]);
 
 export function useAppRouter() {
-    const { token } = useAppSelector((state) => state.authSlice);
-    const menu = useAppSelector((state) => state.authSlice.menuList);
+    const { token, menuList } = useAppSelector((state) => state.authSlice);
     const dispatch = useAppDispatch();
-    const [router, setRouter] = useState(createLoadingRouter);
-    const [isLoading, setIsLoading] = useState(true)
-    const [error, setError] = useState<Error | null>(null);
 
-    const mergeRoutes = useCallback((baseRoutes: RouteObject[], dynamicRoutes: RouteObject[]) => {
-        const routes = [...baseRoutes];
-        const homeRoute = routes.find(r => r.path === "/");
+    useMemo(() => {
+        if (token && menuList.length === 0) {
+            getMenu().then((res) => {
+                if (res.data && res.data.length) {
+                    dispatch(setMenu(res.data));
+                }
+            }).catch(console.error);
+        }
+    }, [token, menuList.length, dispatch]);
 
-        if (homeRoute) {
-            if (!Array.isArray(homeRoute.children)) homeRoute.children = [];
-            const existingIndex = homeRoute.children.find(r => r.index);
+    const routes: RouteObject[] = useMemo(() => {
+        // static routes
+        const base = baseRoutes
 
-            homeRoute.children = [
-                ...(existingIndex ? [existingIndex] : []),
-                ...dynamicRoutes,
-            ];
+        // token 驗證不過就直接回 base
+        if (!token) return base;
+
+        // 有 menuList 就做動態路由
+        if (menuList.length) {
+            const dynamic = generateRoutes(menuList);
+            // 直接把動態路由塞進 RootLayout.children
+            base[0].children!.push(...dynamic);
         }
 
-        return routes;
-    }, []);
+        console.log('base', base);
 
-    const loadRoutes = useCallback(async (): Promise<void> => {
-        setIsLoading(true);
-        setError(null);
+        return base;
+    }, [token, menuList]);
 
-        try {
-            const baseRoutes = [...routes];
 
-            if (!token) {
-                setRouter(createBrowserRouter(baseRoutes));
-                setIsLoading(false);
-                return;
-            }
+    const router = createBrowserRouter(routes)
 
-            if (menu && menu.length) {
-                const dynamicRoutes = generateRoutes(menu);
-                const finalRoutes = mergeRoutes(baseRoutes, dynamicRoutes);
-                setRouter(createBrowserRouter(finalRoutes));
-                setIsLoading(false);
-                return;
-            }
-
-            const { data } = await getMenu();
-            if (data && data.length) {
-                dispatch(setMenu(data));
-                const dynamicRoutes = generateRoutes(data);
-                const finalRoutes = mergeRoutes(baseRoutes, dynamicRoutes);
-                setRouter(createBrowserRouter(finalRoutes));
-            } else {
-                //雖然有token但沒有菜單數據的情況
-                console.warn("User authenticated but no menu data received");
-                setRouter(createBrowserRouter(baseRoutes));
-            }
-        } catch (error) {
-            console.error("Error loading routes:", error);
-            setError(error instanceof Error ? error : new Error('Failed to load routes'));
-            setRouter(createBrowserRouter(routes)); // 使用基礎路由作為後備方案
-        } finally {
-            setIsLoading(false);
-        }
-    }, [token, dispatch, mergeRoutes, menu]);
-
-    useEffect(() => {
-        loadRoutes();
-    }, [loadRoutes]);
-
-    return { router, isLoading, error, reloadRoutes: loadRoutes };
+    return router;
 }

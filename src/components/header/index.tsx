@@ -1,7 +1,7 @@
 import { UserOutlined, PoweroffOutlined, DownOutlined } from '@ant-design/icons';
 import type { MenuProps } from 'antd';
 import { Avatar, Dropdown, message, Space } from 'antd';
-import { clearToken, logout, setMenu } from '../../store/login/authSlice';
+import { logout, setMenu } from '../../store/login/authSlice';
 import { useDispatch } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 import './index.scss'

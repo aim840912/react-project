@@ -1,8 +1,7 @@
 import { Suspense } from "react";
-import { RouterProvider } from "react-router";
+import { RouterProvider } from "react-router-dom";
 import { Spin, Result, Button } from "antd";
 import { useAppRouter } from "./hooks/useAppRouter";
-import { ErrorBoundary } from "./components/ErrorBoundary";
 
 const LoadingScreen = () => (
   <div className="loading-container" style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', height: '100vh' }}>
@@ -24,11 +23,8 @@ const RouterError = ({ error, onRetry }: { error: Error | null; onRetry: () => v
 );
 
 function App() {
-  const { router, isLoading, error, reloadRoutes } = useAppRouter();
 
-  if (isLoading) return <LoadingScreen />;
-
-  if (error) return <RouterError error={error} onRetry={reloadRoutes} />;
+  const router = useAppRouter();
 
   return (
     <div className="App">

@@ -5,7 +5,6 @@ import App from './App';
 import '@ant-design/v5-patch-for-react-19';
 import { Provider } from 'react-redux';
 import { store } from './store';
-import { ErrorBoundary } from './components/ErrorBoundary';
 import './i18n';
 
 if (import.meta.env.DEV) {

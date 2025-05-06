@@ -1,7 +1,5 @@
 import { describe, it, expect, vi } from "vitest";
 import { generateRoutes } from "./generatesRoutes";
-import { componentMap } from "../router/routerMap";
-import { JSX } from "react";
 
 // 先 mock 掉 componentMap
 vi.mock("../router/routerMap", () => ({

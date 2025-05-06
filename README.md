@@ -89,6 +89,7 @@ npx vitest run --coverage
 ---
 
 ## 🧹 程式碼風格與檢查
+
 本專案使用 ESLint 搭配 Prettier 統一程式碼風格與語法規範：
 
 ESLint：使用 airbnb 規則搭配 @typescript-eslint
@@ -103,6 +104,7 @@ npm run format  # 自動格式化程式碼
 ---
 
 ##　📁 專案結構
+
 ```csharp
 react-project/
 ├── public/               # 公共資源
@@ -136,22 +138,28 @@ react-project/
 ## 📁 功能詳解（點擊可看原始碼）
 
 ### 📊 數據可視化（ECharts 整合）
+
 - [`Dashboard`](src/page/dashboard/index.tsx)
 
 ### 🔐 權限控制（角色分頁與按鈕權限）
+
 - [`authSlice`](src/store/login/authSlice.ts)
 - [`withPermissions`](src/utils/withPermissions.tsx)
 
 ### 📁 表格導出 Excel（支援跨頁選擇）
+
 - [`exportToExcel.ts`](src/utils/exportToExcel.ts)
 
 ### 🧠 列表緩存與返回保留狀態
+
 - [`contract.tsx`](src/page/finance/contract.tsx)
 
 ### ♻️ 通用組件與自定義 Hook 封裝
+
 - [`useDataList`](src/hooks/useDataList.ts)
 
 ### 🧮 動態菜單遞歸渲染
+
 - [`generatesRoutes.tsx`](src/utils/generatesRoutes.tsx)
 
 ---
