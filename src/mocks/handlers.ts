@@ -1,6 +1,6 @@
 // src/mocks/handlers.ts
 import { http, HttpResponse } from 'msw';
-import { menu, generateUserList, generateContracts, generateRoomList, generateBillList, generateAccountList } from '../utils/fakeGenerators';
+import { menu, generateUserList, generateContracts, generateRoomList, generateBillList, generateAccountList, generateEquipmentList } from '../utils/fakeGenerators';
 
 export const handlers = [
     http.post('/api/login', async ({ request }) => {
@@ -153,6 +153,18 @@ export const handlers = [
             message: '成功',
             data: {
                 list: generateAccountList(),
+                total: 80
+            },
+        });
+    }),
+    http.post('/api/equipmentList', async ({ request }) => {
+        const body = await request.json() as { page?: number; pageSize?: number; };
+        const { pageSize = 10 } = body;
+        return HttpResponse.json({
+            code: 200,
+            message: '成功',
+            data: {
+                list: generateEquipmentList(pageSize),
                 total: 80
             },
         });

@@ -1,34 +1,47 @@
-import { RouteObject } from "react-router";
+import React, { Suspense } from "react";
+import { RouteObject, Outlet } from "react-router";
 import { componentMap } from "../router/routerMap";
 import RequireAuth from "../utils/RequireAuth";
 import { MenuType } from "../types";
-
-function getRouteElement(key: string): React.ReactNode {
-    const Component = componentMap[key];
-
-    if (!Component) {
-        console.warn(`⚠️ componentMap 找不到對應元件：${key}`);
-        return <div>找不到元件：{key}</div>;
-    }
-
-    return (
-        <RequireAuth needLogin redirectTo="/login">
-            <Component />
-        </RequireAuth>
-    );
-}
+import LoadingPage from "../page/loading";
+import ErrorPage from "../page/error";
 
 export function generateRoutes(menu: MenuType[]): RouteObject[] {
-    return menu.map(({ key, children }) => {
-        const route: RouteObject = {
-            path: key,
-            element: children?.length ? undefined : getRouteElement(key),
-        };
-
+    return menu.reduce<RouteObject[]>((routes, { key, children }) => {
+        // 如果這層有子項，先產生一個父層路由
         if (children?.length) {
-            route.children = generateRoutes(children);
+            routes.push({
+                path: key,
+                element: (
+                    // 全域只包一次認證與錯誤邊界
+                    <RequireAuth needLogin redirectTo="/login">
+                        <Suspense fallback={<LoadingPage />}>
+                            <Outlet />
+                        </Suspense>
+                    </RequireAuth>
+                ),
+                errorElement: <ErrorPage />,
+                children: generateRoutes(children),
+                // 如果希望第一個 child 同時也是 index，也可打開下面這行
+                // index: true,
+            });
+        } else {
+            // Leaf route: 直接對應到 componentMap
+            const Component = componentMap[key];
+            routes.push({
+                path: key,
+                element: Component ? (
+                    <RequireAuth needLogin redirectTo="/login">
+                        <Suspense fallback={<LoadingPage />}>
+                            <Component />
+                        </Suspense>
+                    </RequireAuth>
+                ) : (
+                    <div>⚠️ 找不到元件：{key}</div>
+                ),
+                errorElement: <ErrorPage />,
+            });
         }
-
-        return route;
-    });
+        return routes;
+    }, []);
 }
