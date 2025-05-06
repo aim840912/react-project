@@ -179,3 +179,45 @@ react-project/
 本專案著重於前端工程化與模組化設計，透過抽象公共邏輯、權限控制、高效渲染等手段提升開發效率與專案可維護性。
 
 ---
+
+```mermaid
+flowchart TB
+  subgraph Frontend
+    direction TB
+    UI[Browser UI<br/>(React 18 + Ant Design)]
+    Router[React Router v6]
+    Store[Redux Toolkit]
+    Hooks[Custom Hooks<br/>(useDataList, useAppRouter…)]
+    Charts[ECharts Components]
+    Export[Excel Export Service]
+    I18n[i18n / 多語系]
+  end
+
+  subgraph API Layer
+    direction TB
+    Axios[Axios 封裝]
+    AuthAPI[認證 API<br/>(login/logout)]
+    DataAPI[後端資料 API]
+  end
+
+  subgraph Infrastructure
+    direction TB
+    Vite[Vite / Dev Server]
+    CI[GitHub Actions<br/>Vitest + ESLint + Prettier]
+    Deploy[Vercel 部署]
+  end
+
+  UI -->|Route 匹配| Router
+  Router -->|Outlet / ProtectedRoute| UI
+  UI -->|dispatch action| Store
+  Store -->|thunk / createAsyncThunk| Axios
+  Axios --> AuthAPI & DataAPI
+  Store --> UI
+  UI --> Charts
+  UI --> Export
+  UI --> I18n
+
+  Vite --> UI
+  CI -->|push → test / lint| Deploy
+  Deploy --> UI
+```

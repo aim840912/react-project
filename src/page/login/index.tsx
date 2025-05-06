@@ -7,7 +7,7 @@ import { Button, Form, Input } from 'antd';
 import { UserOutlined, LockOutlined } from '@ant-design/icons';
 import { login } from "../../api/users";
 import { setAuth } from "../../store/login/authSlice";
-import { useNavigate } from "react-router-dom"
+import { useNavigate, useLocation } from "react-router-dom"
 import { useState } from "react";
 import { useTranslation } from 'react-i18next';
 import { setPermissions } from "../../store/permissionSlice";
@@ -19,6 +19,8 @@ function Login() {
     const dispatch = useAppDispatch();
     const navigate = useNavigate()
     const { t, i18n } = useTranslation();
+    const location = useLocation();
+    const from = (location.state)?.from || "/";
 
     function handleLogin() {
         form.validateFields().then(async (res) => {
@@ -27,7 +29,7 @@ function Login() {
             setLoading(false)
             dispatch(setAuth({ token, username, btnAuth }))
             dispatch(setPermissions(btnAuth))
-            navigate("/", { replace: true })
+            navigate(from, { replace: true })
         }).catch((err) => {
             setLoading(false)
             console.log(err)
@@ -40,7 +42,7 @@ function Login() {
         setLoading(false)
         dispatch(setAuth({ token, username, btnAuth }))
         dispatch(setPermissions(btnAuth))
-        navigate("/dashboard", { replace: true })
+        navigate(from, { replace: true })
     }
 
     return <div className="login" style={{ backgroundImage: `url(${bg})` }}>

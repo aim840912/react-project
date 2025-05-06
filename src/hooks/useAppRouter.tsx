@@ -32,7 +32,7 @@ export function useAppRouter() {
         if (menuList.length) {
             const dynamic = generateRoutes(menuList);
             // 直接把動態路由塞進 RootLayout.children
-            base[0].children!.push(...dynamic);
+            base[1].children!.push(...dynamic);
         }
 
         console.log('base', base);

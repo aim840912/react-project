@@ -10,19 +10,25 @@ const NotFound = React.lazy(() => import("../page/404"));
 
 export const baseRoutes: RouteObject[] = [
     {
-        path: "/",
-        element: (<RequireAuth needLogin={true} redirectTo="/login"><Home /></RequireAuth>),
+        path: "/login",
+        element: <Login />,
         errorElement: <ErrorPage />,
-        children: [{
-            index: true,
-            element: <Navigate to="/dashboard" replace />,
-        },],
     },
     {
-        path: "/login",
-        element: <RequireAuth needLogin={false} redirectTo="/"><Login /></RequireAuth>,
+        path: "/",
+        element: (
+            <RequireAuth >
+                <React.Suspense fallback={<div>Loading...</div>}>
+                    <Navigate to="dashboard" replace />
+                    <Home />
+                </React.Suspense>
+            </RequireAuth>),
         errorElement: <ErrorPage />,
+        children: [{
+            element: <Navigate to="dashboard" replace />,
+        },],
     },
+
     {
         path: "*",
         element: <NotFound />,

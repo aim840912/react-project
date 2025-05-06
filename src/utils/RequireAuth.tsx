@@ -1,21 +1,27 @@
-import { Navigate } from "react-router-dom";
+// src/utils/RequireAuth.tsx
+import React from "react";
+import { Navigate, useLocation } from "react-router-dom";
 import { useAppSelector } from "../store/hooks";
 
 interface RequireAuthProps {
-    needLogin: boolean;
-    redirectTo: string;
     children: React.ReactNode;
 }
 
-function RequireAuth({ needLogin, redirectTo, children }: RequireAuthProps) {
-    const token = useAppSelector((state) => state.authSlice.token);
-    const isLogin = !!token;
+export default function RequireAuth({ children }: RequireAuthProps) {
+    const token = useAppSelector((s) => s.authSlice.token);
+    const location = useLocation();
 
-    if (needLogin !== isLogin) {
-        return <Navigate to={redirectTo} replace />;
+    // 如果還沒登入，就導到 /login，並把原本要去的路徑存在 state.from
+    if (!token) {
+        return (
+            <Navigate
+                to="/login"
+                replace
+                state={{ from: location.pathname }}
+            />
+        );
     }
 
+    // 已登入就正常渲染子元件
     return <>{children}</>;
 }
-
-export default RequireAuth;

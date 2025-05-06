@@ -1,0 +1,112 @@
+$bg-light: #f7fafc;
+$bg-white: #ffffff;
+$text-dark: #4a5568;
+$text-muted: #718096;
+$text-red: #e53e3e;
+$primary: #3182ce;
+$primary-hover: #2b6cb0;
+$border: #e2e8f0;
+@use "sass:color";
+
+.loadingWrapper,
+.errorWrapper {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    min-height: 100vh;
+    background: $bg-light;
+    padding: 1rem;
+}
+
+.loadingCard,
+.errorCard {
+    background: $bg-white;
+    border-radius: 1.25rem;
+    box-shadow: 0 10px 15px rgba(0, 0, 0, 0.1);
+    padding: 2rem;
+    max-width: 22rem;
+    width: 100%;
+    text-align: center;
+}
+
+.spinner {
+    margin: 0 auto 1rem;
+    width: 3rem;
+    height: 3rem;
+    border: 0.4rem solid $border;
+    border-top: 0.4rem solid $primary;
+    border-radius: 50%;
+    animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+    to {
+        transform: rotate(360deg);
+    }
+}
+
+.loadingText {
+    font-size: 1.125rem;
+    color: $text-dark;
+    font-weight: 600;
+}
+
+.errorTitle {
+    font-size: 1.875rem;
+    color: $text-red;
+    font-weight: bold;
+    margin-bottom: 0.5rem;
+}
+
+.errorMessage {
+    color: $text-muted;
+    margin-bottom: 1rem;
+}
+
+.errorCountdown {
+    font-size: 0.875rem;
+    color: $text-muted;
+    margin-bottom: 1.5rem;
+}
+
+.errorActions {
+    display: flex;
+    justify-content: center;
+    gap: 0.75rem;
+}
+
+.btnPrimary,
+.btnSecondary,
+.btnCancel {
+    padding: 0.5rem 1rem;
+    border-radius: 0.5rem;
+    border: 1px solid transparent;
+    font-size: 0.875rem;
+    cursor: pointer;
+    transition: background 0.2s;
+}
+
+.btnPrimary {
+    background: $primary;
+    color: $bg-white;
+    &:hover {
+        background: color.mix(black, $primary, 10%);
+    }
+}
+
+.btnSecondary {
+    background: $border;
+    color: $text-dark;
+    &:hover {
+        background: color.mix(black, $border, 5%);
+    }
+}
+
+.btnCancel {
+    background: transparent;
+    color: $text-muted;
+    border-color: $border;
+    &:hover {
+        background: color.mix(black, $bg-white, 3%);
+    }
+}

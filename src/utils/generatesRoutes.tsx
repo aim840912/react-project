@@ -14,7 +14,7 @@ export function generateRoutes(menu: MenuType[]): RouteObject[] {
                 path: key,
                 element: (
                     // 全域只包一次認證與錯誤邊界
-                    <RequireAuth needLogin redirectTo="/login">
+                    <RequireAuth >
                         <Suspense fallback={<LoadingPage />}>
                             <Outlet />
                         </Suspense>
@@ -31,7 +31,7 @@ export function generateRoutes(menu: MenuType[]): RouteObject[] {
             routes.push({
                 path: key,
                 element: Component ? (
-                    <RequireAuth needLogin redirectTo="/login">
+                    <RequireAuth >
                         <Suspense fallback={<LoadingPage />}>
                             <Component />
                         </Suspense>
