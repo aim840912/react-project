@@ -2,7 +2,7 @@ import { Card, Row, Col, Table, Input, Button, Pagination, Popconfirm, Tree } fr
 import type { TreeDataNode, TreeProps, ButtonProps } from 'antd';
 import { getAccountList } from "../../api/users";
 import useDataList from "../../hooks/useDataList";
-import { useEffect, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import withPermissions from "../../utils/withPermissions";
 import { useAppSelector } from "../../store/hooks";
 import { MenuType, SettingsDataType, SettingsSearchType } from "../../types";
@@ -114,9 +114,10 @@ function extractTreeKeys(data: MenuType[]): string[] {
     return keys;
 }
 
+const AuthButton = withPermissions<ButtonProps>(["delete"],)(Button)
+
 function Settings() {
-    const authList = JSON.parse(sessionStorage.getItem("btnAuth") || "[]");
-    const AuthButton = withPermissions<ButtonProps>(["delete"], authList)(Button);
+    // const authList = JSON.parse(sessionStorage.getItem("btnAuth") || "[]");
 
     const edit = (menu: MenuType[], accountName: string) => {
         setAccountName(accountName);

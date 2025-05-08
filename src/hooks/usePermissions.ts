@@ -3,8 +3,8 @@ import {
     selectUserPermissions,
     selectHasPermission,
     selectHasAllPermissions,
-    RootState
 } from '../store/permissionSlice';
+import { RootState } from '../store';
 
 /**
  * 權限管理 Hook - 提供權限相關的輔助功能

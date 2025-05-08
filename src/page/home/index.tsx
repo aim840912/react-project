@@ -17,7 +17,6 @@ function Home() {
     const navigate = useNavigate();
 
     useEffect(() => {
-        console.log("location" + location.pathname)
         if (location.pathname === "/") {
             navigate("/dashboard")
         }
