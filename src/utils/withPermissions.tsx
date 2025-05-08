@@ -7,10 +7,7 @@ import { selectHasAllPermissions, RootState } from '../store/permissionSlice';
  * @param userPermissionsList - 可選，用戶擁有的權限列表，如果不提供則從Redux獲取
  * @returns 一個包裝後的組件，根據權限決定是否渲染原始組件
  */
-function withPermissions<P extends object>(
-	requiredPermissions: string[],
-	userPermissionsList?: string[]
-) {
+function withPermissions<P extends object>(requiredPermissions: string[], userPermissionsList?: string[]) {
 
 	return function (Component: React.ComponentType<P>): React.FC<P> {
 

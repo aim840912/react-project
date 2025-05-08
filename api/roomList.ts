@@ -1,16 +1,29 @@
 import type { VercelRequest, VercelResponse } from '@vercel/node';
 import { faker } from '@faker-js/faker';
 
-function generateRoomList(count: number) {
-    return Array.from({ length: count }, (_, i) => ({
-        id: faker.string.uuid(),
-        name: `房間 ${i + 1}`,
-        type: faker.helpers.arrayElement(['單人房', '雙人房', '家庭房']),
-        status: faker.helpers.arrayElement(['空房', '已入住', '維修中']),
-        floor: faker.number.int({ min: 1, max: 12 }),
-        area: faker.number.float({ min: 15, max: 45 }),
-        price: faker.number.int({ min: 8000, max: 25000 }),
-    }));
+function generateRoomList() {
+    const rooms: {
+        roomNumber: number;
+        decorationType: '毛坯' | '精装';
+        area: number;
+        unitPrice: number;
+        src: string;
+    }[] = [];
+
+    for (let i = 0; i < 50; i++) {
+        const floor = 1 + Math.floor(i / 6); // 每6个房间一层
+        const roomNumber = floor * 100 + (101 + (i % 6)); // 房间号如：201、202...
+
+        rooms.push({
+            roomNumber,
+            decorationType: faker.helpers.arrayElement(['毛坯', '精装']),
+            area: faker.number.int({ min: 70, max: 300 }),
+            unitPrice: faker.number.int({ min: 1, max: 3 }),
+            src: 'https://zos.alipayobjects.com/rmsportal/jkjgkEfvpUPVyRjUImniVslZfWPnJuuZ.png'
+        });
+    }
+
+    return rooms;
 }
 
 export default function handler(req: VercelRequest, res: VercelResponse) {
@@ -18,8 +31,8 @@ export default function handler(req: VercelRequest, res: VercelResponse) {
         return res.status(405).json({ message: 'Method Not Allowed' });
     }
 
-    const { pageSize = 10 } = req.body || {};
-    const list = generateRoomList(pageSize);
+
+    const list = generateRoomList();
 
     return res.status(200).json({
         data: {

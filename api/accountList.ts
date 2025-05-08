@@ -1,7 +1,7 @@
 import type { VercelRequest, VercelResponse } from '@vercel/node';
 import { menu } from '../src/utils/fakeGenerators';
 
-function generateAccountList(count: number) {
+function generateAccountList() {
     return [
         {
             id: 1001,
@@ -56,12 +56,10 @@ export default function handler(req: VercelRequest, res: VercelResponse) {
         return res.status(405).json({ message: 'Method Not Allowed' });
     }
 
-    const { pageSize = 10 } = req.body || {};
-    const list = generateAccountList(pageSize);
 
     return res.status(200).json({
         data: {
-            list,
+            list: generateAccountList(),
             total: 80,
         },
     });

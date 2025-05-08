@@ -3,14 +3,16 @@ import { faker } from '@faker-js/faker';
 
 function generateUserList(count: number) {
     return Array.from({ length: count }, () => ({
-        key: faker.string.uuid(),
+        id: faker.string.uuid(),
         name: faker.person.fullName(),
-        phone: faker.phone.number(),
+        status: faker.helpers.arrayElement(['1', '2', '3']),
+        tel: faker.phone.number(),
+        business: faker.helpers.arrayElement(['製造業', '互聯網', '新媒體', '美業', '新能源', '物流', '電商']),
         email: faker.internet.email(),
-        company: faker.company.name(),
-        address: faker.location.city(),
-        age: faker.number.int({ min: 18, max: 65 }),
-        createdAt: faker.date.past().toISOString(),
+        creditCode: faker.string.numeric(18),
+        industryNum: faker.string.numeric(15),
+        organizationCode: faker.string.alphanumeric(9).toUpperCase(),
+        legalPerson: faker.person.fullName()
     }));
 }
 

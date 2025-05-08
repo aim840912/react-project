@@ -1,16 +1,23 @@
 import type { VercelRequest, VercelResponse } from '@vercel/node';
 import { faker } from '@faker-js/faker';
 
+const contractTypes = ['租賃合同', '自定義合同', '購買合同'];
+const contractNames = ['房屋租賃合同通用模版', '車位租賃合同通用模版', '商業房產買賣合同'];
+const startDates = ['2023-01-01', '2023-03-05', '2023-04-01'];
+const endDates = ['2024-01-01', '2024-03-05', '2024-04-01'];
+const jiaList = ['萬物科技有限公司', '大魚網絡科技', '六六信息技術有限公司'];
+const statuses = ['1', '2', '3'];
+
 function generateContracts(count: number) {
     return Array.from({ length: count }, (_, i) => ({
-        id: faker.string.uuid(),
-        name: `合約 ${i + 1}`,
-        amount: faker.number.int({ min: 1000, max: 50000 }),
-        startDate: faker.date.past({ years: 2 }).toISOString().split('T')[0],
-        endDate: faker.date.future({ years: 1 }).toISOString().split('T')[0],
-        status: faker.helpers.arrayElement(['有效', '已終止', '待簽署']),
-        contactPerson: faker.person.fullName(),
-        phone: faker.phone.number(),
+        contractNo: faker.string.numeric(6),
+        type: faker.helpers.arrayElement(contractTypes),
+        name: faker.helpers.arrayElement(contractNames),
+        startDate: faker.helpers.arrayElement(startDates),
+        endDate: faker.helpers.arrayElement(endDates),
+        jia: faker.helpers.arrayElement(jiaList),
+        yi: '天明物業有限公司',
+        status: faker.helpers.arrayElement(statuses),
     }));
 }
 
