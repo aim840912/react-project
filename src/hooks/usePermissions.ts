@@ -3,7 +3,7 @@ import {
     selectUserPermissions,
     selectHasPermission,
     selectHasAllPermissions,
-} from '../store/permissionSlice';
+} from '../selectors/permissions';
 import { RootState } from '../store';
 
 /**

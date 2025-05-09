@@ -117,8 +117,6 @@ function extractTreeKeys(data: MenuType[]): string[] {
 const AuthButton = withPermissions<ButtonProps>(["delete"],)(Button)
 
 function Settings() {
-    // const authList = JSON.parse(sessionStorage.getItem("btnAuth") || "[]");
-
     const edit = (menu: MenuType[], accountName: string) => {
         setAccountName(accountName);
         const newCheckedKeys = extractTreeKeys(menu)

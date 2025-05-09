@@ -2,7 +2,7 @@ import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 import { RootState } from '.';
 
 // 權限狀態的類型定義
-interface PermissionsState {
+export interface PermissionsState {
     userPermissions: string[];
     isLoading: boolean;
     error: string | null;
@@ -56,6 +56,8 @@ export const permissionsSlice = createSlice({
     },
 });
 
+
+
 // 導出 actions
 export const {
     setPermissions,
@@ -68,17 +70,3 @@ export const {
 
 // 導出 reducer
 export default permissionsSlice.reducer;
-
-// 為了類型安全，定義 RootState 類型
-// 實際使用時，您應該從 store 中導入 RootState 類型
-// import { RootState } from '../store';
-
-
-// 選擇器 (selectors)
-export const selectUserPermissions = (state: RootState) => state.permissionsSlice.userPermissions;
-export const selectIsLoadingPermissions = (state: RootState) => state.permissionsSlice.isLoading;
-export const selectPermissionsError = (state: RootState) => state.permissionsSlice.error;
-// 檢查是否擁有特定權限的選擇器
-export const selectHasPermission = (state: RootState, permission: string) => state.permissionsSlice.userPermissions.includes(permission);
-// 檢查是否擁有所有指定權限的選擇器
-export const selectHasAllPermissions = (state: RootState, permissions: string[]) => permissions.every(permission => state.permissionsSlice.userPermissions.includes(permission));

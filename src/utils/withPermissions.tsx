@@ -1,6 +1,5 @@
 import React from 'react';
-import { useSelector } from 'react-redux';
-import { selectHasAllPermissions } from '../store/permissionSlice';
+import { selectHasAllPermissions } from '../selectors/permissions';
 import { useAppSelector } from '../store/hooks';
 
 /**
@@ -15,9 +14,6 @@ function withPermissions<P extends object>(requiredPermissions: string[]) {
 		const WrappedComponent: React.FC<P> = (props) => {
 
 			const hasPermission = useAppSelector(state => selectHasAllPermissions(state, requiredPermissions));
-			// console.log('userPermissions', userPermissions);
-
-			// let hasPermission: boolean = selectHasAllPermissions(userPermissions, requiredPermissions);
 
 			if (!hasPermission) {
 				return <div>無訪問權限</div>;
