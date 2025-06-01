@@ -15,10 +15,7 @@ interface MenuItem {
  * @param menuTree menuList
  * @returns label 陣列，例如 ["物業管理","樓宇管理"]
  */
-function findBreadcrumbLabels(
-    path: string,
-    menuTree: MenuItem[]
-): string[] {
+function findBreadcrumbLabels(path: string, menuTree: MenuItem[]): string[] {
     for (const item of menuTree) {
         // 完全相符或以 item.key 為前綴（帶 / 開頭）才算命中
         if (path === item.key || path.startsWith(item.key + "/")) {

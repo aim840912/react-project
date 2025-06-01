@@ -50,11 +50,7 @@ const NavLeft: React.FC = () => {
 function getDefaultOpenKeys(pathname: string, menuItems: MenuItemFromData[]): string[] {
     const openKeys: string[] = [];
 
-    const findPath = (
-        path: string,
-        items: MenuItemFromData[],
-        parents: string[] = []
-    ): boolean => {
+    const findPath = (path: string, items: MenuItemFromData[], parents: string[] = []): boolean => {
         for (const item of items) {
             const currentPath = [...parents];
 

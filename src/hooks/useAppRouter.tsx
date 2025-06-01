@@ -24,21 +24,22 @@ export function useAppRouter() {
     const routes: RouteObject[] = useMemo(() => {
         // static routes
         const base = baseRoutes
+        const layoutRoute = base.find(r => r.path === '/');
 
         // token 驗證不過就直接回 base
         if (!token) return base;
 
         // 有 menuList 就做動態路由
-        if (menuList.length) {
+        if (menuList.length && layoutRoute && layoutRoute.children) {
             const dynamic = generateRoutes(menuList);
-            // 直接把動態路由塞進 RootLayout.children
-            base[1].children!.push(...dynamic);
+
+            layoutRoute.children.push(...dynamic);
         }
 
         console.log('base', base);
 
         return base;
-    }, [token, menuList]);
+    }, [token, menuList, baseRoutes]);
 
 
     const router = createBrowserRouter(routes)

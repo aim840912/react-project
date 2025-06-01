@@ -81,6 +81,10 @@ function Login() {
                             {t('adminLogin')}
                         </Button>
                         <Button type="primary" className="mb" style={{ width: '100%' }}
+                            onClick={() => { cutomeLogin("manager", "manager") }} loading={loading}>
+                            {t('managerLogin')}
+                        </Button>
+                        <Button type="primary" className="mb" style={{ width: '100%' }}
                             onClick={() => { cutomeLogin("user", "user") }} loading={loading}>
                             {t('userLogin')}
                         </Button>
