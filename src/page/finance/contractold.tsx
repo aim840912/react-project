@@ -1,65 +1,77 @@
 import { Card, Table, Row, Col, Input, Button, Tag, Pagination, TableProps, PaginationProps } from "antd"
-import { useState } from "react"
+import { useCallback, useEffect, useState } from "react"
+import { getContractList } from "../../api/users";
+import { setData, setTotal, setCurrent, setFormList, setSize } from "../../store/finance/contractSlice";
+import { useDispatch } from "react-redux";
 import { useNavigate, useSearchParams } from "react-router";
+import { useAppSelector } from "../../store/hooks";
 import { ContractDataType, ContractSearchType } from "../../types";
-import { useGetContractsQuery, useUpdateContractMutation } from '../../api/contractApi';
 
 function Dashboard() {
+    const { data, total, formList, size, current } = useAppSelector((state) => state.contractSlice);
     const [formData, setFormData] = useState<ContractSearchType>({
         contractNo: "",
         person: "",
         tel: ""
     });
-
+    const [loading, setLoading] = useState<boolean>(false);
     const [page, setPage] = useState<number>(1);
     const [searchParams] = useSearchParams();
+    const dispatch = useDispatch();
     const navigate = useNavigate();
     const isReturn = searchParams.get("return");
     const [pageSize, setPageSize] = useState<number>(10);
-    const {
-        data,    // 後端回傳的合約陣列（或 undefined）
-        error,              // 如果有錯誤，就會放在這裡
-        isLoading,          // 載入狀態
-        isFetching,         // 重新抓取時也會是 true
-        refetch,            // 可以手動觸發重新抓取
-    } = useGetContractsQuery({ ...formData, page, pageSize })
 
-    const [updateFormList, { isLoading: isUpdating, error: updateError }] = useUpdateContractMutation()
+    const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+        const { name, value } = e.target;
+        setFormData(prevState => ({
+            ...prevState,
+            [name]: value
+        }));
 
-    const handleChange = async (e: React.ChangeEvent<HTMLInputElement>) => {
-        const { name, value } = e.target
+        dispatch(setFormList({
+            ...formData,
+            [name]: value
+        }));
+    };
 
-        // 2. 把 setFormData、updateForm 一併放到同一個 functional update 裡
-        setFormData(prev => {
-            const newState = { ...prev, [name]: value }
+    const loadData = useCallback(async (page: number, pageSize: number) => {
+        setLoading(true);
+        const { data: { list, total } } = await getContractList({ ...formData, page, pageSize });
+        setLoading(false);
+        dispatch(setData(list));
+        dispatch(setTotal(total));
+    }, [dispatch, formData]);
 
-            // 3. 直接呼叫 RTK Query mutation
-            //    你可以使用 unwrap() 來方便在 try/catch 處理錯誤，
-            //    也可以不 unwrap()，改用 .then/.catch
-            updateFormList({
-                id: newState.contractNo,
-                data: {
-                    person: newState.person,
-                    tel: newState.tel,
-                    page: newState.page || 1,
-                    pageSize: newState.pageSize || 10
-                }
-            })
-                .unwrap()
-                .then(res => {
-                    console.log('更新後端成功:', res)
-                })
-                .catch(err => {
-                    console.error('更新後端失敗:', err)
-                })
-
-            return newState
-        })
-    }
+    const onChange: PaginationProps["onChange"] = (page, pageSize) => {
+        setPage(page);
+        setPageSize(pageSize);
+        dispatch(setCurrent(page));
+        dispatch(setSize(pageSize));
+        loadData(page, pageSize);
+    };
 
     const detail = (contractNo: string) => {
         navigate("/finance/surrender?contractNo=" + contractNo);
     };
+
+    const reset = () => {
+        setFormData({ contractNo: "", person: "", tel: "" });
+        setPage(1);
+        setPageSize(10);
+        loadData(1, 10);
+    };
+
+    useEffect(() => {
+        if (!isReturn || !data.length) {
+            loadData(page, pageSize);
+        }
+        if (isReturn) {
+            setFormData(formList);
+            setPage(current);
+            setPageSize(size);
+        }
+    }, [isReturn, data.length, loadData, page, pageSize, formList, current, size]);
 
     const columns: TableProps<ContractDataType>["columns"] = [
         { title: "No.", key: "index", render(value, record, index) { return index + 1; } },
@@ -89,13 +101,6 @@ function Dashboard() {
         }
     ];
 
-    const reset = () => {
-        console.log(data);
-        setFormData({ contractNo: "", person: "", tel: "" });
-        setPage(1);
-        setPageSize(10);
-    }
-
     return <div>
         <Card className="search">
             <Row gutter={16}>
@@ -103,8 +108,8 @@ function Dashboard() {
                 <Col span={7}><p>聯繫人：</p><Input name="person" value={formData.person} onChange={handleChange} /></Col>
                 <Col span={7}><p>聯繫電話：</p><Input name="tel" value={formData.tel} onChange={handleChange} /></Col>
                 <Col span={3}>
-                    <Button type="primary" className="mr" onClick={() => refetch()}>查詢</Button>
-                    <Button onClick={() => reset()}>重置</Button>
+                    <Button type="primary" className="mr" onClick={() => loadData(page, pageSize)}>查詢</Button>
+                    <Button onClick={reset}>重置</Button>
                 </Col>
             </Row>
         </Card>
@@ -112,16 +117,16 @@ function Dashboard() {
             <Table
                 columns={columns}
                 pagination={false}
-                loading={isLoading}
-                dataSource={data ? data.data.list : []}
+                loading={loading}
+                dataSource={data}
                 rowKey={(record) => record.contractNo}
             />
             <Pagination
                 className="mt fr"
                 showQuickJumper
                 defaultCurrent={1}
-                total={data?.data.total}
-                onChange={() => setPage(page)}
+                total={total}
+                onChange={onChange}
                 current={page}
                 pageSize={pageSize}
             />

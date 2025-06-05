@@ -25,6 +25,7 @@ export interface BillSearchType {
 }
 
 export interface ContractDataType {
+    id: string;
     key: string;
     contractNo: string;
     type: string;
