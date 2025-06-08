@@ -13,7 +13,7 @@ jest.mock('../selectors/permissions', () => ({
     selectHasAllPermissions: jest.fn(),
 }));
 
-import { useAppSelector } from '../store/hooks';
+import { useAppSelector } from '../app/hooks';
 import { selectHasAllPermissions } from '../selectors/permissions';
 
 describe('withPermissions HOC', () => {

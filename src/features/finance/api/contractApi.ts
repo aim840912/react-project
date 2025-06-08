@@ -1,6 +1,6 @@
 // src/features/contract/contractApi.ts
 import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
-import { ContractDataType } from "../types";
+import { ContractDataType } from "../../../types";
 
 /**
  * 定義 Contract 的型別（依照後端實際欄位自行增減）

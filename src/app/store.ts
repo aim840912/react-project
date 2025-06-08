@@ -1,13 +1,19 @@
 // src/app/store.ts
 import { configureStore } from "@reduxjs/toolkit";
 // 1. 匯入 contractApi
-import { contractApi } from "../api/contractApi";
+import authSlice from "../features/user/authSlice";
+import userSlice from "../features/user/userSlice";
+import permissionsSlice from "../features/user/permissionSlice";
+import { contractApi } from "../features/finance/api/contractApi";
 
 // 如果你還有其他 slice (例如 authSlice、userSlice 等)，也一起 import
 // import authReducer from "@/features/auth/authSlice";
 
 export const store = configureStore({
     reducer: {
+        authSlice,
+        userSlice,
+        permissionsSlice,
         // 2. 把 contractApi.reducer 放到 store 裡
         [contractApi.reducerPath]: contractApi.reducer,
 

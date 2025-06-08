@@ -2,7 +2,7 @@ import "./style.scss"
 import ReactECharts from "echarts-for-react"
 import { Card, Col, Row, Table } from 'antd';
 import type { ColumnsType } from "antd/es/table";
-import { EnterpriseEnergyData } from "../../types/energy";
+import { EnterpriseEnergyData } from "./types";
 import type { EChartsOption } from 'echarts';
 
 const columns: ColumnsType<EnterpriseEnergyData> = [

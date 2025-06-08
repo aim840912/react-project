@@ -1,5 +1,5 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
-import { RootState } from '.';
+import { RootState } from '../../app/store';
 
 // 權限狀態的類型定義
 export interface PermissionsState {

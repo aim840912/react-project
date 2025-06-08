@@ -4,7 +4,7 @@ import { getAccountList } from "../../api/users";
 import useDataList from "../../hooks/useDataList";
 import { useEffect, useMemo, useState } from "react";
 import withPermissions from "../../utils/withPermissions";
-import { useAppSelector } from "../../store/hooks";
+import { useAppSelector } from "../../app/hooks";
 import { MenuType, SettingsDataType, SettingsSearchType } from "../../types";
 
 const treeData: TreeDataNode[] = [

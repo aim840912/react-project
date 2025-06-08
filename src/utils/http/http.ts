@@ -1,6 +1,6 @@
 import axios, { AxiosInstance, InternalAxiosRequestConfig, AxiosResponse } from 'axios';
 import { message } from 'antd';
-import { store } from "../../store"
+import { store } from "../../app/store";
 
 const http: AxiosInstance = axios.create({
     baseURL: import.meta.env.VITE_API_BASE || '',

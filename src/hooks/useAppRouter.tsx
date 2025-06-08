@@ -2,8 +2,8 @@ import { useMemo } from "react";
 import { createBrowserRouter, RouteObject } from "react-router-dom";
 import { getMenu } from "../api/users";
 import { generateRoutes } from "../utils/generatesRoutes";
-import { useAppDispatch, useAppSelector } from "../store/hooks";
-import { setMenu } from "../store/login/authSlice";
+import { useAppDispatch, useAppSelector } from "../app/hooks";
+import { setMenu } from "../features/user/authSlice";
 import { baseRoutes } from "../router";
 
 

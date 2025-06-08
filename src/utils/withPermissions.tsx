@@ -1,6 +1,6 @@
 import React from 'react';
 import { selectHasAllPermissions } from '../selectors/permissions';
-import { useAppSelector } from '../store/hooks';
+import { useAppSelector } from '../app/hooks';
 
 /**
  * @param requiredPermissions - 組件需要的權限列表

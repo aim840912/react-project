@@ -1,7 +1,7 @@
 import { Modal, Row, Col, Form, Input, Radio, message } from "antd"
 import { useEffect } from "react";
 import editUser from "../../api/editUser";
-import { useAppSelector } from "../../store/hooks";
+import { useAppSelector } from "../../app/hooks";
 import { User } from "../../types";
 
 interface FormProps {

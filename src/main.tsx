@@ -4,7 +4,7 @@ import './index.scss'
 import App from './App';
 import '@ant-design/v5-patch-for-react-19';
 import { Provider } from 'react-redux';
-import { store } from './store';
+import { store } from './app/store';
 import './i18n';
 
 if (import.meta.env.DEV) {

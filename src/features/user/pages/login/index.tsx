@@ -1,17 +1,17 @@
 import "./index.scss"
-import logo from "../../assets/logo.png"
-import bg from "../../assets/bg.jpg"
-import lgbg from "../../assets/lgbg.jpg"
+import logo from "../../../../assets/logo.png"
+import bg from "../../../../assets/bg.jpg"
+import lgbg from "../../../../assets/lgbg.jpg"
 
 import { Button, Form, Input } from 'antd';
 import { UserOutlined, LockOutlined } from '@ant-design/icons';
-import { login } from "../../api/users";
-import { setAuth } from "../../store/login/authSlice";
+import { login } from "../../../../api/users";
+import { setAuth } from "../../authSlice";
 import { useNavigate, useLocation } from "react-router-dom"
 import { useState } from "react";
 import { useTranslation } from 'react-i18next';
-import { setPermissions } from "../../store/permissionSlice";
-import { useAppDispatch } from "../../store/hooks";
+import { setPermissions } from "../../permissionSlice";
+import { useAppDispatch } from "../../../../app/hooks";
 
 function Login() {
     const [form] = Form.useForm();

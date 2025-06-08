@@ -4,7 +4,7 @@ import React, { useCallback, useEffect, useMemo, useState } from "react"
 import { getUserList, batchDeleteUser, deleteUser } from "../../api/users"
 import UserForm from "./userForm"
 import { useDispatch } from "react-redux"
-import { setUserData, emptyUserData } from "../../store/user/userSlice"
+import { setUserData, emptyUserData } from "../user/userSlice"
 import { User, UserSearchType } from "../../types"
 
 function Users() {

@@ -2,9 +2,16 @@ import React, { Suspense } from "react";
 import { RouteObject, Outlet } from "react-router";
 import { componentMap } from "../router/routerMap";
 import RequireAuth from "../utils/RequireAuth";
-import { MenuType } from "../types";
+// import { MenuType } from "../types";
 import LoadingPage from "../page/loading";
 import ErrorPage from "../page/error";
+
+export interface MenuType {
+    label: string;
+    icon: string;
+    key: string;
+    children?: MenuType[]
+}
 
 export function generateRoutes(menu: MenuType[]): RouteObject[] {
     return menu.reduce<RouteObject[]>((routes, { key, children }) => {

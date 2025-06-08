@@ -4,7 +4,7 @@ import ReactECharts from "echarts-for-react"
 import "./index.scss"
 import { useEffect, useState } from "react"
 import { loadEnergyData } from "../../api/dashboard"
-import { EnergyChartSeries, EnergyItem } from '../../types/energy';
+import { EnergyChartSeries, EnergyItem } from '../energy/types';
 import type { EChartsOption } from 'echarts';
 
 const option2: EChartsOption = {

@@ -4,7 +4,7 @@ import { Navigate, RouteObject } from "react-router";
 import ErrorPage from "../page/error";
 
 const Home = React.lazy(() => import("../page/home"));
-const Login = React.lazy(() => import("../page/login"));
+const Login = React.lazy(() => import("../features/user/pages/login/index"));
 const NotFound = React.lazy(() => import("../page/404"));
 
 

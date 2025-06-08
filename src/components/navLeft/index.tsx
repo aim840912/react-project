@@ -4,8 +4,21 @@ import icons from './iconList'
 import logo from "../../assets/logo.png"
 import { useNavigate, useLocation } from 'react-router-dom';
 import "./index.scss"
-import { useAppSelector } from '../../store/hooks';
-import { MenuItem, MenuItemFromData } from '../../types';
+import { useAppSelector } from '../../app/hooks';
+
+export interface MenuItem {
+    key: string,
+    label: string,
+    icon?: React.ReactNode,
+    children?: MenuItem[]
+}
+
+export interface MenuItemFromData {
+    key: string,
+    label: string,
+    icon: string,
+    children?: MenuItemFromData[]
+}
 
 const NavLeft: React.FC = () => {
     const { menuList } = useAppSelector((state) => state.authSlice)

@@ -1,4 +1,4 @@
-import { FormFieldValue } from "./settings";
+type FormFieldValue = string | number | boolean | null | undefined;
 
 export interface SearchType {
     name: string;

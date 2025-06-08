@@ -1,5 +1,5 @@
 // src/selectors/permissions.ts
-import { RootState } from '../store';
+import { RootState } from "../app/store";
 
 // 單純讀取
 export const selectUserPermissions = (state: RootState) =>

@@ -1,23 +1,23 @@
 import { lazy } from "react";
 
-const Dashboard = lazy(() => import("../page/dashboard"));
-const UserList = lazy(() => import("../page/users"));
-const AddUser = lazy(() => import("../page/users/addUser"));
-const Tenement = lazy(() => import("../page/estate/tenement"));
-const Room = lazy(() => import("../page/estate/room"));
-const Car = lazy(() => import("../page/estate/car"));
-const Repair = lazy(() => import("../page/repair"));
-const Contract = lazy(() => import("../page/finance/contract"));
-const Surrender = lazy(() => import("../page/finance/surrender"));
-const Bill = lazy(() => import("../page/finance/bill"));
-const Merchants = lazy(() => import("../page/merchants"));
-const All = lazy(() => import("../page/operation/all"));
-const Article = lazy(() => import("../page/operation/article"));
-const Comments = lazy(() => import("../page/operation/comments"));
-const Equipment = lazy(() => import("../page/equipment"));
-const Enengy = lazy(() => import("../page/energy"));
-const Settings = lazy(() => import("../page/settings"));
-const Personal = lazy(() => import("../page/personal"));
+const Dashboard = lazy(() => import("../features/dashboard"));
+const UserList = lazy(() => import("../features/users"));
+const AddUser = lazy(() => import("../features/users/addUser"));
+const Tenement = lazy(() => import("../features/estate/tenement"));
+const Room = lazy(() => import("../features/estate/room"));
+const Car = lazy(() => import("../features/estate/car"));
+const Repair = lazy(() => import("../features/repair"));
+const Contract = lazy(() => import("../features/finance/pages/contract"));
+const Surrender = lazy(() => import("../features/finance/pages/surrender"));
+const Bill = lazy(() => import("../features/finance/pages/bill"));
+const Merchants = lazy(() => import("../features/merchants"));
+const All = lazy(() => import("../features/operation/all"));
+const Article = lazy(() => import("../features/operation/article"));
+const Comments = lazy(() => import("../features/operation/comments"));
+const Equipment = lazy(() => import("../features/equipment/pages"));
+const Enengy = lazy(() => import("../features/energy"));
+const Settings = lazy(() => import("../features/settings"));
+const Personal = lazy(() => import("../features/personal"));
 
 export const componentMap: Record<string, React.LazyExoticComponent<React.FC>> = {
     "/dashboard": Dashboard,
