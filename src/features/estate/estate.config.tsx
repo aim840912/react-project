@@ -1,10 +1,9 @@
-import { Card, Row, Col, Table, Input, Button, Tabs, Image } from "antd"
-import type { TabsProps, TableProps } from 'antd';
-import come from "../../assets/come.jpg"
-import { EstateRecordDataType, InParkCatDataType } from "../../types";
+import type { TableProps } from 'antd';
+import { Button, Image } from "antd";
+import come from "../../assets/come.jpg"; // 圖片路徑可能需要根據新檔案位置調整
+import { EstateRecordDataType, InParkCatDataType } from "./types";
 
-
-const columns: TableProps<EstateRecordDataType>['columns'] = [
+export const chargeRecordColumns: TableProps<EstateRecordDataType>['columns'] = [
     {
         title: "No.",
         key: "index",
@@ -65,99 +64,7 @@ const columns: TableProps<EstateRecordDataType>['columns'] = [
 
 ];
 
-const data: EstateRecordDataType[] = [
-    {
-        key: '1',
-        orderNo: 'CD9872380',
-        date: "2024-02-13",
-        carNo: '京A88888',
-        type: "自有車輛",
-        startDate: "2024-02-13 15:33:12",
-        time: "2小時25分鐘",
-        count: "30kw",
-        cost: "¥40.50"
-    },
-    {
-        key: '2',
-        orderNo: 'CD9872380',
-        date: "2024-02-13",
-        carNo: '京A88888',
-        type: "自有車輛",
-        startDate: "2024-02-13 15:33:12",
-        time: "2小時25分鐘",
-        count: "30kw",
-        cost: "¥40.50"
-    },
-    {
-        key: '3',
-        orderNo: 'CD9872380',
-        date: "2024-02-13",
-        carNo: '京A88888',
-        type: "自有車輛",
-        startDate: "2024-02-13 15:33:12",
-        time: "2小時25分鐘",
-        count: "30kw",
-        cost: "¥40.50"
-    },
-    {
-        key: '4',
-        orderNo: 'CD9872380',
-        date: "2024-02-13",
-        carNo: '京A88888',
-        type: "自有車輛",
-        startDate: "2024-02-13 15:33:12",
-        time: "2小時25分鐘",
-        count: "30kw",
-        cost: "¥40.50"
-    },
-    {
-        key: '5',
-        orderNo: 'CD9872380',
-        date: "2024-02-13",
-        carNo: '京A88888',
-        type: "自有車輛",
-        startDate: "2024-02-13 15:33:12",
-        time: "2小時25分鐘",
-        count: "30kw",
-        cost: "¥40.50"
-    },
-    {
-        key: '6',
-        orderNo: 'CD9872380',
-        date: "2024-02-13",
-        carNo: '京A88888',
-        type: "自有車輛",
-        startDate: "2024-02-13 15:33:12",
-        time: "2小時25分鐘",
-        count: "30kw",
-        cost: "¥40.50"
-    },
-    {
-        key: '7',
-        orderNo: 'CD9872380',
-        date: "2024-02-13",
-        carNo: '京A88888',
-        type: "自有車輛",
-        startDate: "2024-02-13 15:33:12",
-        time: "2小時25分鐘",
-        count: "30kw",
-        cost: "¥40.50"
-    },
-    {
-        key: '8',
-        orderNo: 'CD9872380',
-        date: "2024-02-13",
-        carNo: '京A88888',
-        type: "自有車輛",
-        startDate: "2024-02-13 15:33:12",
-        time: "2小時25分鐘",
-        count: "30kw",
-        cost: "¥40.50"
-    },
-
-];
-
-const columns2: TableProps<InParkCatDataType>['columns'] = [
+export const inParkCarColumns: TableProps<InParkCatDataType>['columns'] = [
     {
         title: "No.",
         key: "index",
@@ -223,9 +130,101 @@ const columns2: TableProps<InParkCatDataType>['columns'] = [
             </>
         }
     },
+];
+
+export const chargeRecordData: EstateRecordDataType[] = [
+    {
+        key: '1',
+        orderNo: 'CD9872380',
+        date: "2024-02-13",
+        carNo: '京A88888',
+        type: "自有車輛",
+        startDate: "2024-02-13 15:33:12",
+        time: "2小時25分鐘",
+        count: "30kw",
+        cost: "¥40.50"
+    },
+    {
+        key: '2',
+        orderNo: 'CD9872380',
+        date: "2024-02-13",
+        carNo: '京A88888',
+        type: "自有車輛",
+        startDate: "2024-02-13 15:33:12",
+        time: "2小時25分鐘",
+        count: "30kw",
+        cost: "¥40.50"
+    },
+    {
+        key: '3',
+        orderNo: 'CD9872380',
+        date: "2024-02-13",
+        carNo: '京A88888',
+        type: "自有車輛",
+        startDate: "2024-02-13 15:33:12",
+        time: "2小時25分鐘",
+        count: "30kw",
+        cost: "¥40.50"
+    },
+    {
+        key: '4',
+        orderNo: 'CD9872380',
+        date: "2024-02-13",
+        carNo: '京A88888',
+        type: "自有車輛",
+        startDate: "2024-02-13 15:33:12",
+        time: "2小時25分鐘",
+        count: "30kw",
+        cost: "¥40.50"
+    },
+    {
+        key: '5',
+        orderNo: 'CD9872380',
+        date: "2024-02-13",
+        carNo: '京A88888',
+        type: "自有車輛",
+        startDate: "2024-02-13 15:33:12",
+        time: "2小時25分鐘",
+        count: "30kw",
+        cost: "¥40.50"
+    },
+    {
+        key: '6',
+        orderNo: 'CD9872380',
+        date: "2024-02-13",
+        carNo: '京A88888',
+        type: "自有車輛",
+        startDate: "2024-02-13 15:33:12",
+        time: "2小時25分鐘",
+        count: "30kw",
+        cost: "¥40.50"
+    },
+    {
+        key: '7',
+        orderNo: 'CD9872380',
+        date: "2024-02-13",
+        carNo: '京A88888',
+        type: "自有車輛",
+        startDate: "2024-02-13 15:33:12",
+        time: "2小時25分鐘",
+        count: "30kw",
+        cost: "¥40.50"
+    },
+    {
+        key: '8',
+        orderNo: 'CD9872380',
+        date: "2024-02-13",
+        carNo: '京A88888',
+        type: "自有車輛",
+        startDate: "2024-02-13 15:33:12",
+        time: "2小時25分鐘",
+        count: "30kw",
+        cost: "¥40.50"
+    },
 
 ];
-const data2: InParkCatDataType[] = [
+
+export const inParkCarData: InParkCatDataType[] = [
     {
         key: '1',
         carNo: '京A88888',
@@ -307,35 +306,3 @@ const data2: InParkCatDataType[] = [
         pic: "",
     },
 ];
-const items: TabsProps['items'] = [
-    {
-        key: "1",
-        label: "充電記錄",
-        children: <Table columns={columns} dataSource={data} />
-    },
-    {
-        key: "2",
-        label: "園內車輛列表",
-        children: <Table columns={columns2} dataSource={data2} />
-    }
-]
-
-function Car() {
-    return <div>
-        <Card>
-            <Row gutter={16}>
-                <Col span={8}>
-                    <Input placeholder="請輸入車牌號、手機號或者聯繫人" />
-                </Col>
-                <Col span={8}>
-                    <Button type="primary" className="ml">查詢</Button>
-                </Col>
-            </Row>
-        </Card>
-        <Card className="mt">
-            <Tabs items={items}></Tabs>
-        </Card>
-    </div>
-}
-
-export default Car

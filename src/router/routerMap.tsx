@@ -1,11 +1,11 @@
 import { lazy } from "react";
 
 const Dashboard = lazy(() => import("../features/dashboard"));
-const UserList = lazy(() => import("../features/users"));
-const AddUser = lazy(() => import("../features/users/addUser"));
+const UserList = lazy(() => import("../features/user/pages/Users"));
+const AddUser = lazy(() => import("../features/user/pages/addUser/addUser"));
 const Tenement = lazy(() => import("../features/estate/tenement"));
 const Room = lazy(() => import("../features/estate/room"));
-const Car = lazy(() => import("../features/estate/car"));
+const Estate = lazy(() => import("../features/estate/estate"));
 const Repair = lazy(() => import("../features/repair"));
 const Contract = lazy(() => import("../features/finance/pages/contract"));
 const Surrender = lazy(() => import("../features/finance/pages/surrender"));
@@ -25,7 +25,7 @@ export const componentMap: Record<string, React.LazyExoticComponent<React.FC>> =
     "/users/add": AddUser,
     "/estate/tenement": Tenement,
     "/estate/room": Room,
-    "/estate/car": Car,
+    "/estate/car": Estate,
     "/repair": Repair,
     "/finance/contract": Contract,
     "/finance/surrender": Surrender,

@@ -2,7 +2,7 @@ import "./index.scss"
 import { useEffect, useState } from "react"
 import { Card, Row, Col, Image, Radio, Spin } from "antd"
 import { RadioChangeEvent } from "antd/lib";
-import { RoomType } from "../../types"
+import { RoomType } from "./types"
 import { getRoomList } from "../../api/room"
 import roomPic from "../../assets/roomPic.jpg"
 

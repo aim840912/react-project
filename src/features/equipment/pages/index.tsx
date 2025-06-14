@@ -2,7 +2,7 @@ import { Card, Table, Row, Col, Input, Button, Pagination, Tag } from "antd"
 import { TableProps } from "antd";
 import useDataList from "../../../hooks/useDataList";
 import { getEquipmentList } from "../../../api/equipment";
-import { SearchType, EquipmentDataType } from "../../../types";
+import { SearchType, EquipmentDataType } from "./../types";
 
 
 const columns: TableProps<EquipmentDataType>["columns"] = [
