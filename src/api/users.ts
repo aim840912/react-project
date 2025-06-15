@@ -1,5 +1,7 @@
 import { post, get } from "../utils/http/http";
-import { LoginData, User, UserSearchType, AccountData, ContractSearchType, BillSearchType } from "../types";
+
+
+import { LoginData } from "../features/user/types";
 
 export function login(data: LoginData) {
     return post("/api/login", data);
@@ -37,5 +39,47 @@ export function getContractList(data: ContractSearchType) {
 
 export function getBillList(data: BillSearchType) {
     return post("/api/billList", data)
+}
+
+
+interface AccountData {
+    accountName: string
+}
+
+interface UserSearchType {
+    page: number;
+    pageSize: number;
+    companyName?: string;
+    contact?: string;
+    tel?: string;
+}
+
+export interface User {
+    id: string;
+    name: string;
+    status: string;
+    tel: string;
+    business: string;
+    email: string;
+    creditCode: string;
+    industryNum: string;
+    organizationCode: string;
+    legalPerson: string;
+}
+
+interface ContractSearchType {
+    contractNo: string;
+    person: string;
+    tel: string;
+    page?: number;
+    pageSize?: number
+}
+interface BillSearchType {
+    startDate: string;
+    endDate: string;
+    no: string;
+    status: string;
+    page: number;
+    pageSize: number
 }
 

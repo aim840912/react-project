@@ -8,8 +8,7 @@ import { useAppSelector } from "../../app/hooks";
 import { MenuType, SettingsDataType, SettingsSearchType } from "./types";
 import { treeData, getSettingsColumns } from "./settings.config";
 import { extractTreeKeys } from "./settings.utils";
-
-const AuthButton = withPermissions<ButtonProps>(["delete"],)(Button)
+import { CheckPermission } from '../../components/CheckPermission';
 
 function Settings() {
     const [accountName, setAccountName] = useState<string>("當前用戶")
@@ -31,7 +30,7 @@ function Settings() {
     }
 
     // 在這裡呼叫函式來動態產生 columns
-    const columns = getSettingsColumns({ onEdit: edit, AuthButton });
+    const columns = getSettingsColumns({ onEdit: edit });
 
     useEffect(() => {
         setCheckedKeys(extractTreeKeys(menuList))
@@ -54,7 +53,9 @@ function Settings() {
                     <Button type="primary"> 搜尋</Button>
                 </Col>
                 <Col span={8} className="tr">
-                    <Button type="primary">新建帳號</Button>
+                    <CheckPermission required={['account:create']}>
+                        <Button type="primary">新建帳號</Button>
+                    </CheckPermission>
                 </Col>
             </Row>
 

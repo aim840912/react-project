@@ -5,6 +5,7 @@ import authSlice from "../features/user/authSlice";
 import userSlice from "../features/user/userSlice";
 import permissionsSlice from "../features/user/permissionSlice";
 import { contractApi } from "../features/finance/api/contractApi";
+import { authListenerMiddleware } from '../features/user/authMiddleware';
 
 // 如果你還有其他 slice (例如 authSlice、userSlice 等)，也一起 import
 // import authReducer from "@/features/auth/authSlice";
@@ -22,7 +23,9 @@ export const store = configureStore({
     },
     // 4. 把 contractApi.middleware 插入到 middleware 隊列中
     middleware: (getDefaultMiddleware) =>
-        getDefaultMiddleware().concat(contractApi.middleware),
+        getDefaultMiddleware()
+            .prepend(authListenerMiddleware.middleware)
+            .concat(contractApi.middleware),
 });
 
 // 以便在 useSelector / useDispatch 時取得正確型別

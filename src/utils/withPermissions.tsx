@@ -1,5 +1,5 @@
 import React from 'react';
-import { selectHasAllPermissions } from '../selectors/permissions';
+import { selectHasAllPermissions } from '../../src/features/user/permissionSlice';
 import { useAppSelector } from '../app/hooks';
 
 /**

@@ -1,73 +1,70 @@
 import type { TreeDataNode } from 'antd';
 import { Button, Popconfirm, type ButtonProps } from "antd";
-import type { ColumnsType } from "antd/es/table";
 import { SettingsDataType, MenuType } from "./types";
 import React from "react";
+import { CheckPermission } from '../../components/CheckPermission';
 
-interface ColumnsParams {
+interface GetColumnsParams {
     onEdit: (menu: MenuType[], accountName: string) => void;
-    AuthButton: React.ComponentType<ButtonProps>;
 }
 
-export const getSettingsColumns = (params: ColumnsParams): ColumnsType<SettingsDataType> => {
-    const { onEdit, AuthButton } = params;
-
-    return [
-        {
-            title: "No.",
-            key: "index",
-            render: (_text: unknown, _record: SettingsDataType, index: number) => index + 1,
-        },
-        {
-            title: "帳號名稱",
-            dataIndex: "accountName",
-            key: "accountName",
-        },
-        {
-            title: "所屬權限",
-            dataIndex: "auth",
-            key: "auth",
-        },
-        {
-            title: "使用人",
-            dataIndex: "person",
-            key: "person",
-        },
-        {
-            title: "使用人電話",
-            dataIndex: "tel",
-            key: "tel",
-        },
-        {
-            title: "所屬部門",
-            dataIndex: "department",
-            key: "department",
-        },
-        {
-            title: "操作",
-            key: "operate",
-            render(_value, record) {
-                return (
-                    <>
-                        <Button size="small" type="primary" className="mr" onClick={() => onEdit(record.menu, record.accountName)}>
-                            修改權限
-                        </Button>
+export const getSettingsColumns = ({ onEdit }: GetColumnsParams) => [
+    {
+        title: "No.",
+        key: "index",
+        render: (_text: unknown, _record: SettingsDataType, index: number) => index + 1,
+    },
+    {
+        title: "帳號名稱",
+        dataIndex: "accountName",
+        key: "accountName",
+    },
+    {
+        title: "所屬權限",
+        dataIndex: "auth",
+        key: "auth",
+    },
+    {
+        title: "使用人",
+        dataIndex: "person",
+        key: "person",
+    },
+    {
+        title: "使用人電話",
+        dataIndex: "tel",
+        key: "tel",
+    },
+    {
+        title: "所屬部門",
+        dataIndex: "department",
+        key: "department",
+    },
+    {
+        title: "操作",
+        key: "operate",
+        render(_: any, record: SettingsDataType) {
+            return (
+                <>
+                    <Button size="small" type="primary" className="mr" onClick={() => onEdit(record.menu, record.accountName)}>
+                        修改權限
+                    </Button>
+                    {/* 在這裡直接使用 CheckPermission 元件 */}
+                    <CheckPermission required={['delete']}>
                         <Popconfirm
-                            title="操作提示"
-                            description="確認要刪除當前帳號嗎？"
-                            okText="是"
-                            cancelText="否"
+                            title={`您確認要刪除 ${record.accountName} 嗎？`}
+                            onConfirm={() => console.log("執行刪除", record.id)}
                         >
-                            <AuthButton size="small" type="primary" danger>
-                                刪除帳號
-                            </AuthButton>
+                            <Button type="link" danger>
+                                刪除
+                            </Button>
                         </Popconfirm>
-                    </>
-                );
-            },
-        }
-    ];
-};
+                    </CheckPermission>
+                </>
+            );
+        },
+    }
+];
+
 
 
 export const treeData: TreeDataNode[] = [

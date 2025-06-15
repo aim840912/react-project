@@ -1,19 +1,17 @@
-import { createSlice, PayloadAction } from '@reduxjs/toolkit';
+import { createSlice, PayloadAction, createAsyncThunk, createSelector } from '@reduxjs/toolkit';
 import { RootState } from '../../app/store';
 
 // 權限狀態的類型定義
 export interface PermissionsState {
     userPermissions: string[];
-    isLoading: boolean;
-    error: string | null;
 }
 
 // 初始狀態
 const initialState: PermissionsState = {
-    userPermissions: [],
-    isLoading: false,
-    error: null,
+    userPermissions: JSON.parse(sessionStorage.getItem("userPermissions") || "[]"),
 };
+
+
 
 // 創建 slice
 export const permissionsSlice = createSlice({
@@ -39,34 +37,50 @@ export const permissionsSlice = createSlice({
             );
         },
 
-        // 設置加載狀態
-        setLoading: (state, action: PayloadAction<boolean>) => {
-            state.isLoading = action.payload;
-        },
-
-        // 設置錯誤
-        setError: (state, action: PayloadAction<string | null>) => {
-            state.error = action.payload;
-        },
-
         // 重置權限
         resetPermissions: (state) => {
             state.userPermissions = [];
         },
     },
+
 });
 
-
-
-// 導出 actions
 export const {
     setPermissions,
     addPermission,
     removePermission,
-    setLoading,
-    setError,
     resetPermissions,
 } = permissionsSlice.actions;
+
+// Selectors
+const selectPermissionsState = (state: RootState) => state.permissionsSlice;
+
+export const selectUserPermissions = createSelector(
+    [selectPermissionsState],
+    (permissionsState) => permissionsState.userPermissions
+);
+
+// 檢查是否擁有特定權限的 selector，效能更好且可複用
+export const selectHasPermission = createSelector(
+    [selectUserPermissions, (state: RootState, permission: string) => permission],
+    (userPermissions, permission) => userPermissions.includes(permission)
+);
+
+export const selectHasAllPermissions = createSelector(
+    [
+        selectUserPermissions, // <-- 這是我們已經建立的，用於獲取用戶權限列表的 selector
+        (state: RootState, requiredPermissions: string[]) => requiredPermissions
+    ],
+    //下方是執行比較的函式
+    (userPermissions, requiredPermissions) => {
+        // 如果需要的權限列表是空的，直接回傳 true
+        if (!requiredPermissions || requiredPermissions.length === 0) {
+            return true;
+        }
+        // 使用 .every() 來檢查 userPermissions 是否「每一個」都包含在 requiredPermissions 中
+        return requiredPermissions.every(permission => userPermissions.includes(permission));
+    }
+);
 
 // 導出 reducer
 export default permissionsSlice.reducer;
