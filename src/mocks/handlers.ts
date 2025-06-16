@@ -1,6 +1,6 @@
 // src/mocks/handlers.ts
 import { http, HttpResponse } from 'msw';
-import { menu, generateUserList, generateContracts, generateRoomList, generateBillList, generateAccountList, generateEquipmentList } from '../utils/fakeGenerators';
+import { menu, generateUserList, generateContracts, generateRoomList, generateBillList, generateAccountList, generateEquipmentList } from './fakeGenerators';
 
 export const handlers = [
     http.post('/api/login', async ({ request }) => {

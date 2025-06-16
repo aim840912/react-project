@@ -7,7 +7,7 @@ import { Outlet, useLocation, useNavigate } from 'react-router-dom';
 
 const { Header, Content, Footer, Sider } = Layout;
 
-function Home() {
+function MainLayout() {
     const [collapsed, setCollapsed] = useState<boolean>(false);
     const {
         token: { colorBgContainer },
@@ -43,4 +43,4 @@ function Home() {
     </div>
 }
 
-export default Home;
+export default MainLayout;

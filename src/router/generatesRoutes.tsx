@@ -1,6 +1,6 @@
 import React, { Suspense } from "react";
 import { RouteObject, Outlet } from "react-router";
-import { componentMap } from "../router/routerMap";
+import { componentMap } from "./routerMap";
 import RequireAuth from "../utils/RequireAuth";
 // import { MenuType } from "../types";
 import LoadingPage from "../page/loading";
