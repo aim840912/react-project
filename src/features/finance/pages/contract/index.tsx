@@ -1,7 +1,7 @@
 import { Card, Table, Row, Col, Input, Button, Tag, Pagination, TableProps, PaginationProps } from "antd"
 import { useState } from "react"
 import { useNavigate, useSearchParams } from "react-router";
-import { ContractDataType, ContractSearchType } from "../../../../types";
+import { ContractDataType, ContractSearchType } from "../../types";
 import { useGetContractsQuery, useUpdateContractMutation } from '../../api/contractApi';
 
 function Dashboard() {

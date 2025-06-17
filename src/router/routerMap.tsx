@@ -11,7 +11,7 @@ const Contract = lazy(() => import("../features/finance/pages/contract"));
 const Surrender = lazy(() => import("../features/finance/pages/surrender"));
 const Bill = lazy(() => import("../features/finance/pages/bill"));
 const Merchants = lazy(() => import("../features/merchants"));
-const All = lazy(() => import("../features/operation/all"));
+const All = lazy(() => import("../features/operation/overview"));
 const Article = lazy(() => import("../features/operation/article"));
 const Comments = lazy(() => import("../features/operation/comments"));
 const Equipment = lazy(() => import("../features/equipment/pages"));

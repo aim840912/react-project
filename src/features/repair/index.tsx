@@ -1,4 +1,4 @@
-import { Card, Table, Button, Row, Col, Input, Tag } from "antd"
+import { Card, Table, Button, Row, Col, Input } from "antd"
 import { repairColumns, repairData } from './repair.config'
 
 function Repair() {

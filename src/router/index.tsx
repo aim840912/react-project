@@ -7,7 +7,13 @@ const MainLayout = React.lazy(() => import("../layout/mainLayout"));
 const Login = React.lazy(() => import("../features/user/pages/login/index"));
 const NotFound = React.lazy(() => import("../page/404"));
 
-
+const ProtectedLayout = () => (
+    <RequireAuth>
+        <React.Suspense fallback={<div>Loading page...</div>}>
+            <MainLayout />
+        </React.Suspense>
+    </RequireAuth>
+);
 
 
 export const baseRoutes: RouteObject[] = [
@@ -21,17 +27,12 @@ export const baseRoutes: RouteObject[] = [
     },
     {
         path: "/",
-        element: (
-            <RequireAuth >
-                <React.Suspense fallback={<div>Loading...</div>}>
-                    <Navigate to="dashboard" replace />
-                    <MainLayout />
-                </React.Suspense>
-            </RequireAuth>),
+        element: <ProtectedLayout />,
         errorElement: <ErrorPage />,
         children: [{
+            index: true,
             element: <Navigate to="dashboard" replace />,
-        },],
+        }],
     },
 
     {

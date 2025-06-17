@@ -1,25 +1,14 @@
-// useDataList.ts (已修正)
-
 import { useState, useCallback, useEffect, useMemo } from "react";
 
-// 響應數據結構
 interface ResponseData<T> {
     list: T[];
     total: number;
 }
 
-// 可接受的表單字段值類型
 type FormFieldValue = string | number | boolean | null | undefined;
 
-// 【核心修正】使用 'type' 來定義函式類型
 type DataFetcher<TParams, TData> = (params: TParams) => Promise<{ data: ResponseData<TData> }>;
 
-/**
- * 用於處理分頁數據列表的Hook
- * @param initialFormData 初始表單數據
- * @param fetchData 數據獲取函數
- * @returns 包含數據狀態和操作方法的對象
- */
 function useDataList<TFormData extends Record<string, FormFieldValue>, TItem>(
     initialFormData: TFormData,
     fetchData: DataFetcher<TFormData & { page: number; pageSize: number }, TItem>
@@ -34,7 +23,6 @@ function useDataList<TFormData extends Record<string, FormFieldValue>, TItem>(
     const loadData = useCallback(async (params: { page: number, pageSize: number, formData: TFormData }) => {
         setLoading(true);
         try {
-            // 現在 fetchData 是可呼叫的，錯誤消失
             const response = await fetchData({ ...params.formData, page: params.page, pageSize: params.pageSize });
             if (response && response.data) {
                 const { list, total } = response.data;

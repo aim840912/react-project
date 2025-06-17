@@ -3,7 +3,6 @@ import type { TreeProps, ButtonProps } from 'antd';
 import { getAccountList } from "../../api/users";
 import useDataList from "../../hooks/useDataList";
 import { useEffect, useState } from "react";
-import withPermissions from "../../hoc/withPermissions";
 import { useAppSelector } from "../../app/hooks";
 import { MenuType, SettingsDataType, SettingsSearchType } from "./types";
 import { treeData, getSettingsColumns } from "./settings.config";

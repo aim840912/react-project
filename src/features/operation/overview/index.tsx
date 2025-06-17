@@ -1,7 +1,7 @@
 import { Row, Col, Card, Badge, Statistic } from "antd"
 import "./index.scss"
 
-function All() {
+function Overview() {
     return <div>
         <Row gutter={16}>
             <Col span={18}>
@@ -152,4 +152,4 @@ function All() {
     </div>
 }
 
-export default All
+export default Overview
