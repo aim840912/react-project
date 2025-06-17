@@ -17,11 +17,11 @@ function Dashboard() {
     const isReturn = searchParams.get("return");
     const [pageSize, setPageSize] = useState<number>(10);
     const {
-        data,    // 後端回傳的合約陣列（或 undefined）
-        error,              // 如果有錯誤，就會放在這裡
-        isLoading,          // 載入狀態
-        isFetching,         // 重新抓取時也會是 true
-        refetch,            // 可以手動觸發重新抓取
+        data,
+        error,
+        isLoading,
+        isFetching,
+        refetch,
     } = useGetContractsQuery({ ...formData, page, pageSize })
 
     const [updateFormList, { isLoading: isUpdating, error: updateError }] = useUpdateContractMutation()
@@ -29,13 +29,9 @@ function Dashboard() {
     const handleChange = async (e: React.ChangeEvent<HTMLInputElement>) => {
         const { name, value } = e.target
 
-        // 2. 把 setFormData、updateForm 一併放到同一個 functional update 裡
+
         setFormData(prev => {
             const newState = { ...prev, [name]: value }
-
-            // 3. 直接呼叫 RTK Query mutation
-            //    你可以使用 unwrap() 來方便在 try/catch 處理錯誤，
-            //    也可以不 unwrap()，改用 .then/.catch
             updateFormList({
                 id: newState.contractNo,
                 data: {
@@ -90,7 +86,6 @@ function Dashboard() {
     ];
 
     const reset = () => {
-        console.log(data);
         setFormData({ contractNo: "", person: "", tel: "" });
         setPage(1);
         setPageSize(10);

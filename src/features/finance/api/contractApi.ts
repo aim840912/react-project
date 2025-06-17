@@ -10,9 +10,8 @@ export interface Contract {
     contractNo: string;
     person: string;
     tel: string;
-    page: number; // 假設後端有分頁資訊
-    pageSize: number; // 假設後端有分頁資訊
-    // ...如果後端還有其他欄位，可以在這裡繼續補充
+    page: number;
+    pageSize: number;
 }
 
 export interface InnerPayload {
@@ -24,25 +23,15 @@ export interface WrappedContractData {
     data: InnerPayload;
 }
 
-/**
- * ContractApi 以 createApi() 產生：
- *   - reducerPath: 這個 API 在 store 中的 key（不可重複）
- *   - baseQuery: 使用 fetchBaseQuery 封裝 fetch，只要提供 baseUrl
- *   - tagTypes: 用來做快取失效（cache invalidation）的標籤
- *   - endpoints: 定義各種與後端 /contracts 相關的「查詢 (query)」與「突變 (mutation)」
- */
 export const contractApi = createApi({
     reducerPath: "contractApi",
     baseQuery: fetchBaseQuery({
-        baseUrl: "/api", // 請依實際情況調整，可能是 "http://localhost:3000" 或正式後端網址
+        baseUrl: "/api",
     }),
     tagTypes: ["Contract"],
 
     endpoints: (builder) => ({
-        /**
-         * 1. 取得合約列表（GET /contracts?contractNo=&person=&tel=&current=&size=）
-         *    回傳格式假設：{ data: Contract[]; total: number }
-         */
+
         getContracts: builder.query<WrappedContractData, {
             contractNo?: string;
             person?: string;
@@ -63,7 +52,7 @@ export const contractApi = createApi({
                     const { data: result } = await queryFulfilled;
                     console.log('★ getContracts result:', result);
                 } catch {
-                    // ignore
+
                 }
             },
             providesTags: (result) =>

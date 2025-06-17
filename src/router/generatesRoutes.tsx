@@ -1,7 +1,7 @@
 import React, { Suspense } from "react";
 import { RouteObject, Outlet } from "react-router";
 import { componentMap } from "./routerMap";
-import RequireAuth from "../utils/RequireAuth";
+import RequireAuth from "../guard/RequireAuth";
 // import { MenuType } from "../types";
 import LoadingPage from "../page/loading";
 import ErrorPage from "../page/error";

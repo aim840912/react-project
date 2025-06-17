@@ -1,7 +1,7 @@
 import type { TableProps } from 'antd';
 import { Button, Image } from "antd";
-import come from "../../assets/come.jpg"; // 圖片路徑可能需要根據新檔案位置調整
-import { EstateRecordDataType, InParkCatDataType } from "./types";
+import come from "../../../assets/come.jpg"; // 圖片路徑可能需要根據新檔案位置調整
+import { EstateRecordDataType, InParkCatDataType } from "../types";
 
 export const chargeRecordColumns: TableProps<EstateRecordDataType>['columns'] = [
     {

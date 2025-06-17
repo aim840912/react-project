@@ -27,7 +27,6 @@ function Bill() {
     const [selectedRows, setSelectedRows] = useState<BillDataType[]>([])
 
     const handleDateChange: RangePickerProps['onChange'] = (value, dateString) => {
-        console.log(value, dateString)
         setFormData(prevState => ({
             ...prevState,
             date: dateString
@@ -50,7 +49,6 @@ function Bill() {
     }
 
     const onSelectChange = (selectedRowKeys: React.Key[], selectedRows: BillDataType[]) => {
-        console.log(selectedRows)
         setSelectedRowKeys(selectedRowKeys)
         setSelectedRows(selectedRows)
     }

@@ -8,7 +8,6 @@ authListenerMiddleware.startListening({
 
     effect: (action, listenerApi) => {
         if (setAuth.match(action)) {
-            console.log("Middleware: Storing auth to sessionStorage");
             const { token, username, btnAuth } = action.payload;
             sessionStorage.setItem("token", token);
             sessionStorage.setItem("username", username);
@@ -16,7 +15,6 @@ authListenerMiddleware.startListening({
         }
 
         if (logout.match(action)) {
-            console.log("Middleware: Removing auth from sessionStorage");
             sessionStorage.removeItem("token");
             sessionStorage.removeItem("username");
             sessionStorage.removeItem("btnAuth");

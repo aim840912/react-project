@@ -1,5 +1,5 @@
 import React from "react";
-import RequireAuth from "../utils/RequireAuth";
+import RequireAuth from "../guard/RequireAuth";
 import { Navigate, RouteObject } from "react-router";
 import ErrorPage from "../page/error";
 

@@ -5,7 +5,7 @@ const UserList = lazy(() => import("../features/user/pages/Users"));
 const AddUser = lazy(() => import("../features/user/pages/addUser/addUser"));
 const Tenement = lazy(() => import("../features/estate/tenement"));
 const Room = lazy(() => import("../features/estate/room"));
-const Estate = lazy(() => import("../features/estate/estate"));
+const Estate = lazy(() => import("../features/estate/car"));
 const Repair = lazy(() => import("../features/repair"));
 const Contract = lazy(() => import("../features/finance/pages/contract"));
 const Surrender = lazy(() => import("../features/finance/pages/surrender"));

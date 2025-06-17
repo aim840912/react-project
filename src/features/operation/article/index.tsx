@@ -3,11 +3,11 @@ import { Button, Form, Input, Card, DatePicker, Radio } from 'antd';
 import { ArticleFieldType } from '../types';
 
 const onFinish: FormProps<ArticleFieldType>['onFinish'] = (values) => {
-    console.log('Success:', values);
+
 };
 
 const onFinishFailed: FormProps<ArticleFieldType>['onFinishFailed'] = (errorInfo) => {
-    console.log('Failed:', errorInfo);
+
 };
 
 function Article() {

@@ -7,7 +7,6 @@ import { getUsersColumns } from "./users.config";
 import useDataList from "../../../../hooks/useDataList";
 
 function Users() {
-    // 1. 使用 useDataList Hook，大幅簡化狀態管理
     const {
         dataList,
         loading,
@@ -23,12 +22,10 @@ function Users() {
         tel: "",
     }, getUserList);
 
-    // 2. 本地狀態只管理 UI 互動（彈窗開關、當前編輯的項目）
     const [selectedRowKeys, setSelectedRowKeys] = useState<React.Key[]>([]);
     const [isModalOpen, setIsModalOpen] = useState<boolean>(false);
     const [editingRecord, setEditingRecord] = useState<User | undefined>(undefined);
 
-    // --- 事件處理函式 ---
 
     const handleAdd = () => {
         setEditingRecord(undefined);
@@ -42,14 +39,13 @@ function Users() {
 
     const handleCancelModal = () => {
         setIsModalOpen(false);
-        // 為了動畫效果，可以延遲清空，或者在 Modal 的 afterClose 中處理
         setEditingRecord(undefined);
     };
 
     const handleFormSuccess = () => {
         message.success("操作成功");
         handleCancelModal();
-        refresh(); // Hook 返回的刷新方法，重新載入當前頁數據
+        refresh();
     };
 
     const handleDelete = async (id: string) => {
@@ -74,9 +70,6 @@ function Users() {
         }
     };
 
-    // --- 渲染所需變數 ---
-
-    // 3. 呼叫設定檔中的函式，傳入處理器以動態生成 columns
     const columns = getUsersColumns({ onEdit: handleEdit, onDelete: handleDelete });
 
     const rowSelection = {

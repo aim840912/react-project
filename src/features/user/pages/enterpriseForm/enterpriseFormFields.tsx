@@ -1,6 +1,6 @@
 import { Row, Col, Form, Input, Radio } from "antd";
 
-// 這是一個純粹的 UI 元件，只負責渲染表單欄位
+
 function EnterpriseFormFields() {
     return (
         <>

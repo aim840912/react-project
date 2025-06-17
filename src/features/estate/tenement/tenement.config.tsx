@@ -1,6 +1,6 @@
 import { Button, Tag, Progress, Badge } from "antd"
 import { TableProps } from "antd"
-import { EstateDataType } from "./types"
+import { EstateDataType } from "../types"
 
 export const estateColumns: TableProps<EstateDataType>['columns'] = [
     {

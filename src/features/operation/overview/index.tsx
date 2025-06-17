@@ -1,5 +1,5 @@
 import { Row, Col, Card, Badge, Statistic } from "antd"
-import "./index.scss"
+import "../index.scss"
 
 function Overview() {
     return <div>

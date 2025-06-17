@@ -1,9 +1,13 @@
 import { get } from "../shared/http/http";
-import type { EnergyApiResponse } from '../types';
-
-// export function getEnergyData() {
-//     return get("/api/energyData")
-// }
+export interface EnergyItem {
+    name: string;
+    data: number[];
+}
+export interface EnergyApiResponse {
+    code: number;
+    message: string;
+    data: EnergyItem[];
+}
 
 export const loadEnergyData = async () => {
     const data = await get<EnergyApiResponse>('/api/energyData');

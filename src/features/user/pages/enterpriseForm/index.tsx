@@ -20,7 +20,6 @@ function EnterpriseForm(props: FormProps) {
     const handleOk = () => {
         form.validateFields().then(async (values) => {
             try {
-                // 如果是編輯，可以將 id 加入到請求中
                 const payload = isEditing ? { ...initialData, ...values } : values;
                 const response = await editUser(payload);
                 message.success(response.data || "操作成功");
@@ -35,10 +34,16 @@ function EnterpriseForm(props: FormProps) {
     };
 
     useEffect(() => {
-        if (!open) {
-            form.resetFields(); // 彈窗關閉時重設表單
+        if (open) { // 只有在 Modal 打開時才處理
+            if (initialData) {
+                // 如果有初始資料 (編輯模式)，則使用 setFieldsValue 來填充表單
+                form.setFieldsValue(initialData);
+            } else {
+                // 如果沒有初始資料 (新增模式)，則清空表單
+                form.resetFields();
+            }
         }
-    }, [open, form]);
+    }, [open, initialData, form]);
 
     return <>
         <Modal

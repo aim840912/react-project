@@ -36,8 +36,6 @@ export function useAppRouter() {
             layoutRoute.children.push(...dynamic);
         }
 
-        console.log('base', base);
-
         return base;
     }, [token, menuList, baseRoutes]);
 

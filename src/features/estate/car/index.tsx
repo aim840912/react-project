@@ -1,6 +1,6 @@
 import { Card, Row, Col, Table, Input, Button, Tabs } from "antd"
 import type { TabsProps } from 'antd';
-import { chargeRecordColumns, inParkCarColumns, chargeRecordData, inParkCarData } from './estate.config';
+import { chargeRecordColumns, inParkCarColumns, chargeRecordData, inParkCarData } from './car.config';
 
 const items: TabsProps['items'] = [
     {
@@ -15,7 +15,7 @@ const items: TabsProps['items'] = [
     }
 ]
 
-function Estate() {
+function Car() {
     return <div>
         <Card>
             <Row gutter={16}>
@@ -33,4 +33,4 @@ function Estate() {
     </div>
 }
 
-export default Estate
+export default Car
