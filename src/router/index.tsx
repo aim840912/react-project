@@ -3,15 +3,20 @@ import RequireAuth from "../utils/RequireAuth";
 import { Navigate, RouteObject } from "react-router";
 import ErrorPage from "../page/error";
 
-const Home = React.lazy(() => import("../layout/mainLayout"));
+const MainLayout = React.lazy(() => import("../layout/mainLayout"));
 const Login = React.lazy(() => import("../features/user/pages/login/index"));
 const NotFound = React.lazy(() => import("../page/404"));
+
+
 
 
 export const baseRoutes: RouteObject[] = [
     {
         path: "/login",
-        element: <Login />,
+        element: (
+            <React.Suspense fallback={<div>Loading...</div>}>
+                <Login />
+            </React.Suspense>),
         errorElement: <ErrorPage />,
     },
     {
@@ -20,7 +25,7 @@ export const baseRoutes: RouteObject[] = [
             <RequireAuth >
                 <React.Suspense fallback={<div>Loading...</div>}>
                     <Navigate to="dashboard" replace />
-                    <Home />
+                    <MainLayout />
                 </React.Suspense>
             </RequireAuth>),
         errorElement: <ErrorPage />,

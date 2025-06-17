@@ -52,8 +52,6 @@ export const handlers = [
         });
     }),
     http.get('/api/menu', () => {
-        // const authHeader = request.headers.get('authorization');
-        // const token = authHeader?.replace('Bearer ', '');
         const token = sessionStorage.getItem("token");
 
         if (token === 'mocktoken123456admin') {

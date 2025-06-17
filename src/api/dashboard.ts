@@ -1,4 +1,4 @@
-import { get } from "../utils/http/http";
+import { get } from "../shared/http/http";
 import type { EnergyApiResponse } from '../types';
 
 // export function getEnergyData() {

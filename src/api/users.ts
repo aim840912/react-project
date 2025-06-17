@@ -1,4 +1,4 @@
-import { post, get } from "../utils/http/http";
+import { post, get } from "../shared/http/http";
 
 
 import { LoginData } from "../features/user/types";
