@@ -2,7 +2,7 @@ import type { TreeDataNode } from 'antd';
 import { Button, Popconfirm, type ButtonProps } from "antd";
 import { SettingsDataType, MenuType } from "./types";
 import React from "react";
-import { CheckPermission } from '../../components/CheckPermission';
+import { CheckPermission } from '../../guard/CheckPermission';
 
 interface GetColumnsParams {
     onEdit: (menu: MenuType[], accountName: string) => void;

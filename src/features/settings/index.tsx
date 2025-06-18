@@ -7,7 +7,7 @@ import { useAppSelector } from "../../app/hooks";
 import { MenuType, SettingsDataType, SettingsSearchType } from "./types";
 import { treeData, getSettingsColumns } from "./settings.config";
 import { extractTreeKeys } from "./settings.utils";
-import { CheckPermission } from '../../components/CheckPermission';
+import { CheckPermission } from '../../guard/CheckPermission';
 
 function Settings() {
     const [accountName, setAccountName] = useState<string>("當前用戶")
