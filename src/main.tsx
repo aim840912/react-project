@@ -7,16 +7,22 @@ import { Provider } from 'react-redux';
 import { store } from './app/store';
 import './i18n';
 
-if (import.meta.env.DEV) {
-  const { worker } = await import('./mocks/browser');
-  await worker.start();
+async function main() {
+  // 在開發環境下，啟用 MSW
+  if (import.meta.env.DEV) {
+    // 使用動態 import()
+    const { enableMocking } = await import('./dev/msw');
+    await enableMocking();
+  }
+
+  createRoot(document.getElementById('root')!).render(
+    <StrictMode>
+      <Provider store={store}>
+        <App />
+      </Provider>
+    </StrictMode>
+  );
 }
 
-createRoot(document.getElementById('root')!).render(
-  <StrictMode>
-    <Provider store={store}>
-      <App />
-    </Provider>
-  </StrictMode>,
-)
-
+// 執行主函數
+main();
