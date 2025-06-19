@@ -1,4 +1,4 @@
-import { post } from "../shared/http/http";
+import { post } from ".";
 
 interface SearchData {
     name: string;

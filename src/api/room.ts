@@ -1,4 +1,4 @@
-import { post } from "../shared/http/http";
+import { post } from ".";
 
 
 export function getRoomList(roomid: string) {

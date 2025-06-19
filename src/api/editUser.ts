@@ -1,4 +1,5 @@
-import { post } from "../shared/http/http";
+// import { post } from "../shared/http/http";
+import { post } from ".";
 
 export interface User {
     id: string;

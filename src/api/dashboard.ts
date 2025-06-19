@@ -1,4 +1,4 @@
-import { get } from "../shared/http/http";
+import { get } from ".";
 export interface EnergyItem {
     name: string;
     data: number[];

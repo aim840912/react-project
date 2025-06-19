@@ -1,6 +1,4 @@
-import { post, get } from "../shared/http/http";
-
-
+import { post, get } from ".";
 import { LoginData } from "../features/user/types";
 
 export function login(data: LoginData) {

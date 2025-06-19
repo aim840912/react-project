@@ -1,4 +1,3 @@
-// src/mocks/handlers.ts
 import { http, HttpResponse } from 'msw';
 import { menu, generateUserList, generateContracts, generateRoomList, generateBillList, generateAccountList, generateEquipmentList } from './fakeGenerators';
 
@@ -51,8 +50,12 @@ export const handlers = [
             data: ''
         });
     }),
-    http.get('/api/menu', () => {
-        const token = sessionStorage.getItem("token");
+
+    http.get('/api/menu', ({ request }) => {
+        // const token = sessionStorage.getItem("token");
+        const authHeader = request.headers.get('Authorization');
+
+        const token = authHeader?.replace('Bearer ', '');
 
         if (token === 'mocktoken123456admin') {
             return HttpResponse.json({
