@@ -13,9 +13,9 @@ export function useAppRouter() {
 
     useMemo(() => {
         if (token && menuList.length === 0) {
-            getMenu().then((res) => {
-                if (res.data && res.data.length) {
-                    dispatch(setMenu(res.data));
+            getMenu().then((menuData) => {
+                if (menuData && menuData.length) {
+                    dispatch(setMenu(menuData));
                 }
             }).catch(console.error);
         }

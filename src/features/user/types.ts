@@ -29,4 +29,15 @@ export interface UserSearchType {
     tel?: string;
 }
 
+export interface LoginCredentials {
+    username: string;
+    password: string;
+}
+
+// 登入成功後 API 回傳的資料結構
+export interface LoginResponse {
+    token: string;
+    btnAuth: string[];
+    username: string;
+}
 

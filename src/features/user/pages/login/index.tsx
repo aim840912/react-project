@@ -12,7 +12,7 @@ import { useState } from "react";
 import { useTranslation } from 'react-i18next';
 import { setPermissions } from "../../permissionSlice";
 import { useAppDispatch } from "../../../../app/hooks";
-import { LoginData } from "../../types";
+import { LoginCredentials, LoginData, LoginResponse } from "../../types";
 
 function Login() {
     const [form] = Form.useForm();
@@ -23,10 +23,11 @@ function Login() {
     const location = useLocation();
     const from = (location.state)?.from || "/";
 
-    async function performLogin(credentials: LoginData) {
+    async function performLogin(credentials: LoginCredentials) {
         setLoading(true);
         try {
-            const { data } = await login(credentials);
+            // const { data } = await login(credentials);
+            const data: LoginResponse = await login(credentials);
 
             if (data && data.token) {
                 const { token, username, btnAuth } = data;
@@ -34,7 +35,7 @@ function Login() {
                 dispatch(setPermissions(btnAuth));
                 navigate(from, { replace: true });
             } else {
-                const errorMessage = data?.message || t('loginFailed');
+                const errorMessage = t('loginFailed');
                 message.error(errorMessage);
 
             }

@@ -1,12 +1,14 @@
 import { post, get } from ".";
-import { LoginData } from "../features/user/types";
+import { MenuType } from "../features/settings/types";
+import { LoginData, LoginCredentials, LoginResponse } from "../features/user/types";
 
-export function login(data: LoginData) {
-    return post("/api/login", data);
-}
+export const login = (credentials: LoginCredentials): Promise<LoginResponse> => {
+    return post<LoginResponse, LoginCredentials>('/api/login', credentials);
+};
 
-export function getMenu() {
-    return get("/api/menu");
+export function getMenu(): Promise<MenuType[]> {
+    // 3. 呼叫 get 時，在泛型中傳入我們期望的型別 <MenuType[]>
+    return get<MenuType[]>("/api/menu");
 }
 
 export function getAccountList(data: AccountData) {

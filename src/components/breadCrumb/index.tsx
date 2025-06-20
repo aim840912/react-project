@@ -2,6 +2,7 @@ import { useLocation } from "react-router-dom";
 import { useSelector } from "react-redux";
 import { Breadcrumb } from "antd";
 import { useMemo } from "react";
+import { RootState } from "../../app/store";
 
 interface MenuItem {
     key: string;
@@ -35,7 +36,7 @@ function findBreadcrumbLabels(path: string, menuTree: MenuItem[]): string[] {
 
 export default function MyBreadCrumb() {
     const { pathname } = useLocation();
-    const menuList = useSelector((s: any) => s.authSlice.menuList);
+    const menuList = useSelector((s: RootState) => s.authSlice.menuList);
 
     const items = useMemo(() => {
         const labels = findBreadcrumbLabels(pathname, menuList);
