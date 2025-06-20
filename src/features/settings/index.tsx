@@ -1,6 +1,6 @@
 import { Card, Row, Col, Table, Input, Button, Pagination, Popconfirm, Tree } from "antd"
 import type { TreeProps, ButtonProps } from 'antd';
-import { getAccountList } from "../../api/users";
+import { getAccountList } from "../../api/settings";
 import useDataList from "../../hooks/useDataList";
 import { useEffect, useState } from "react";
 import { useAppSelector } from "../../app/hooks";

@@ -1,8 +1,3 @@
-export interface LoginData {
-    username: string,
-    password: string
-}
-
 export interface User {
     id: string;
     name: string;
@@ -22,11 +17,11 @@ export interface UserListResponse {
 }
 
 export interface UserSearchType {
-    page: number;
-    pageSize: number;
-    companyName?: string;
+    userName?: string;
     contact?: string;
     tel?: string;
+    page: number;
+    pageSize: number;
 }
 
 export interface LoginCredentials {
@@ -39,5 +34,11 @@ export interface LoginResponse {
     token: string;
     btnAuth: string[];
     username: string;
+}
+
+export interface ApiResponse<T> {
+    code: number;
+    message: string;
+    data: T;
 }
 

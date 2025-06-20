@@ -13,13 +13,15 @@ function Dashboard() {
 
     useEffect(() => {
         const loadData = async () => {
-            const { data: apiData } = await loadEnergyData();
+            const apiData = await loadEnergyData();
+
             const dataList: EnergyChartSeries[] = apiData.map((item: EnergyItem) => ({
                 name: item.name,
                 data: item.data,
                 type: "line",
                 stack: "Total"
             }));
+
             const updataOption = {
                 ...chartOption,
                 legend: {

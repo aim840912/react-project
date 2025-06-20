@@ -1,4 +1,4 @@
-import { useMemo } from "react";
+import { useEffect, useMemo } from "react";
 import { createBrowserRouter, RouteObject } from "react-router-dom";
 import { getMenu } from "../api/users";
 import { generateRoutes } from "../router/generatesRoutes";
@@ -11,7 +11,7 @@ export function useAppRouter() {
     const { token, menuList } = useAppSelector((state) => state.authSlice);
     const dispatch = useAppDispatch();
 
-    useMemo(() => {
+    useEffect(() => {
         if (token && menuList.length === 0) {
             getMenu().then((menuData) => {
                 if (menuData && menuData.length) {
@@ -22,14 +22,11 @@ export function useAppRouter() {
     }, [token, menuList.length, dispatch]);
 
     const routes: RouteObject[] = useMemo(() => {
-        // static routes
         const base = baseRoutes
         const layoutRoute = base.find(r => r.path === '/');
 
-        // token 驗證不過就直接回 base
         if (!token) return base;
 
-        // 有 menuList 就做動態路由
         if (menuList.length && layoutRoute && layoutRoute.children) {
             const dynamic = generateRoutes(menuList);
 

@@ -1,18 +1,15 @@
 import { useState, useCallback, useEffect, useMemo } from "react";
 
-interface ResponseData<T> {
+interface ListResponse<T> {
     list: T[];
     total: number;
 }
 
+type DataFetcher<TParams, TItem> = (params: TParams) => Promise<ListResponse<TItem>>;
+
 type FormFieldValue = string | number | boolean | null | undefined;
 
-type DataFetcher<TParams, TData> = (params: TParams) => Promise<{ data: ResponseData<TData> }>;
-
-function useDataList<TFormData extends Record<string, FormFieldValue>, TItem>(
-    initialFormData: TFormData,
-    fetchData: DataFetcher<TFormData & { page: number; pageSize: number }, TItem>
-) {
+function useDataList<TFormData extends Record<string, FormFieldValue>, TItem>(initialFormData: TFormData, fetchData: DataFetcher<TFormData & { page: number; pageSize: number }, TItem>) {
     const [dataList, setDataList] = useState<TItem[]>([]);
     const [total, setTotal] = useState<number>(0);
     const [loading, setLoading] = useState<boolean>(false);
@@ -23,12 +20,9 @@ function useDataList<TFormData extends Record<string, FormFieldValue>, TItem>(
     const loadData = useCallback(async (params: { page: number, pageSize: number, formData: TFormData }) => {
         setLoading(true);
         try {
-            const response = await fetchData({ ...params.formData, page: params.page, pageSize: params.pageSize });
-            if (response && response.data) {
-                const { list, total } = response.data;
-                setDataList(list);
-                setTotal(total);
-            }
+            const { list, total } = await fetchData({ ...params.formData, page: params.page, pageSize: params.pageSize });
+            setDataList(list);
+            setTotal(total);
         } catch (error) {
             console.error("Failed to load data:", error);
         } finally {
@@ -38,7 +32,7 @@ function useDataList<TFormData extends Record<string, FormFieldValue>, TItem>(
 
     useEffect(() => {
         loadData({ page, pageSize, formData });
-    }, [page, pageSize]);
+    }, [page, pageSize, loadData]);
 
     const handleFormChange = useCallback((e: React.ChangeEvent<HTMLInputElement>) => {
         const { name, value } = e.target;

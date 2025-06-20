@@ -12,7 +12,7 @@ import { useState } from "react";
 import { useTranslation } from 'react-i18next';
 import { setPermissions } from "../../permissionSlice";
 import { useAppDispatch } from "../../../../app/hooks";
-import { LoginCredentials, LoginData, LoginResponse } from "../../types";
+import { LoginCredentials, LoginResponse } from "../../types";
 
 function Login() {
     const [form] = Form.useForm();
@@ -26,22 +26,19 @@ function Login() {
     async function performLogin(credentials: LoginCredentials) {
         setLoading(true);
         try {
-            // const { data } = await login(credentials);
-            const data: LoginResponse = await login(credentials);
+            const response = await login(credentials);
 
-            if (data && data.token) {
-                const { token, username, btnAuth } = data;
+            if (response.data?.token) {
+                const { token, username, btnAuth } = response.data;
                 dispatch(setAuth({ token, username, btnAuth }));
                 dispatch(setPermissions(btnAuth));
                 navigate(from, { replace: true });
             } else {
-                const errorMessage = t('loginFailed');
-                message.error(errorMessage);
+                message.error(response.message || t('loginFailed'));
 
             }
         } catch (error) {
-            console.error("Login failed:", error);
-            message.error(t('loginFailed'));
+            console.error("Login API call failed:", error);
         } finally {
             setLoading(false);
         }

@@ -1,7 +1,7 @@
 import { Card, Row, Col, Input, Button, Table, Pagination, Popconfirm, message } from "antd";
 import React, { useState } from "react";
 import { getUserList, batchDeleteUser, deleteUser } from "../../../../api/users";
-import EnterpriseForm from "../../pages/enterpriseForm"; // 注意路徑
+import EnterpriseForm from "../../pages/enterpriseForm";
 import { User } from "../../types";
 import { getUsersColumns } from "./users.config";
 import useDataList from "../../../../hooks/useDataList";
@@ -16,11 +16,7 @@ function Users() {
         reset,
         refresh,
         paginationProps
-    } = useDataList({
-        companyName: "",
-        contact: "",
-        tel: "",
-    }, getUserList);
+    } = useDataList({ userName: "", contact: "", tel: "", }, getUserList);
 
     const [selectedRowKeys, setSelectedRowKeys] = useState<React.Key[]>([]);
     const [isModalOpen, setIsModalOpen] = useState<boolean>(false);
@@ -63,7 +59,7 @@ function Users() {
         try {
             await batchDeleteUser(selectedRowKeys);
             message.success("批量刪除成功");
-            setSelectedRowKeys([]); // 清空選擇
+            setSelectedRowKeys([]);
             refresh();
         } catch (error) {
             message.error("批量刪除失敗");
@@ -89,7 +85,7 @@ function Users() {
             <Card className="search">
                 <Row gutter={[16, 16]}>
                     <Col span={6}>
-                        <Input name="companyName" placeholder="請輸入企業名稱" value={formData.companyName} onChange={handleFormChange} />
+                        <Input name="userName" placeholder="請輸入企業名稱" value={formData.userName} onChange={handleFormChange} />
                     </Col>
                     <Col span={6}>
                         <Input name="contact" placeholder="請輸入聯絡人" value={formData.contact} onChange={handleFormChange} />
