@@ -15,7 +15,6 @@ const ProtectedLayout = () => (
     </RequireAuth>
 );
 
-
 export const baseRoutes: RouteObject[] = [
     {
         path: "/login",

@@ -101,7 +101,6 @@ const menuList = [
         "key": "/dashboard",
     },
     {
-
         "icon": "TeamOutlined",
         "label": "租戶管理",
         "key": "/users",
@@ -134,18 +133,8 @@ const menuList = [
                 "icon": "BankOutlined",
                 "label": "房間管理",
                 "key": "/estate/room",
-            },
-            {
-                "icon": "TruckOutlined",
-                "label": "車輛信息",
-                "key": "/estate/car",
             }
         ]
-    },
-    {
-        "icon": "ToolOutlined",
-        "label": "報修管理",
-        "key": "/repair"
     },
     {
         "icon": "DollarOutlined",
@@ -172,11 +161,6 @@ const menuList = [
         ]
     },
     {
-        "icon": "TransactionOutlined",
-        "label": "招商管理",
-        "key": "/merchants",
-    },
-    {
         "icon": "FundProjectionScreenOutlined",
         "label": "營運管理",
         "key": "/operation",
@@ -192,11 +176,6 @@ const menuList = [
                 "icon": "ReadOutlined",
                 "label": "文章發布",
                 "key": "/operation/article",
-            },
-            {
-                "icon": "CommentOutlined",
-                "label": "內容評論",
-                "key": "/operation/comments",
             }
         ]
     },

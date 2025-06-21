@@ -100,6 +100,32 @@ export const handlers = [
             }
         });
     }),
+    http.post('/api/deleteUser', async ({ request }) => {
+        const body = await request.json() as { id?: string };
+        const { id } = body;
+        if (!id) {
+            return HttpResponse.json(
+                { message: '缺少使用者 ID' },
+                { status: 400 } // 設定 HTTP 狀態碼為 400
+            );
+        }
+        return HttpResponse.json({
+            message: `使用者 ID: ${id} 已成功刪除`,
+        });
+    }),
+    http.post('/api/batchDeleteUser', async ({ request }) => {
+        const body = await request.json() as { ids?: React.Key[] };
+        const { ids } = body;
+        if (!Array.isArray(ids) || ids.length === 0) {
+            return HttpResponse.json(
+                { message: '缺少需要刪除的 ID 列表' },
+                { status: 400 } // 回傳 400 Bad Request
+            );
+        }
+        return HttpResponse.json({
+            message: `成功刪除了 ${ids.length} 筆使用者資料`,
+        });
+    }),
     http.post('/api/roomList', async ({ }) => {
         return HttpResponse.json({
             code: 200,

@@ -65,7 +65,7 @@ function Bill() {
 
     const loadData = useCallback(async () => {
         setLoading(true);
-        const { data: { list, total } } = await getBillList({
+        const { list, total } = await getBillList({
             page,
             pageSize,
             startDate: formData.startDate,

@@ -15,12 +15,10 @@ export interface MenuType {
 
 export function generateRoutes(menu: MenuType[]): RouteObject[] {
     return menu.reduce<RouteObject[]>((routes, { key, children }) => {
-        // 如果這層有子項，先產生一個父層路由
         if (children?.length) {
             routes.push({
                 path: key,
                 element: (
-                    // 全域只包一次認證與錯誤邊界
                     <RequireAuth >
                         <Suspense fallback={<LoadingPage />}>
                             <Outlet />
@@ -29,8 +27,6 @@ export function generateRoutes(menu: MenuType[]): RouteObject[] {
                 ),
                 errorElement: <ErrorPage />,
                 children: generateRoutes(children),
-                // 如果希望第一個 child 同時也是 index，也可打開下面這行
-                // index: true,
             });
         } else {
             // Leaf route: 直接對應到 componentMap

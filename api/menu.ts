@@ -1,4 +1,4 @@
-const menuList = [
+export const menuList = [
     {
         "icon": "DashboardOutlined",
         "label": "工作台",
@@ -38,18 +38,8 @@ const menuList = [
                 "icon": "BankOutlined",
                 "label": "房間管理",
                 "key": "/estate/room",
-            },
-            {
-                "icon": "TruckOutlined",
-                "label": "車輛信息",
-                "key": "/estate/car",
             }
         ]
-    },
-    {
-        "icon": "ToolOutlined",
-        "label": "報修管理",
-        "key": "/repair"
     },
     {
         "icon": "DollarOutlined",
@@ -76,11 +66,6 @@ const menuList = [
         ]
     },
     {
-        "icon": "TransactionOutlined",
-        "label": "招商管理",
-        "key": "/merchants",
-    },
-    {
         "icon": "FundProjectionScreenOutlined",
         "label": "營運管理",
         "key": "/operation",
@@ -96,11 +81,6 @@ const menuList = [
                 "icon": "ReadOutlined",
                 "label": "文章發布",
                 "key": "/operation/article",
-            },
-            {
-                "icon": "CommentOutlined",
-                "label": "內容評論",
-                "key": "/operation/comments",
             }
         ]
     },
@@ -125,7 +105,7 @@ const menuList = [
         "key": "/personal",
     }
 ]
-const userMenuList = [
+export const userMenuList = [
     {
         "icon": "DashboardOutlined",
         "label": "工作台",
@@ -194,7 +174,7 @@ const userMenuList = [
         "key": "/personal",
     }
 ]
-const managerMenuList = [
+export const managerMenuList = [
     {
         "icon": "DashboardOutlined",
         "label": "工作台",

@@ -5,6 +5,7 @@ import { ApiResponse, LoginCredentials, LoginResponse, UserListResponse } from "
 export function login(data: LoginCredentials): Promise<ApiResponse<LoginResponse>> {
     return post<ApiResponse<LoginResponse>, LoginCredentials>("/api/login", data);
 }
+
 export async function getMenu(): Promise<MenuType[]> {
     const response = await get<ApiResponse<MenuType[]>>("/api/menu");
     return response.data || [];
@@ -15,12 +16,12 @@ export async function getUserList(data: UserSearchType): Promise<UserListRespons
     return response?.data || { list: [], total: 0 };
 }
 
-export function deleteUser(id: string) {
-    return post("/api/deleteUser", { id })
+export async function deleteUser(id: string): Promise<void> {
+    await post<ApiResponse<null>, { id: string }>("/api/deleteUser", { id });
 }
 
-export function batchDeleteUser(ids: React.Key[]) {
-    return post("/api/batchDeleteUser", { ids })
+export async function batchDeleteUser(ids: React.Key[]) {
+    await post<ApiResponse<null>, { ids: React.Key[] }>("/api/batchDeleteUser", { ids });
 }
 
 interface UserSearchType {

@@ -5,7 +5,6 @@ import LoadingPage from "./page/loading";
 
 
 function App() {
-
   const router = useAppRouter();
 
   return (

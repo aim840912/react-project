@@ -15,9 +15,15 @@ function Room() {
 
     const loadRoom = async (roomid: string) => {
         setLoading(true)
-        const { data: { rooms } } = await getRoomList(roomid);
-        setLoading(false)
-        setRoom(rooms)
+        try {
+            const roomsData = await getRoomList(roomid);
+            setRoom(roomsData);
+        } catch (error) {
+            console.error("獲取房間列表失敗:", error);
+            setRoom([]);
+        } finally {
+            setLoading(false);
+        }
     }
 
     const handleChange = (e: RadioChangeEvent) => {
@@ -60,23 +66,6 @@ function Room() {
         </Card>
         <Spin spinning={loading}>
             <Row gutter={16}>
-                {/* <Col span={6} className="item">
-                <Card title="房間號" extra={<a onClick={()=>setVisible(true)}>戶型圖</a>}>
-                    <h1>201</h1>
-                    <div className="clearfix mt">
-                        <p className="fl">裝修情況：</p>
-                        <p className="fr">毛坯</p>
-                    </div>
-                    <div className="clearfix mt">
-                        <p className="fl">房間面積</p>
-                        <p className="fr">100</p>
-                    </div>
-                    <div className="clearfix mt">
-                        <p className="fl">出租單價</p>
-                        <p className="fr">100</p>
-                    </div>
-                </Card>
-            </Col> */}
                 {
                     room.map((item) => {
                         return <>

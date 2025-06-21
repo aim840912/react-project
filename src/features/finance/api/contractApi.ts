@@ -61,10 +61,6 @@ export const contractApi = createApi({
                     : [{ type: 'Contract', id: 'LIST' }],
         }),
 
-        /**
-         * 2. 取得單筆合約 (GET /contracts/:id)
-         *    回傳格式：Contract
-         */
         getContractById: builder.query<Contract, string>({
             query: (id) => ({
                 url: `/contracts/${id}`,
@@ -73,11 +69,6 @@ export const contractApi = createApi({
             providesTags: (result, error, id) => [{ type: "Contract", id }],
         }),
 
-        /**
-         * 3. 新增合約 (POST /contracts)
-         *    Body: Partial<Contract>（不包含 id，由後端自動產生）
-         *    回傳格式：Contract
-         */
         addContract: builder.mutation<Contract, Partial<Contract>>({
             query: (payload) => ({
                 url: "/contracts",
@@ -87,11 +78,6 @@ export const contractApi = createApi({
             invalidatesTags: [{ type: "Contract", id: "LIST" }],
         }),
 
-        /**
-         * 4. 更新合約 (PUT /contracts/:id)
-         *    Body: { id: string; data: Partial<Contract> }
-         *    回傳格式：Contract
-         */
         updateContract: builder.mutation<Contract, { id: string; data: Partial<Contract> }>({
             query: ({ id, data }) => ({
                 url: `/contracts/${id}`,
