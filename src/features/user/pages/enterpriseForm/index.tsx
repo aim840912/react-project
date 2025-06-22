@@ -1,5 +1,6 @@
 import { Modal, Form, message } from "antd";
 import { useEffect } from "react";
+import { useForm } from "react-hook-form";
 import type { User } from "../../types";
 import EnterpriseFormFields from "./enterpriseFormFields";
 import { useUpdateUserMutation } from "../../api/userApi";
@@ -13,18 +14,27 @@ interface FormProps {
 }
 
 function EnterpriseForm(props: FormProps) {
-    const [form] = Form.useForm();
     const { open, onCancel, onSuccess, isEditing, initialData } = props;
+
+    const {
+        control,
+        handleSubmit,
+        reset,
+        formState: { errors }
+    } = useForm<User>({
+        defaultValues: initialData || {
+            name: '', tel: '', status: '1', business: '',
+            email: '', creditCode: '', industryNum: '',
+            organizationCode: '', legalPerson: ''
+        },
+    });
 
     const [updateUser, { isLoading: isUpdating }] = useUpdateUserMutation();
 
-    const handleOk = async () => {
+    const onSubmit = async (data: User) => {
         try {
-            const values = await form.validateFields();
-            const payload = isEditing ? { ...initialData, ...values } : values;
-
+            const payload = isEditing ? { ...initialData, ...data } : data;
             await updateUser(payload).unwrap();
-
             message.success("操作成功");
             onSuccess();
             onCancel();
@@ -36,13 +46,9 @@ function EnterpriseForm(props: FormProps) {
 
     useEffect(() => {
         if (open) {
-            if (initialData) {
-                form.setFieldsValue(initialData);
-            } else {
-                form.resetFields();
-            }
+            reset(initialData);
         }
-    }, [open, initialData, form]);
+    }, [open, initialData, reset]);
 
     return (
         <>
@@ -51,17 +57,13 @@ function EnterpriseForm(props: FormProps) {
                 open={open}
                 onCancel={onCancel}
                 width={800}
-                onOk={handleOk}
+                onOk={handleSubmit(onSubmit)}
                 confirmLoading={isUpdating}
-                forceRender
+                destroyOnClose
             >
-                <Form
-                    form={form}
-                    labelCol={{ span: 8 }}
-                    wrapperCol={{ span: 16 }}
-                    initialValues={initialData}
-                >
-                    <EnterpriseFormFields />
+
+                <Form layout="vertical">
+                    <EnterpriseFormFields control={control} />
                 </Form>
             </Modal>
         </>

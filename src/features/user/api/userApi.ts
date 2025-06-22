@@ -17,7 +17,6 @@ export const userApi = createApi({
     tagTypes: ['User', 'Menu'],
 
     endpoints: (builder) => ({
-
         login: builder.mutation<ApiResponse<LoginResponse>, LoginCredentials>({
             query: (credentials) => ({
                 url: '/login',

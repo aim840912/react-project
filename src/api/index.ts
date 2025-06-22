@@ -1,7 +1,6 @@
 import { createHttpInstance } from '../shared/http/http';
 
 const getTokenFromStore = (): string | null => {
-    // 實務上要處理 store 還沒初始化完成的狀況，但這裡我們先簡化
     // return store.getState().authSlice.token;
     return sessionStorage.getItem("token");
 };
