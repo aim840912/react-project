@@ -1,14 +1,12 @@
 import { Suspense } from "react";
 import { RouterProvider } from "react-router-dom";
-import { useAppRouter, useMenuLoader } from "./hooks/useAppRouter";
+import { useMenuLoader } from "./hooks/useMenuLoader";
 import LoadingPage from "./page/loading";
+import { router } from "./router";
 
 
 function App() {
   useMenuLoader();
-
-  const router = useAppRouter();
-
   return (
     <div className="App">
       <Suspense fallback={<LoadingPage />}>
