@@ -2,7 +2,6 @@ import { Row, Col, Form, Input, Radio } from "antd";
 import { Controller, Control } from "react-hook-form";
 import type { User } from "../../types";
 
-// 1. 定義 Props，讓元件可以接收來自 useForm 的 control 物件
 interface EnterpriseFormFieldsProps {
     control: Control<User>;
 }

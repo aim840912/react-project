@@ -9,23 +9,23 @@ import {
     useDeleteUserMutation,
     useBatchDeleteUserMutation,
 } from "../../api/userApi";
-import { useDebounce } from "../../../../hooks/useDebounce";
 import { useAppSelector } from "../../../../app/hooks";
 
 function Users() {
     const [searchParams, setSearchParams] = useSearchParams();
 
-
     const page = parseInt(searchParams.get('page') || '1', 10);
     const pageSize = parseInt(searchParams.get('pageSize') || '10', 10);
 
-    const [filters, setFilters] = useState({
+    // 用於輸入框的狀態
+    const [inputFilters, setInputFilters] = useState({
         userName: searchParams.get('userName') || '',
         contact: searchParams.get('contact') || '',
         tel: searchParams.get('tel') || '',
     });
 
-    const debouncedFilters = useDebounce(filters, 500);
+    // 用於觸發 API 請求的狀態
+    const [queryFilters, setQueryFilters] = useState(inputFilters);
 
     const [selectedRowKeys, setSelectedRowKeys] = useState<React.Key[]>([]);
     const [isModalOpen, setIsModalOpen] = useState<boolean>(false);
@@ -35,36 +35,40 @@ function Users() {
     const { data: userData, isFetching } = useGetUserListQuery({
         page,
         pageSize,
-        ...debouncedFilters,
+        ...queryFilters,
     }, {
         skip: !token
     });
+
     const [deleteUser, { isLoading: isDeleting }] = useDeleteUserMutation();
     const [batchDeleteUser, { isLoading: isBatchDeleting }] = useBatchDeleteUserMutation();
 
     useEffect(() => {
         const newParams = new URLSearchParams(searchParams);
-        newParams.set('userName', debouncedFilters.userName);
-        newParams.set('contact', debouncedFilters.contact);
-        newParams.set('tel', debouncedFilters.tel);
+        newParams.set('userName', queryFilters.userName);
+        newParams.set('contact', queryFilters.contact);
+        newParams.set('tel', queryFilters.tel);
 
         if (newParams.toString() !== searchParams.toString()) {
             setSearchParams(newParams, { replace: true });
         }
-    }, [debouncedFilters, searchParams, setSearchParams]);
+    }, [queryFilters, searchParams, setSearchParams]);
 
-
-    const handleFilterChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         const { name, value } = e.target;
-        setFilters(prev => ({ ...prev, [name]: value }));
+        setInputFilters(prev => ({ ...prev, [name]: value }));
+    };
 
+    const handleSearch = () => {
+        setQueryFilters(inputFilters);
         const newParams = new URLSearchParams(searchParams);
         newParams.set('page', '1');
         setSearchParams(newParams, { replace: true });
     };
 
     const handleReset = () => {
-        setFilters({ userName: "", contact: "", tel: "" });
+        setInputFilters({ userName: "", contact: "", tel: "" });
+        setQueryFilters({ userName: "", contact: "", tel: "" });
         setSearchParams({ page: '1', pageSize: '10' }, { replace: true });
     };
 
@@ -95,7 +99,6 @@ function Users() {
     const handleFormSuccess = () => {
         message.success("操作成功");
         handleCancelModal();
-        // 表單成功後，RTK Query 會因為 invalidatesTags 自動重新獲取列表，無需手動 refresh
     };
 
     const handleDelete = async (id: string) => {
@@ -112,13 +115,12 @@ function Users() {
         try {
             await batchDeleteUser(selectedRowKeys).unwrap();
             message.success("批量刪除成功");
-            setSelectedRowKeys([]); // 清空選擇
+            setSelectedRowKeys([]);
         } catch (error) {
             message.error("批量刪除失敗");
         }
     };
 
-    // 將 handleDelete 傳入 columns，以便點擊按鈕時觸發
     const columns = getUsersColumns({ onEdit: handleEdit, onDelete: handleDelete });
 
     const rowSelection = {
@@ -138,16 +140,16 @@ function Users() {
             <Card className="search">
                 <Row gutter={[16, 16]}>
                     <Col span={6}>
-                        <Input name="userName" placeholder="請輸入企業名稱" value={filters.userName} onChange={handleFilterChange} />
+                        <Input name="userName" placeholder="請輸入企業名稱" value={inputFilters.userName} onChange={handleInputChange} />
                     </Col>
                     <Col span={6}>
-                        <Input name="contact" placeholder="請輸入聯絡人" value={filters.contact} onChange={handleFilterChange} />
+                        <Input name="contact" placeholder="請輸入聯絡人" value={inputFilters.contact} onChange={handleInputChange} />
                     </Col>
                     <Col span={6}>
-                        <Input name="tel" placeholder="請輸入連絡電話" value={filters.tel} onChange={handleFilterChange} />
+                        <Input name="tel" placeholder="請輸入連絡電話" value={inputFilters.tel} onChange={handleInputChange} />
                     </Col>
                     <Col span={6}>
-                        <Button type="primary">查詢</Button>
+                        <Button type="primary" onClick={handleSearch}>查詢</Button>
                         <Button className="ml" onClick={handleReset}>重置</Button>
                     </Col>
                 </Row>
