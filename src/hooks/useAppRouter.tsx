@@ -1,43 +1,50 @@
 import { useEffect, useMemo } from "react";
 import { createBrowserRouter, RouteObject } from "react-router-dom";
-import { getMenu } from "../api/users";
-import { generateRoutes } from "../router/generatesRoutes";
+import { generateRoutes, MenuType } from "../router/generatesRoutes";
 import { useAppDispatch, useAppSelector } from "../app/hooks";
 import { setMenu } from "../features/user/authSlice";
 import { baseRoutes } from "../router";
+import { useGetMenuQuery } from "../features/user/api/userApi";
 
+export function useMenuLoader() {
+    const token = useAppSelector((state) => state.authSlice.token);
+    const dispatch = useAppDispatch();
+
+    const { data: menuData } = useGetMenuQuery(undefined, {
+        skip: !token,
+    });
+
+    useEffect(() => {
+        if (menuData) {
+            dispatch(setMenu(menuData));
+        }
+    }, [menuData, dispatch]);
+}
 
 export function useAppRouter() {
     const { token, menuList } = useAppSelector((state) => state.authSlice);
-    const dispatch = useAppDispatch();
-
-    useEffect(() => {
-        if (token && menuList.length === 0) {
-            getMenu().then((menuData) => {
-                if (menuData && menuData.length) {
-                    dispatch(setMenu(menuData));
-                }
-            }).catch(console.error);
-        }
-    }, [token, menuList.length, dispatch]);
 
     const routes: RouteObject[] = useMemo(() => {
-        const base = baseRoutes
-        const layoutRoute = base.find(r => r.path === '/');
 
-        if (!token) return base;
+        const newRoutes = [...baseRoutes];
+        const layoutRouteIndex = newRoutes.findIndex((r) => r.path === '/');
 
-        if (menuList.length && layoutRoute && layoutRoute.children) {
-            const dynamic = generateRoutes(menuList);
+        if (token && menuList.length > 0 && layoutRouteIndex > -1) {
+            const newLayoutRoute = { ...newRoutes[layoutRouteIndex] };
 
-            layoutRoute.children.push(...dynamic);
+            newLayoutRoute.children = [...(newLayoutRoute.children || [])];
+
+            const dynamicRoutes = generateRoutes(menuList as MenuType[]);
+            newLayoutRoute.children.push(...dynamicRoutes);
+
+            newRoutes[layoutRouteIndex] = newLayoutRoute;
         }
 
-        return base;
-    }, [token, menuList, baseRoutes]);
+        return newRoutes;
+    }, [token, menuList]);
 
-
-    const router = createBrowserRouter(routes)
+    // 建立並回傳 router 實例
+    const router = createBrowserRouter(routes);
 
     return router;
 }

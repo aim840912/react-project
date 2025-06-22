@@ -1,27 +1,44 @@
 import { Card, Row, Col, Input, Button, Table, Pagination, Popconfirm, message } from "antd";
 import React, { useState } from "react";
-import { getUserList, batchDeleteUser, deleteUser } from "../../../../api/users";
 import EnterpriseForm from "../../pages/enterpriseForm";
-import { User } from "../../types";
+import type { User } from "../../types";
 import { getUsersColumns } from "./users.config";
-import useDataList from "../../../../hooks/useDataList";
+// 1. 引入所有需要的 RTK Query Hooks
+import {
+    useGetUserListQuery,
+    useDeleteUserMutation,
+    useBatchDeleteUserMutation,
+} from "../../api/userApi";
 
 function Users() {
-    const {
-        dataList,
-        loading,
-        formData,
-        handleFormChange,
-        handleSearch,
-        reset,
-        refresh,
-        paginationProps
-    } = useDataList({ userName: "", contact: "", tel: "", }, getUserList);
-
+    // --- UI 狀態管理 ---
+    const [page, setPage] = useState<number>(1);
+    const [pageSize, setPageSize] = useState<number>(10);
+    const [filters, setFilters] = useState({ userName: "", contact: "", tel: "" });
     const [selectedRowKeys, setSelectedRowKeys] = useState<React.Key[]>([]);
     const [isModalOpen, setIsModalOpen] = useState<boolean>(false);
     const [editingRecord, setEditingRecord] = useState<User | undefined>(undefined);
 
+    // --- RTK Query Hooks ---
+    const { data: userData, isFetching } = useGetUserListQuery({
+        page,
+        pageSize,
+        ...filters,
+    });
+    const [deleteUser, { isLoading: isDeleting }] = useDeleteUserMutation();
+    const [batchDeleteUser, { isLoading: isBatchDeleting }] = useBatchDeleteUserMutation();
+
+    // --- 事件處理函式 ---
+    const handleFilterChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+        const { name, value } = e.target;
+        setFilters(prev => ({ ...prev, [name]: value }));
+        setPage(1); // 搜尋時回到第一頁
+    };
+
+    const handleReset = () => {
+        setFilters({ userName: "", contact: "", tel: "" });
+        setPage(1);
+    };
 
     const handleAdd = () => {
         setEditingRecord(undefined);
@@ -41,14 +58,13 @@ function Users() {
     const handleFormSuccess = () => {
         message.success("操作成功");
         handleCancelModal();
-        refresh();
+        // 表單成功後，RTK Query 會因為 invalidatesTags 自動重新獲取列表，無需手動 refresh
     };
 
     const handleDelete = async (id: string) => {
         try {
-            await deleteUser(id);
+            await deleteUser(id).unwrap();
             message.success("刪除成功");
-            refresh();
         } catch (error) {
             message.error("刪除失敗");
         }
@@ -57,15 +73,15 @@ function Users() {
     const handleBatchDelete = async () => {
         if (selectedRowKeys.length === 0) return;
         try {
-            await batchDeleteUser(selectedRowKeys);
+            await batchDeleteUser(selectedRowKeys).unwrap();
             message.success("批量刪除成功");
-            setSelectedRowKeys([]);
-            refresh();
+            setSelectedRowKeys([]); // 清空選擇
         } catch (error) {
             message.error("批量刪除失敗");
         }
     };
 
+    // 將 handleDelete 傳入 columns，以便點擊按鈕時觸發
     const columns = getUsersColumns({ onEdit: handleEdit, onDelete: handleDelete });
 
     const rowSelection = {
@@ -85,17 +101,17 @@ function Users() {
             <Card className="search">
                 <Row gutter={[16, 16]}>
                     <Col span={6}>
-                        <Input name="userName" placeholder="請輸入企業名稱" value={formData.userName} onChange={handleFormChange} />
+                        <Input name="userName" placeholder="請輸入企業名稱" value={filters.userName} onChange={handleFilterChange} />
                     </Col>
                     <Col span={6}>
-                        <Input name="contact" placeholder="請輸入聯絡人" value={formData.contact} onChange={handleFormChange} />
+                        <Input name="contact" placeholder="請輸入聯絡人" value={filters.contact} onChange={handleFilterChange} />
                     </Col>
                     <Col span={6}>
-                        <Input name="tel" placeholder="請輸入連絡電話" value={formData.tel} onChange={handleFormChange} />
+                        <Input name="tel" placeholder="請輸入連絡電話" value={filters.tel} onChange={handleFilterChange} />
                     </Col>
                     <Col span={6}>
-                        <Button type="primary" onClick={handleSearch}>查詢</Button>
-                        <Button className="ml" onClick={reset}>重置</Button>
+                        <Button type="primary">查詢</Button>
+                        <Button className="ml" onClick={handleReset}>重置</Button>
                     </Col>
                 </Row>
             </Card>
@@ -108,7 +124,7 @@ function Users() {
                     onConfirm={handleBatchDelete}
                     disabled={selectedRowKeys.length === 0}
                 >
-                    <Button danger type="primary" className="ml" disabled={selectedRowKeys.length === 0}>
+                    <Button danger type="primary" className="ml" disabled={selectedRowKeys.length === 0} loading={isBatchDeleting}>
                         批量刪除
                     </Button>
                 </Popconfirm>
@@ -117,19 +133,24 @@ function Users() {
             <Card className="mt">
                 <Table<User>
                     columns={columns}
-                    dataSource={dataList as User[]}
+                    dataSource={userData?.list || []}
                     rowKey="id"
-                    loading={loading}
+                    loading={isFetching || isDeleting || isBatchDeleting}
                     rowSelection={rowSelection}
-                    pagination={false} // 分頁由外部 Pagination 元件控制
+                    pagination={false}
                 />
                 <Pagination
                     className="fr mt"
                     showSizeChanger
                     showQuickJumper
                     showTotal={(total) => `共 ${total} 條`}
-                    // 4. 將從 Hook 拿到的 paginationProps 直接傳給 Pagination 元件，極度簡潔
-                    {...paginationProps}
+                    current={page}
+                    pageSize={pageSize}
+                    total={userData?.total || 0}
+                    onChange={(newPage, newPageSize) => {
+                        setPage(newPage);
+                        setPageSize(newPageSize || 10);
+                    }}
                 />
             </Card>
         </div>

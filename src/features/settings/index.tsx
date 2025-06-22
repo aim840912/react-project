@@ -1,106 +1,121 @@
-import { Card, Row, Col, Table, Input, Button, Pagination, Popconfirm, Tree } from "antd"
-import type { TreeProps, ButtonProps } from 'antd';
-import { getAccountList } from "../../api/settings";
-import useDataList from "../../hooks/useDataList";
-import { useEffect, useState } from "react";
+import { Card, Row, Col, Table, Input, Button, Pagination, Popconfirm, Tree } from "antd";
+import type { TreeProps } from 'antd';
+import { useEffect, useState, useMemo } from "react";
 import { useAppSelector } from "../../app/hooks";
-import { MenuType, SettingsDataType, SettingsSearchType } from "./types";
+import { MenuType, SettingsDataType } from "./types";
 import { treeData, getSettingsColumns } from "./settings.config";
 import { extractTreeKeys } from "./settings.utils";
 import { CheckPermission } from '../../guard/CheckPermission';
+import { useGetAccountListQuery } from "./api/settingsApi";
 
 function Settings() {
-    const [accountName, setAccountName] = useState<string>("當前用戶")
-    const { menuList } = useAppSelector((state) => state.authSlice)
-    const [checkedKeys, setCheckedKeys] = useState<React.Key[]>([])
-    const { dataList,
-        loading,
-        formData,
-        handleFormChange,
-        handleSearch,
-        reset,
-        refresh,
-        paginationProps } = useDataList<SettingsSearchType, SettingsDataType>({ accountName: "" }, getAccountList);
+    const [accountName, setAccountName] = useState<string>("當前用戶");
+    const { menuList } = useAppSelector((state) => state.authSlice);
+    const [checkedKeys, setCheckedKeys] = useState<React.Key[]>([]);
+
+    const [filters, setFilters] = useState({ accountName: "" });
+
+    const {
+        data: accountData,
+        isFetching,
+    } = useGetAccountListQuery(filters);
+
+
+    const handleFilterChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+        setFilters({ accountName: e.target.value });
+    };
 
     const edit = (menu: MenuType[], accountName: string) => {
         setAccountName(accountName);
-        const newCheckedKeys = extractTreeKeys(menu)
-        setCheckedKeys(newCheckedKeys)
-    }
+        const newCheckedKeys = extractTreeKeys(menu);
+        setCheckedKeys(newCheckedKeys);
+    };
 
-    // 在這裡呼叫函式來動態產生 columns
     const columns = getSettingsColumns({ onEdit: edit });
 
     useEffect(() => {
-        setCheckedKeys(extractTreeKeys(menuList))
-    }, [menuList])
+        if (menuList.length > 0) {
+            setCheckedKeys(extractTreeKeys(menuList));
+        }
+    }, [menuList]);
 
-    const handle = () => {
-        console.log(checkedKeys, accountName)
-    }
-    const onCheck: TreeProps['onCheck'] = (checkedKeys) => {
-        setCheckedKeys(checkedKeys as React.Key[])
-    }
+    const handlePermissionSubmit = () => {
+        console.log("正在提交修改...", {
+            accountName: accountName,
+            permissions: checkedKeys
+        });
+    };
 
-    return <div>
-        <Card>
-            <Row gutter={16}>
+    const onCheck: TreeProps['onCheck'] = (keys) => {
+        setCheckedKeys(keys as React.Key[]);
+    };
+
+    return (
+        <div>
+            <Card>
+                <Row gutter={16}>
+                    <Col span={8}>
+                        <Input
+                            name="accountName"
+                            value={filters.accountName}
+                            placeholder="請輸入帳戶名"
+                            onChange={handleFilterChange}
+                        />
+                    </Col>
+                    <Col span={8}>
+                        {/* 搜尋按鈕現在是視覺上的，實際請求由 filter 狀態變更觸發 */}
+                        <Button type="primary">搜尋</Button>
+                    </Col>
+                    <Col span={8} className="tr">
+                        <CheckPermission required={['account:create']}>
+                            <Button type="primary">新建帳號</Button>
+                        </CheckPermission>
+                    </Col>
+                </Row>
+            </Card>
+
+            <Row gutter={16} className="mt">
                 <Col span={8}>
-                    <Input name="accountName" value={formData.accountName} placeholder="請輸入帳戶名" onChange={handleFormChange} />
+                    <Card title={`${accountName}: 所擁權限`}>
+                        <Tree
+                            checkable
+                            treeData={treeData}
+                            checkedKeys={checkedKeys}
+                            onCheck={onCheck}
+                        />
+                    </Card>
+                    <Card className="mt">
+                        <Popconfirm
+                            title="操作提示"
+                            description={`您確認要修改 ${accountName} 用戶的權限嗎？`}
+                            okText="是"
+                            cancelText="否"
+                            onConfirm={handlePermissionSubmit}
+                        >
+                            <Button type="primary">提交修改</Button>
+                        </Popconfirm>
+                    </Card>
                 </Col>
-                <Col span={8}>
-                    <Button type="primary"> 搜尋</Button>
-                </Col>
-                <Col span={8} className="tr">
-                    <CheckPermission required={['account:create']}>
-                        <Button type="primary">新建帳號</Button>
-                    </CheckPermission>
+
+                <Col span={16}>
+                    <Card>
+                        <Table<SettingsDataType>
+                            loading={isFetching}
+                            columns={columns}
+                            dataSource={accountData?.list || []}
+                            rowKey={record => record.id}
+                            // ✨ Pagination 由外部元件控制，設為 false
+                            pagination={false}
+                        />
+                        {/* 注意：由於 API 沒有回傳分頁資訊，這裡的分頁元件是無效的。
+                            如果需要分頁，API endpoint 和 useGetAccountListQuery 的參數需要加入 page 和 pageSize。
+                            暫時先移除，或等待 API 支援。
+                        */}
+                    </Card>
                 </Col>
             </Row>
-
-        </Card>
-
-        <Row gutter={16} className="mt">
-            <Col span={8} >
-                <Card title={accountName + ":所擁權限"}>
-                    <Tree
-                        checkable
-                        treeData={treeData}
-                        checkedKeys={checkedKeys}
-                        onCheck={onCheck}
-                    />
-                </Card>
-                <Card className="mt">
-                    <Popconfirm
-                        title="操作提示"
-                        description={`您確認要修改${accountName}用戶的權限嗎？}`}
-                        okText="是"
-                        cancelText="否"
-                        onConfirm={handle}
-                    >
-                        <Button type="primary">提交修改</Button>
-                    </Popconfirm>
-                </Card>
-            </Col>
-
-            <Col span={16}>
-                <Card>
-                    <Table<SettingsDataType>
-                        loading={loading}
-                        columns={columns}
-                        dataSource={dataList}
-                        rowKey={record => record.id}
-                        pagination={false}
-                    />
-                    <Pagination className="fr mr" showQuickJumper {...paginationProps} />
-                </Card>
-
-            </Col>
-        </Row>
-
-    </div>
+        </div>
+    );
 }
 
-
-
-export default Settings
+export default Settings;

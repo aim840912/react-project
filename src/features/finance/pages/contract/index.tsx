@@ -2,7 +2,7 @@ import { Card, Table, Row, Col, Input, Button, Tag, Pagination, TableProps, Pagi
 import { useState } from "react"
 import { useNavigate, useSearchParams } from "react-router";
 import { ContractDataType, ContractSearchType } from "../../types";
-import { useGetContractsQuery, useUpdateContractMutation } from '../../api/contractApi';
+import { useGetContractsQuery, useUpdateContractMutation } from '../../api/financeApi';
 
 function Dashboard() {
     const [formData, setFormData] = useState<ContractSearchType>({

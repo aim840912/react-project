@@ -1,10 +1,12 @@
 import { Suspense } from "react";
 import { RouterProvider } from "react-router-dom";
-import { useAppRouter } from "./hooks/useAppRouter";
+import { useAppRouter, useMenuLoader } from "./hooks/useAppRouter";
 import LoadingPage from "./page/loading";
 
 
 function App() {
+  useMenuLoader();
+
   const router = useAppRouter();
 
   return (

@@ -1,6 +1,8 @@
 // src/features/contract/contractApi.ts
 import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
-import { ContractDataType } from "../types";
+import { BillDataType, BillSearchType, ContractDataType } from "../types";
+import { EquipmentDataType, SearchType as EquipmentSearchType } from "../../equipment/types";
+import { ApiResponse } from "../../user/types";
 
 export interface Contract {
     id: string;
@@ -20,15 +22,19 @@ export interface WrappedContractData {
     data: InnerPayload;
 }
 
-export const contractApi = createApi({
-    reducerPath: "contractApi",
+interface EquipmentListResponse {
+    list: EquipmentDataType[];
+    total: number;
+}
+
+export const financeApi = createApi({
+    reducerPath: "financeApi",
     baseQuery: fetchBaseQuery({
         baseUrl: "/api",
     }),
-    tagTypes: ["Contract"],
+    tagTypes: ["Contract", "Bill", "Equipment"],
 
     endpoints: (builder) => ({
-
         getContracts: builder.query<WrappedContractData, {
             contractNo?: string;
             person?: string;
@@ -40,7 +46,6 @@ export const contractApi = createApi({
                 return {
                     url: "/contractList",
                     method: "POST",
-                    // fetchBaseQuery 會自動把這些 params 串到查詢字串 (?…)
                     body,
                 };
             },
@@ -90,10 +95,6 @@ export const contractApi = createApi({
             ],
         }),
 
-        /**
-         * 5. 刪除合約 (DELETE /contracts/:id)
-         *    回傳格式：void
-         */
         deleteContract: builder.mutation<void, string>({
             query: (id) => ({
                 url: `/contracts/${id}`,
@@ -103,6 +104,22 @@ export const contractApi = createApi({
                 { type: "Contract", id },
                 { type: "Contract", id: "LIST" },
             ],
+        }),
+
+        getBillList: builder.query<{ list: BillDataType[], total: number }, BillSearchType>({
+            query: (params) => ({
+                url: '/billList',
+                method: 'POST',
+                body: params,
+            }),
+            transformResponse: (response: { data: { list: BillDataType[], total: number } }) => response.data,
+            providesTags: (result) =>
+                result
+                    ? [
+                        ...result.list.map(({ accountNo }) => ({ type: 'Bill' as const, id: accountNo })),
+                        { type: 'Bill', id: 'LIST' },
+                    ]
+                    : [{ type: 'Bill', id: 'LIST' }],
         }),
     }),
 });
@@ -114,4 +131,5 @@ export const {
     useAddContractMutation,
     useUpdateContractMutation,
     useDeleteContractMutation,
-} = contractApi;
+    useGetBillListQuery,
+} = financeApi;
