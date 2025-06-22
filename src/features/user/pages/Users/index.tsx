@@ -3,15 +3,14 @@ import React, { useState } from "react";
 import EnterpriseForm from "../../pages/enterpriseForm";
 import type { User } from "../../types";
 import { getUsersColumns } from "./users.config";
-// 1. 引入所有需要的 RTK Query Hooks
 import {
     useGetUserListQuery,
     useDeleteUserMutation,
     useBatchDeleteUserMutation,
 } from "../../api/userApi";
+import { useDebounce } from "../../../../hooks/useDebounce";
 
 function Users() {
-    // --- UI 狀態管理 ---
     const [page, setPage] = useState<number>(1);
     const [pageSize, setPageSize] = useState<number>(10);
     const [filters, setFilters] = useState({ userName: "", contact: "", tel: "" });
@@ -19,20 +18,21 @@ function Users() {
     const [isModalOpen, setIsModalOpen] = useState<boolean>(false);
     const [editingRecord, setEditingRecord] = useState<User | undefined>(undefined);
 
-    // --- RTK Query Hooks ---
+    const debouncedFilters = useDebounce(filters, 500);
+
     const { data: userData, isFetching } = useGetUserListQuery({
         page,
         pageSize,
-        ...filters,
+        // ...filters,//沒有延遲輸入
+        ...debouncedFilters,//有延遲收入
     });
     const [deleteUser, { isLoading: isDeleting }] = useDeleteUserMutation();
     const [batchDeleteUser, { isLoading: isBatchDeleting }] = useBatchDeleteUserMutation();
 
-    // --- 事件處理函式 ---
     const handleFilterChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         const { name, value } = e.target;
         setFilters(prev => ({ ...prev, [name]: value }));
-        setPage(1); // 搜尋時回到第一頁
+        setPage(1);
     };
 
     const handleReset = () => {
