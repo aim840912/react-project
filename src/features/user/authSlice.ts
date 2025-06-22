@@ -4,15 +4,27 @@ interface AuthState {
     token: string | null;
     username: string | null;
     btnAuth: string[];
-    menuList: []; // 建議給予更精確的型別
+    menuList: [];
 }
 
 const initialState: AuthState = {
     token: sessionStorage.getItem("token") || null,
     username: sessionStorage.getItem("username") || null,
-    btnAuth: JSON.parse(sessionStorage.getItem("btnAuth") || "[]"), // <- 這裡要轉回陣列
+    btnAuth: getStoredJson("btnAuth", []),
     menuList: [],
 };
+
+function getStoredJson(key: string, defaultValue: any) {
+    try {
+        const storedValue = sessionStorage.getItem(key);
+        if (storedValue) {
+            return JSON.parse(storedValue);
+        }
+    } catch (error) {
+        console.error(`解析 sessionStorage 中的 key "${key}" 時出錯:`, error);
+    }
+    return defaultValue;
+}
 
 export const authSlice = createSlice({
     name: "auth",

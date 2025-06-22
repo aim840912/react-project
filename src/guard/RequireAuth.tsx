@@ -8,7 +8,7 @@ interface RequireAuthProps {
 }
 
 export default function RequireAuth({ children }: RequireAuthProps) {
-    const token = useAppSelector((s) => s.authSlice.token);
+    const token = useAppSelector((s) => s.authSlice.token) || sessionStorage.getItem("token");
     const location = useLocation();
 
     if (!token) {

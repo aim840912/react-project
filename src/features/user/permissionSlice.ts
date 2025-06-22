@@ -1,13 +1,26 @@
-import { createSlice, PayloadAction, createAsyncThunk, createSelector } from '@reduxjs/toolkit';
+import { createSlice, PayloadAction, createSelector } from '@reduxjs/toolkit';
 import { RootState } from '../../app/store';
+
+function getStoredJson(key: string, defaultValue: any) {
+    try {
+        const storedValue = sessionStorage.getItem(key);
+        if (storedValue) {
+            return JSON.parse(storedValue);
+        }
+    } catch (error) {
+        console.error(`解析 sessionStorage 中的 key "${key}" 時出錯:`, error);
+    }
+    return defaultValue;
+}
 
 export interface PermissionsState {
     userPermissions: string[];
 }
 
 const initialState: PermissionsState = {
-    userPermissions: JSON.parse(sessionStorage.getItem("userPermissions") || "[]"),
+    userPermissions: getStoredJson("userPermissions", []),
 };
+
 
 export const permissionsSlice = createSlice({
     name: 'permissions',
