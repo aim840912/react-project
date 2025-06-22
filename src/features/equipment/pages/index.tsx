@@ -2,16 +2,16 @@ import { Card, Table, Row, Col, Input, Button, Pagination } from "antd";
 import { useState } from "react";
 import { equipmentColumns } from "../equipment.config";
 import { useGetEquipmentListQuery } from "../api/equipmentApi";
+import { useAppSelector } from "../../../app/hooks";
 
 
 function Equipment() {
     const [page, setPage] = useState<number>(1);
     const [pageSize, setPageSize] = useState<number>(10);
 
-    const [filters, setFilters] = useState({
-        name: "",
-        person: "",
-    });
+    const [filters, setFilters] = useState({ name: "", person: "", });
+
+    const token = useAppSelector((state) => state.authSlice.token);
 
     const {
         data: equipmentData,
@@ -20,6 +20,8 @@ function Equipment() {
         page,
         pageSize,
         ...filters,
+    }, {
+        skip: !token,
     });
 
     const handleFilterChange = (e: React.ChangeEvent<HTMLInputElement>) => {

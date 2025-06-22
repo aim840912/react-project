@@ -8,9 +8,7 @@ import { store } from './app/store';
 import './i18n';
 
 async function main() {
-  // 在開發環境下，啟用 MSW
   if (import.meta.env.DEV) {
-    // 使用動態 import()
     const { enableMocking } = await import('./dev/msw');
     await enableMocking();
   }
@@ -24,5 +22,4 @@ async function main() {
   );
 }
 
-// 執行主函數
 main();

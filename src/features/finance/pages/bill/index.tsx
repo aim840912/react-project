@@ -6,6 +6,7 @@ import type { RangePickerProps } from "antd/es/date-picker";
 import type { BillDataType, BillSearchType } from "../../types";
 import { billColumns } from "./bill.config";
 import { useGetBillListQuery } from "../../api/financeApi";
+import { useAppSelector } from "../../../../app/hooks";
 
 const { RangePicker } = DatePicker;
 
@@ -14,6 +15,7 @@ function Bill() {
     const [pageSize, setPageSize] = useState<number>(10);
     const [selectedRowKeys, setSelectedRowKeys] = useState<React.Key[]>([]);
     const [selectedRows, setSelectedRows] = useState<BillDataType[]>([]);
+    const token = useAppSelector((state) => state.authSlice.token);
 
     const [filters, setFilters] = useState({
         startDate: "",
@@ -30,6 +32,8 @@ function Bill() {
         page,
         pageSize,
         ...filters,
+    }, {
+        skip: !token,
     });
 
     const handleFilterChange = (changedValues: Partial<typeof filters>) => {

@@ -11,7 +11,6 @@ export default function RequireAuth({ children }: RequireAuthProps) {
     const token = useAppSelector((s) => s.authSlice.token);
     const location = useLocation();
 
-    // 如果還沒登入，就導到 /login，並把原本要去的路徑存在 state.from
     if (!token) {
         return (
             <Navigate
@@ -22,6 +21,5 @@ export default function RequireAuth({ children }: RequireAuthProps) {
         );
     }
 
-    // 已登入就正常渲染子元件
     return <>{children}</>;
 }

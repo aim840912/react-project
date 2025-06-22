@@ -9,7 +9,6 @@ interface CheckPermissionProps {
 }
 
 export function CheckPermission({ required, children, fallback = null }: CheckPermissionProps) {
-    // 內部使用我們剛剛建立的 Hook
     const { hasAll } = usePermissions();
     const canAccess = hasAll(required);
 

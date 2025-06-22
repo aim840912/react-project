@@ -1,5 +1,6 @@
 import { Card, Row, Col, Input, Button, Table, Pagination, Popconfirm, message } from "antd";
-import React, { useState } from "react";
+import React, { useState, useMemo, useEffect } from "react";
+import { useSearchParams } from "react-router-dom";
 import EnterpriseForm from "../../pages/enterpriseForm";
 import type { User } from "../../types";
 import { getUsersColumns } from "./users.config";
@@ -9,36 +10,72 @@ import {
     useBatchDeleteUserMutation,
 } from "../../api/userApi";
 import { useDebounce } from "../../../../hooks/useDebounce";
+import { useAppSelector } from "../../../../app/hooks";
 
 function Users() {
-    const [page, setPage] = useState<number>(1);
-    const [pageSize, setPageSize] = useState<number>(10);
-    const [filters, setFilters] = useState({ userName: "", contact: "", tel: "" });
+    const [searchParams, setSearchParams] = useSearchParams();
+
+
+    const page = parseInt(searchParams.get('page') || '1', 10);
+    const pageSize = parseInt(searchParams.get('pageSize') || '10', 10);
+
+    const [filters, setFilters] = useState({
+        userName: searchParams.get('userName') || '',
+        contact: searchParams.get('contact') || '',
+        tel: searchParams.get('tel') || '',
+    });
+
+    const debouncedFilters = useDebounce(filters, 500);
+
     const [selectedRowKeys, setSelectedRowKeys] = useState<React.Key[]>([]);
     const [isModalOpen, setIsModalOpen] = useState<boolean>(false);
     const [editingRecord, setEditingRecord] = useState<User | undefined>(undefined);
-
-    const debouncedFilters = useDebounce(filters, 500);
+    const token = useAppSelector((state) => state.authSlice.token);
 
     const { data: userData, isFetching } = useGetUserListQuery({
         page,
         pageSize,
-        // ...filters,//沒有延遲輸入
-        ...debouncedFilters,//有延遲收入
+        ...debouncedFilters,
+    }, {
+        skip: !token
     });
     const [deleteUser, { isLoading: isDeleting }] = useDeleteUserMutation();
     const [batchDeleteUser, { isLoading: isBatchDeleting }] = useBatchDeleteUserMutation();
 
+    useEffect(() => {
+        const newParams = new URLSearchParams(searchParams);
+        newParams.set('userName', debouncedFilters.userName);
+        newParams.set('contact', debouncedFilters.contact);
+        newParams.set('tel', debouncedFilters.tel);
+
+        if (newParams.toString() !== searchParams.toString()) {
+            setSearchParams(newParams, { replace: true });
+        }
+    }, [debouncedFilters, searchParams, setSearchParams]);
+
+
     const handleFilterChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         const { name, value } = e.target;
         setFilters(prev => ({ ...prev, [name]: value }));
-        setPage(1);
+
+        const newParams = new URLSearchParams(searchParams);
+        newParams.set('page', '1');
+        setSearchParams(newParams, { replace: true });
     };
 
     const handleReset = () => {
         setFilters({ userName: "", contact: "", tel: "" });
-        setPage(1);
+        setSearchParams({ page: '1', pageSize: '10' }, { replace: true });
     };
+
+    const onPaginationChange = (newPage: number, newPageSize?: number) => {
+        const newParams = new URLSearchParams(searchParams);
+        newParams.set('page', String(newPage));
+        if (newPageSize) {
+            newParams.set('pageSize', String(newPageSize));
+        }
+        setSearchParams(newParams, { replace: true });
+    }
 
     const handleAdd = () => {
         setEditingRecord(undefined);
@@ -147,10 +184,7 @@ function Users() {
                     current={page}
                     pageSize={pageSize}
                     total={userData?.total || 0}
-                    onChange={(newPage, newPageSize) => {
-                        setPage(newPage);
-                        setPageSize(newPageSize || 10);
-                    }}
+                    onChange={onPaginationChange}
                 />
             </Card>
         </div>

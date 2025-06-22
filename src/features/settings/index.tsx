@@ -10,7 +10,7 @@ import { useGetAccountListQuery } from "./api/settingsApi";
 
 function Settings() {
     const [accountName, setAccountName] = useState<string>("當前用戶");
-    const { menuList } = useAppSelector((state) => state.authSlice);
+    const { menuList, token } = useAppSelector((state) => state.authSlice);
     const [checkedKeys, setCheckedKeys] = useState<React.Key[]>([]);
 
     const [filters, setFilters] = useState({ accountName: "" });
@@ -18,7 +18,9 @@ function Settings() {
     const {
         data: accountData,
         isFetching,
-    } = useGetAccountListQuery(filters);
+    } = useGetAccountListQuery(filters, {
+        skip: !token,
+    });
 
 
     const handleFilterChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -63,7 +65,6 @@ function Settings() {
                         />
                     </Col>
                     <Col span={8}>
-                        {/* 搜尋按鈕現在是視覺上的，實際請求由 filter 狀態變更觸發 */}
                         <Button type="primary">搜尋</Button>
                     </Col>
                     <Col span={8} className="tr">
@@ -104,13 +105,9 @@ function Settings() {
                             columns={columns}
                             dataSource={accountData?.list || []}
                             rowKey={record => record.id}
-                            // ✨ Pagination 由外部元件控制，設為 false
                             pagination={false}
                         />
-                        {/* 注意：由於 API 沒有回傳分頁資訊，這裡的分頁元件是無效的。
-                            如果需要分頁，API endpoint 和 useGetAccountListQuery 的參數需要加入 page 和 pageSize。
-                            暫時先移除，或等待 API 支援。
-                        */}
+
                     </Card>
                 </Col>
             </Row>
