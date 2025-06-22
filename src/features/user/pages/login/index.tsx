@@ -22,35 +22,28 @@ function Login() {
     const location = useLocation();
     const from = (location.state as { from?: string })?.from || "/";
 
-    // 2. 呼叫 Mutation Hook，得到觸發函式和載入狀態
+
     const [login, { isLoading }] = useLoginMutation();
 
-    // 3. 重構登入函式，使其更加健壯
     const performLogin = async (credentials: LoginCredentials) => {
         try {
-            // 4. 呼叫 login mutation 並用 .unwrap() 處理 Promise
-            //    .unwrap() 會在請求成功時返回解包後的 payload，失敗時拋出錯誤
+
             const response = await login(credentials).unwrap();
 
             if (response.data?.token) {
                 const { token, username, btnAuth } = response.data;
-                // 分發 action 更新 Redux store
                 dispatch(setAuth({ token, username, btnAuth }));
                 dispatch(setPermissions(btnAuth));
-                // 導航到之前的頁面或首頁
                 navigate(from, { replace: true });
             } else {
-                // 處理 API 成功但業務邏輯失敗的情況
                 message.error(response.message || t('loginFailed'));
             }
         } catch (error: any) {
-            // 捕獲 API 請求本身的錯誤 (例如網路錯誤、伺服器 500 等)
             console.error("登入請求失敗:", error);
             message.error(error.data?.message || "登入時發生錯誤，請稍後再試");
         }
     };
 
-    // 處理表單提交
     const handleLogin = () => {
         form.validateFields()
             .then(performLogin)
@@ -69,7 +62,6 @@ function Login() {
                         </div>
                         <h1>朋遠</h1>
                     </div>
-                    {/* onFinish可以直接綁定performLogin */}
                     <Form form={form} onFinish={performLogin} >
                         <Form.Item
                             name="username"
@@ -86,7 +78,6 @@ function Login() {
                         </Form.Item>
 
                         <Form.Item >
-                            {/* 5. 將所有按鈕的 loading 狀態綁定到 isLoading */}
                             <Button type="primary" className="mb" style={{ width: '100%' }} htmlType="submit" loading={isLoading}>
                                 {t('login')}
                             </Button>

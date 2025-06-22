@@ -1,10 +1,11 @@
 import axios, { AxiosInstance, InternalAxiosRequestConfig, AxiosResponse } from 'axios';
 import { message } from 'antd';
-import { useAuthStore } from '../../stores/authStore';
+import { store } from '../../app/store';
+import { logout } from '../../features/user/authSlice';
 
 type GetTokenFunction = () => string | null;
 
-export function createHttpInstance(getToken: GetTokenFunction) {
+export function createHttpInstance() {
     const http: AxiosInstance = axios.create({
         baseURL: import.meta.env.VITE_API_BASE || '',
         timeout: 10000,
@@ -12,7 +13,7 @@ export function createHttpInstance(getToken: GetTokenFunction) {
 
     // 請求攔截器
     http.interceptors.request.use((config: InternalAxiosRequestConfig) => {
-        const token = getToken();
+        const token = store.getState().authSlice.token;
 
         if (token && config.headers) {
             config.headers['Authorization'] = `Bearer ${token}`
@@ -28,7 +29,7 @@ export function createHttpInstance(getToken: GetTokenFunction) {
         (error) => {
             if (error.response?.status === 401) {
                 message.error('您的登入已過期，請重新登入。');
-                useAuthStore.getState().logout();
+                store.dispatch(logout());
                 window.location.href = '/login';
             } else {
                 const msg = error.response?.data?.message || error.message || '請求錯誤';
