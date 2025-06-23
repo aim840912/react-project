@@ -59,13 +59,29 @@ export const userApi = createApi({
             invalidatesTags: [{ type: 'User', id: 'LIST' }],
         }),
 
-        deleteUser: builder.mutation<void, string>({
-            query: (id) => ({
+        deleteUser: builder.mutation<void, { id: string; queryArgs: UserSearchType }>({
+            query: ({ id }) => ({
                 url: '/deleteUser',
                 method: 'POST',
                 body: { id },
             }),
-            invalidatesTags: [{ type: 'User', id: 'LIST' }],
+            async onQueryStarted({ id, queryArgs }, { dispatch, queryFulfilled }) {
+                const patchResult = dispatch(
+                    userApi.util.updateQueryData('getUserList', queryArgs, (draft) => {
+                        const userIndex = draft.list.findIndex(user => user.id === id);
+                        if (userIndex !== -1) {
+                            draft.list.splice(userIndex, 1);
+                        }
+                    })
+                );
+
+                try {
+                    await queryFulfilled;
+                } catch {
+
+                    patchResult.undo();
+                }
+            },
         }),
 
         batchDeleteUser: builder.mutation<void, React.Key[]>({

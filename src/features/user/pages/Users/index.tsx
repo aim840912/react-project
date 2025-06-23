@@ -2,7 +2,7 @@ import { Card, Row, Col, Input, Button, Table, Pagination, Popconfirm, message }
 import React, { useState, useMemo, useEffect, useCallback } from "react";
 import { useSearchParams } from "react-router-dom";
 import EnterpriseForm from "../../pages/enterpriseForm";
-import type { User } from "../../types";
+import type { User, UserSearchType } from "../../types";
 import { getUsersColumns } from "./users.config";
 import {
     useGetUserListQuery,
@@ -30,11 +30,13 @@ function Users() {
     const [editingRecord, setEditingRecord] = useState<User | undefined>(undefined);
     const token = useAppSelector((state) => state.authSlice.token);
 
-    const { data: userData, isFetching } = useGetUserListQuery({
+    const currentQueryArgs: UserSearchType = useMemo(() => ({
         page,
         pageSize,
-        ...queryFilters,
-    }, {
+        ...queryFilters
+    }), [page, pageSize, queryFilters]);
+
+    const { data: userData, isFetching } = useGetUserListQuery(currentQueryArgs, {
         skip: !token
     });
 
@@ -101,12 +103,12 @@ function Users() {
 
     const handleDelete = useCallback(async (id: string) => {
         try {
-            await deleteUser(id).unwrap();
+            await deleteUser({ id, queryArgs: currentQueryArgs }).unwrap();
             message.success("刪除成功");
         } catch (error) {
             message.error("刪除失敗");
         }
-    }, [deleteUser]);
+    }, [deleteUser, currentQueryArgs]);
 
     const handleBatchDelete = async () => {
         if (selectedRowKeys.length === 0) return;
