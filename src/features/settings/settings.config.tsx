@@ -154,6 +154,18 @@ export const treeData: TreeDataNode[] = [
     {
         title: '系統設置',
         key: "/settings",
+        children: [
+            {
+
+                title: "權限設置",
+                key: "/settings/permissions"
+            },
+            {
+
+                title: "系統日誌",
+                key: "/settings/system/logs"
+            }
+        ]
     },
     {
         title: '個人中心',

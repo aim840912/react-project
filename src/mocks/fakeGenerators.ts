@@ -193,6 +193,18 @@ const menuList = [
         "icon": "SettingOutlined",
         "label": "系統設置",
         "key": "/settings",
+        "children": [
+            {
+                "icon": "ProfileOutlined",
+                "label": "權限設置",
+                "key": "/settings/permissions"
+            },
+            {
+                "icon": "FileTextOutlined",
+                "label": "系統日誌",
+                "key": "/settings/system/logs"
+            }
+        ]
     },
     {
         "icon": "UserOutlined",
@@ -365,63 +377,22 @@ const managerMenuList = [
         "icon": "SettingOutlined",
         "label": "系統設置",
         "key": "/settings",
+        "children": [
+            {
+                "icon": "ProfileOutlined",
+                "label": "權限設置",
+                "key": "/settings/permissions"
+            },
+            {
+                "icon": "FileTextOutlined",
+                "label": "系統日誌",
+                "key": "/settings/system/logs"
+            }
+        ]
     },
     {
         "icon": "UserOutlined",
         "label": "個人中心",
-        "key": "/personal",
-    }
-]
-const customizeMenuList = [
-    {
-        "icon": "DashboardOutlined",
-        "label": "工作台",
-        "key": "/dashboard",
-    },
-    {
-
-        "icon": "TeamOutlined",
-        "label": "租户管理",
-        "key": "/users",
-        "children": [
-            {
-                "icon": "UnorderedListOutlined",
-                "label": "租户列表",
-                "key": "/users/list",
-            },
-        ]
-    },
-    {
-        "icon": "LaptopOutlined",
-        "label": "物业管理",
-        "key": "/estate",
-        "children": [
-            {
-                "icon": "InsertRowLeftOutlined",
-                "label": "楼宇管理",
-                "key": "/estate/tenement",
-            },
-
-        ]
-    },
-    {
-        "icon": "ToolOutlined",
-        "label": "报修管理",
-        "key": "/repair"
-    },
-    {
-        "icon": "ToolOutlined",
-        "label": "设备管理",
-        "key": "/equipment",
-    },
-    {
-        "icon": "ThunderboltOutlined",
-        "label": "能源消耗",
-        "key": "/energy",
-    },
-    {
-        "icon": "UserOutlined",
-        "label": "个人中心",
         "key": "/personal",
     }
 ]
@@ -431,7 +402,6 @@ export const menu = {
     menuList,
     userMenuList,
     managerMenuList,
-    customizeMenuList
 }
 
 export function generateEquipmentList(count: number) {
@@ -487,7 +457,7 @@ export function generateAccountList() {
             person: '张安定',
             tel: '15555555555',
             department: '企划部',
-            menu: menu.customizeMenuList,
+            menu: menu.userMenuList,
         },
         {
             id: 1005,

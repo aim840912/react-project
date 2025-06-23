@@ -59,7 +59,7 @@ function EnterpriseForm(props: FormProps) {
                 width={800}
                 onOk={handleSubmit(onSubmit)}
                 confirmLoading={isUpdating}
-                destroyOnClose
+                destroyOnHidden
             >
 
                 <Form layout="vertical">

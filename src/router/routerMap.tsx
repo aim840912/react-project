@@ -14,6 +14,7 @@ const Equipment = lazy(() => import("../features/equipment/pages"));
 const Enengy = lazy(() => import("../features/energy"));
 const Settings = lazy(() => import("../features/settings"));
 const Personal = lazy(() => import("../features/personal"));
+const LogPage = lazy(() => import("../features/logs/pages/LogPage"));
 
 export const componentMap: Record<string, React.LazyExoticComponent<React.FC>> = {
     "/dashboard": Dashboard,
@@ -28,6 +29,7 @@ export const componentMap: Record<string, React.LazyExoticComponent<React.FC>> =
     "/operation/article": Article,
     "/equipment": Equipment,
     "/energy": Enengy,
-    "/settings": Settings,
+    "/settings/permissions": Settings,
+    "/settings/system/logs": LogPage,
     "/personal": Personal,
 };

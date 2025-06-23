@@ -2,8 +2,10 @@ import { configureStore } from "@reduxjs/toolkit";
 import authSlice from "../features/user/authSlice";
 import permissionsSlice from "../features/user/permissionSlice";
 import themeSlice from '../features/theme/themeSlice';
+import logSlice from '../features/logs/logSlice';
 import { financeApi } from "../features/finance/api/financeApi";
 import { authListenerMiddleware } from '../features/user/authMiddleware';
+import { logListenerMiddleware } from "../features/logs/logMiddleware";
 import { equipmentApi } from "../features/equipment/api/equipmentApi";
 import { settingsApi } from "../features/settings/api/settingsApi";
 import { estateApi } from "../features/estate/api/estateApi";
@@ -15,6 +17,7 @@ export const store = configureStore({
         authSlice,
         permissionsSlice,
         theme: themeSlice,
+        logs: logSlice,
         [financeApi.reducerPath]: financeApi.reducer,
         [equipmentApi.reducerPath]: equipmentApi.reducer,
         [settingsApi.reducerPath]: settingsApi.reducer,
@@ -25,6 +28,7 @@ export const store = configureStore({
 
     middleware: (getDefaultMiddleware) =>
         getDefaultMiddleware()
+            .prepend(logListenerMiddleware.middleware)
             .prepend(authListenerMiddleware.middleware)
             .concat(financeApi.middleware)
             .concat(equipmentApi.middleware)
