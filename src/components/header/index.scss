@@ -1,6 +1,7 @@
 .my-header {
     display: flex;
-    justify-content: flex-end;
+    // 將 justify-content 改為 space-between
+    justify-content: space-between;
     align-items: center;
     height: 64px;
     padding: 0 20px;

@@ -1,5 +1,6 @@
 import { http, HttpResponse } from 'msw';
 import { menu, generateUserList, generateContracts, generateRoomList, generateBillList, generateAccountList, generateEquipmentList } from './fakeGenerators';
+import globalSearchHandler from '../api/globalSearch';
 
 export const handlers = [
     http.post('/api/login', async ({ request }) => {
@@ -196,5 +197,6 @@ export const handlers = [
             },
         });
     }),
+    globalSearchHandler,
 
 ];

@@ -1,9 +1,9 @@
 import React, { useMemo } from 'react';
-import { Menu } from 'antd';
-import icons from './iconList'
-import logo from "../../assets/logo.png"
+import { Menu, MenuProps } from 'antd';
+import icons from './iconList';
+import logo from "../../assets/logo.png";
 import { useNavigate, useLocation } from 'react-router-dom';
-import "./index.scss"
+import "./index.scss";
 import { useAppSelector } from '../../app/hooks';
 
 export interface MenuItem {
@@ -21,8 +21,8 @@ export interface MenuItemFromData {
 }
 
 const NavLeft: React.FC = () => {
-    const { menuList } = useAppSelector((state) => state.authSlice)
-    const navigate = useNavigate()
+    const { menuList } = useAppSelector((state) => state.authSlice);
+    const navigate = useNavigate();
     const location = useLocation();
 
     const menuData = useMemo(() => {
@@ -30,65 +30,52 @@ const NavLeft: React.FC = () => {
             return items.map((item: MenuItemFromData) => ({
                 key: item.key,
                 label: item.label,
-                icon: item.icon ? icons[item.icon] : null, // 添加圖標存在性檢查
+                icon: item.icon ? icons[item.icon] : null,
                 children: item.children ? mapMenuItems(item.children) : undefined
             }));
         };
-
         return mapMenuItems(menuList || []);
     }, [menuList]);
 
-    const handleMenuClick = (info: { key: string }) => {
-        navigate(info.key);
+    // --- 修改處：使用 antd 的 MenuProps['onClick'] 類型 ---
+    const handleMenuClick: MenuProps['onClick'] = (e) => {
+        navigate(e.key);
     };
 
-    return <div className='navleft'>
-        <div className='logo'>
-            <img src={logo} alt="" width={18} />
-            <h1>朋遠智慧園區</h1>
-        </div>
+    return (
+        <div className='navleft'>
+            <div className='logo'>
+                <img src={logo} alt="" width={18} />
+                <h1>朋遠智慧園區</h1>
+            </div>
 
-        <Menu
-            defaultSelectedKeys={['/dashboard']}
-            mode="inline"
-            theme="dark"
-            items={menuData}
-            onClick={handleMenuClick}
-            selectedKeys={[location.pathname]}
-            defaultOpenKeys={getDefaultOpenKeys(location.pathname, menuList)}
-        />
-    </div>
-}
+            <Menu
+                // defaultSelectedKeys={['/dashboard']} // 移除，selectedKeys 已經能處理
+                mode="inline"
+                theme="dark"
+                items={menuData}
+                onClick={handleMenuClick}
+                selectedKeys={[location.pathname]}
+                defaultOpenKeys={getDefaultOpenKeys(location.pathname, menuList)}
+            />
+        </div>
+    );
+};
 
 function getDefaultOpenKeys(pathname: string, menuItems: MenuItemFromData[]): string[] {
-    const openKeys: string[] = [];
-
-    const findPath = (path: string, items: MenuItemFromData[], parents: string[] = []): boolean => {
-        for (const item of items) {
-            const currentPath = [...parents];
-
-            if (item.key) {
-                currentPath.push(item.key);
+    for (const item of menuItems) {
+        if (item.children) {
+            if (item.children.some(child => child.key === pathname || pathname.startsWith(child.key + '/'))) {
+                return [item.key];
             }
 
-            //找到匹配的路徑
-            if (item.key === path) {
-                openKeys.push(...parents);
-                return true;
-            }
-
-            //遞歸檢查子菜單
-            if (item.children && item.children.length > 0) {
-                const found = findPath(path, item.children, currentPath);
-                if (found) return true;
+            const deepOpenKey = getDefaultOpenKeys(pathname, item.children);
+            if (deepOpenKey.length > 0) {
+                return [item.key, ...deepOpenKey];
             }
         }
-
-        return false;
-    };
-
-    findPath(pathname, menuItems);
-    return openKeys;
+    }
+    return [];
 }
 
-export default NavLeft
+export default NavLeft;

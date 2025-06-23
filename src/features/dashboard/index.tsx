@@ -108,12 +108,12 @@ function Dashboard() {
                 <Col span={6}>
                     <Card title="實時車輛信息" style={{ height: "406px" }}>
                         <Timeline items={[
-                            { children: <><Tag color="green">進場</Tag>08:24車輛 京A66666</> },
-                            { children: <><Tag color="red">出場</Tag>09:15 車輛 京A66666</>, color: 'red' },
-                            { children: <><Tag color="green">進場</Tag>09:22 車輛 京A23456</> },
-                            { children: <><Tag color="red">出場</Tag>10:43 車輛 京A18763</>, color: 'red' },
-                            { children: <><Tag color="green">進場</Tag>13:38 車輛 京A88888</> },
-                            { children: <><Tag color="green">進場</Tag>14:46 車輛 京A23456</> },
+                            { key: 'timeline-item-1', children: <><Tag color="green">進場</Tag>08:24車輛 京A66666</> },
+                            { key: 'timeline-item-2', children: <><Tag color="red">出場</Tag>09:15 車輛 京A66666</>, color: 'red' },
+                            { key: 'timeline-item-3', children: <><Tag color="green">進場</Tag>09:22 車輛 京A23456</> },
+                            { key: 'timeline-item-4', children: <><Tag color="red">出場</Tag>10:43 車輛 京A18763</>, color: 'red' },
+                            { key: 'timeline-item-5', children: <><Tag color="green">進場</Tag>13:38 車輛 京A88888</> },
+                            { key: 'timeline-item-6', children: <><Tag color="green">進場</Tag>14:46 車輛 京A23456</> },
                         ]} />
                     </Card>
                 </Col>

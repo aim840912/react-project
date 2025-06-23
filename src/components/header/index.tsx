@@ -7,6 +7,7 @@ import { useNavigate } from 'react-router-dom';
 import './index.scss'
 import { memo, useMemo } from 'react';
 import { useAppSelector } from '../../app/hooks';
+import GlobalSearch from '../GlobalSearch';
 
 enum UserMenuKey {
     PROFILE = 'profile',
@@ -51,6 +52,7 @@ const MyHeader: React.FC = () => {
 
     return (
         <div className="my-header">
+            <GlobalSearch />
             <div className="header-right">
                 <Dropdown menu={{ items: menuItems, onClick: handleMenuClick }}>
                     <span role="button" className="dropdown-trigger">
