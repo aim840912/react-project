@@ -16,7 +16,6 @@
     * **按鈕級權限**：控制頁面中特定按鈕（如：刪除、修改權限）的顯示與否。
 * **數據可視化**：整合 `ECharts`，提供豐富的圖表類型（折線圖、長條圖、南丁格爾玫瑰圖）用於儀表板和數據分析頁面。
 * **表格功能**：
-    * **通用列表邏輯**: 透過自定義 Hook (`useDataList`) 封裝分頁、搜尋、重置等通用表格操作。
     * **數據匯出**: 實現將表格數據匯出為 Excel 檔案的功能。
 * **國際化 (i18n)**：整合 `i18next`，支援中英文雙語切換。
 * **前端工程化**：
@@ -125,7 +124,7 @@ react-project/
 │   │   ├── settings/     # 系統設置 (權限管理核心)
 │   │   └── user/         # 用戶認證與權限 Slice
 │   ├── guard/            # ✅ 路由守衛 (RequireAuth, CheckPermission)
-│   ├── hooks/            # ✅ 自定義 Hooks (useDataList, useAppRouter)
+│   ├── hooks/            # ✅ 自定義 Hooks
 │   ├── i18n/             # 國際化設定
 │   ├── layout/           # 頁面主佈局
 │   ├── mocks/            # ✅ MSW API Mocking (前後端分離開發亮點)
@@ -152,7 +151,7 @@ react-project/
 
 * **關注點分離 (SoC)**: 嚴格劃分 UI 層、業務邏輯層和數據服務層。例如，`features` 專注業務，`components` 專注 UI，`api` 專注數據。
 * **配置即代碼 (Config as Code)**: 將表格的欄位 (`columns`)、圖表設定 (`options`) 等配置資訊從元件中抽離，使元件本身更純粹，配置更易於管理。
-* **抽象與複用**: 透過自定義 Hooks (`useDataList`, `useAppRouter`) 將通用邏輯進行封裝，避免在多個元件中重複編寫相同的程式碼。
+* **抽象與複用**: 透過自定義 Hooks 將通用邏輯進行封裝，避免在多個元件中重複編寫相同的程式碼。
 * **性能優化**:
     * **程式碼分割**: 透過 `React.lazy` 和 `Suspense` 實現路由級的程式碼分割，加速首頁載入。
     * **打包優化**: 使用 `vite-plugin-compression` 產生 Gzip 和 Brotli 壓縮檔案，減小生產環境資源體積。

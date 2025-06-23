@@ -1,5 +1,5 @@
 import { Card, Row, Col, Input, Button, Table, Pagination, Popconfirm, message } from "antd";
-import React, { useState, useMemo, useEffect } from "react";
+import React, { useState, useMemo, useEffect, useCallback } from "react";
 import { useSearchParams } from "react-router-dom";
 import EnterpriseForm from "../../pages/enterpriseForm";
 import type { User } from "../../types";
@@ -17,14 +17,12 @@ function Users() {
     const page = parseInt(searchParams.get('page') || '1', 10);
     const pageSize = parseInt(searchParams.get('pageSize') || '10', 10);
 
-    // 用於輸入框的狀態
     const [inputFilters, setInputFilters] = useState({
         userName: searchParams.get('userName') || '',
         contact: searchParams.get('contact') || '',
         tel: searchParams.get('tel') || '',
     });
 
-    // 用於觸發 API 請求的狀態
     const [queryFilters, setQueryFilters] = useState(inputFilters);
 
     const [selectedRowKeys, setSelectedRowKeys] = useState<React.Key[]>([]);
@@ -86,10 +84,10 @@ function Users() {
         setIsModalOpen(true);
     };
 
-    const handleEdit = (record: User) => {
+    const handleEdit = useCallback((record: User) => {
         setEditingRecord(record);
         setIsModalOpen(true);
-    };
+    }, []);
 
     const handleCancelModal = () => {
         setIsModalOpen(false);
@@ -101,14 +99,14 @@ function Users() {
         handleCancelModal();
     };
 
-    const handleDelete = async (id: string) => {
+    const handleDelete = useCallback(async (id: string) => {
         try {
             await deleteUser(id).unwrap();
             message.success("刪除成功");
         } catch (error) {
             message.error("刪除失敗");
         }
-    };
+    }, [deleteUser]);
 
     const handleBatchDelete = async () => {
         if (selectedRowKeys.length === 0) return;
@@ -121,7 +119,7 @@ function Users() {
         }
     };
 
-    const columns = getUsersColumns({ onEdit: handleEdit, onDelete: handleDelete });
+    const columns = useMemo(() => getUsersColumns({ onEdit: handleEdit, onDelete: handleDelete }), [handleEdit, handleDelete]);
 
     const rowSelection = {
         selectedRowKeys,

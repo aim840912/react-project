@@ -5,7 +5,7 @@ import { logout, setMenu } from '../../features/user/authSlice';
 import { useDispatch } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 import './index.scss'
-import { useMemo } from 'react';
+import { memo, useMemo } from 'react';
 import { useAppSelector } from '../../app/hooks';
 
 enum UserMenuKey {
@@ -66,4 +66,4 @@ const MyHeader: React.FC = () => {
     );
 };
 
-export default MyHeader
+export default memo(MyHeader)
