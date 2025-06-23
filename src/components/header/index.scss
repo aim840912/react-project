@@ -1,30 +1,27 @@
 .my-header {
     display: flex;
-    // 將 justify-content 改為 space-between
     justify-content: space-between;
     align-items: center;
-    height: 64px;
-    padding: 0 20px;
-    background-color: #fff;
-    box-shadow: 0 1px 4px rgba(0, 0, 0, 0.05);
+    height: 100%;
 
     .header-right {
         display: flex;
         align-items: center;
-    }
+        gap: 24px;
 
-    .dropdown-trigger {
-        cursor: pointer;
-        padding: 8px 12px;
-        border-radius: 4px;
-        transition: background-color 0.3s;
+        .dropdown-trigger {
+            cursor: pointer;
+            padding: 8px 12px;
+            border-radius: 4px;
+            transition: background-color 0.3s;
 
-        &:hover {
-            background-color: rgba(0, 0, 0, 0.03);
-        }
+            &:hover {
+                background-color: rgba(0, 0, 0, 0.04);
+            }
 
-        .ant-space {
-            align-items: center;
+            .ant-space {
+                align-items: center;
+            }
         }
     }
 }

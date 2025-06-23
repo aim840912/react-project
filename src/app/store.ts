@@ -1,6 +1,7 @@
 import { configureStore } from "@reduxjs/toolkit";
 import authSlice from "../features/user/authSlice";
 import permissionsSlice from "../features/user/permissionSlice";
+import themeSlice from '../features/theme/themeSlice';
 import { financeApi } from "../features/finance/api/financeApi";
 import { authListenerMiddleware } from '../features/user/authMiddleware';
 import { equipmentApi } from "../features/equipment/api/equipmentApi";
@@ -13,6 +14,7 @@ export const store = configureStore({
     reducer: {
         authSlice,
         permissionsSlice,
+        theme: themeSlice,
         [financeApi.reducerPath]: financeApi.reducer,
         [equipmentApi.reducerPath]: equipmentApi.reducer,
         [settingsApi.reducerPath]: settingsApi.reducer,

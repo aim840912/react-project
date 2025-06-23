@@ -5,10 +5,13 @@ import LoadingPage from "./page/loading";
 import { baseRoutes } from "./router";
 import { generateRoutes, MenuType } from "./router/generatesRoutes";
 import { useMenuLoader } from "./hooks/useMenuLoader";
+import { ConfigProvider, theme } from 'antd';
+
 
 function App() {
   useMenuLoader();
   const { token, menuList } = useAppSelector((state) => state.authSlice);
+  const currentTheme = useAppSelector((state) => state.theme.theme);
 
   const router = useMemo(() => {
     const newRoutes = [...baseRoutes];
@@ -23,11 +26,17 @@ function App() {
   }, [token, menuList]);
 
   return (
-    <div className="App">
-      <Suspense fallback={<LoadingPage />}>
-        <RouterProvider router={router} />
-      </Suspense>
-    </div>
+    <ConfigProvider
+      theme={{
+        algorithm: currentTheme === 'dark' ? theme.darkAlgorithm : theme.defaultAlgorithm,
+      }}
+    >
+      <div className="App">
+        <Suspense fallback={<LoadingPage />}>
+          <RouterProvider router={router} />
+        </Suspense>
+      </div>
+    </ConfigProvider>
   );
 }
 
