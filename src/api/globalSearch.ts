@@ -1,14 +1,11 @@
 import { generateUserList, generateContracts, generateEquipmentList } from '../mocks/fakeGenerators';
 import { http, HttpResponse, type HttpHandler, type StrictResponse } from 'msw';
-import type { VercelRequest, VercelResponse } from '@vercel/node'; // 雖然不再直接使用，但保留類型參考// 修正路徑
+import type { SearchResult } from '../features/dashboard/api/dashboardApi';
 
-// 定義回傳的資料類型
-interface SearchResult {
-    type: 'user' | 'contract' | 'equipment';
-    id: string;
-    name: string;
-    url: string;
-}
+const commandActions: SearchResult[] = [
+    { type: 'action', id: 'cmd-toggle-theme', name: '🎨 切換深色/淺色模式', actionType: 'TOGGLE_THEME' },
+    { type: 'action', id: 'cmd-logout', name: '🚪 登出系統', actionType: 'LOGOUT' },
+];
 
 // 導出符合 MSW v2 簽名的處理函式
 const globalSearchHandler: HttpHandler = http.post('/api/globalSearch', async ({ request }) => {
@@ -55,7 +52,12 @@ const globalSearchHandler: HttpHandler = http.post('/api/globalSearch', async ({
             url: `/equipment?highlight=${equipment.id}`,
         }));
 
-    const results = [...userResults, ...contractResults, ...equipmentResults];
+    // 篩選操作指令
+    const actionResults: SearchResult[] = commandActions
+        .filter(action => action.name.toLowerCase().includes(lowerCaseKeyword));
+
+
+    const results = [...actionResults, ...userResults, ...contractResults, ...equipmentResults];
 
     return HttpResponse.json({ data: results });
 });

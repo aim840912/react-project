@@ -1,27 +1,49 @@
-// src/components/GlobalSearch/index.tsx
-
 import { useState } from 'react';
-import { AutoComplete, Input } from 'antd';
+import { AutoComplete, Input, message } from 'antd';
 import { useNavigate } from 'react-router-dom';
 import { useGlobalSearchQuery, SearchResult } from '../../features/dashboard/api/dashboardApi';
 import useDebounce from '../../hooks/useDebounce';
+import { useAppDispatch } from '../../app/hooks';
+import { toggleTheme } from '../../features/theme/themeSlice';
+import { logout, setMenu } from '../../features/user/authSlice';
+
 
 const GlobalSearch: React.FC = () => {
     const [value, setValue] = useState('');
     const debouncedValue = useDebounce(value, 500);
     const navigate = useNavigate();
 
+    const dispatch = useAppDispatch();
+
     const { data: options = [], isFetching } = useGlobalSearchQuery(debouncedValue, {
         skip: !debouncedValue,
     });
 
     const handleSelect = (value: string, option: SearchResult) => {
-        navigate(option.url);
+        if (option.type === 'action') {
+            switch (option.actionType) {
+                case 'TOGGLE_THEME':
+                    dispatch(toggleTheme());
+                    break;
+                case 'LOGOUT':
+                    dispatch(logout());
+                    dispatch(setMenu([]));
+                    message.success('成功退出登錄');
+                    navigate("/login", { replace: true });
+                    break;
+                default:
+                    break;
+            }
+        }
+
+        else if (option.url) {
+            navigate(option.url);
+        }
+
         setValue('');
     };
 
     const renderOption = (item: SearchResult) => ({
-        // --- 主要修改處：在這裡為每個選項加上唯一的 key ---
         key: item.id,
         value: item.name,
         label: (
@@ -30,7 +52,6 @@ const GlobalSearch: React.FC = () => {
                 <span style={{ color: '#999' }}>{item.type}</span>
             </div>
         ),
-        // 將原始資料附加到 option 上
         ...item,
     });
 
@@ -43,7 +64,7 @@ const GlobalSearch: React.FC = () => {
             value={value}
             getPopupContainer={triggerNode => triggerNode.parentNode}
         >
-            <Input.Search placeholder="搜尋租戶、合約、設備..." loading={isFetching} />
+            <Input.Search placeholder="搜尋或執行指令..." loading={isFetching} />
         </AutoComplete>
     );
 };

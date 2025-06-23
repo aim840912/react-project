@@ -2,12 +2,12 @@ import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react';
 import type { EnergyItem, EnergyApiResponse } from '../../energy/types';
 
 export interface SearchResult {
-    type: 'user' | 'contract' | 'equipment';
+    type: 'user' | 'contract' | 'equipment' | 'action';
     id: string;
     name: string;
-    url: string;
+    url?: string;
+    actionType?: 'TOGGLE_THEME' | 'LOGOUT'; // 定義具體的操作類型
 }
-
 
 export const dashboardApi = createApi({
     reducerPath: 'dashboardApi',
