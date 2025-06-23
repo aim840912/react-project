@@ -3,6 +3,7 @@ import authSlice from "../features/user/authSlice";
 import permissionsSlice from "../features/user/permissionSlice";
 import themeSlice from '../features/theme/themeSlice';
 import logSlice from '../features/logs/logSlice';
+import notificationSlice from '../features/notifications/notificationSlice';
 import { financeApi } from "../features/finance/api/financeApi";
 import { authListenerMiddleware } from '../features/user/authMiddleware';
 import { logListenerMiddleware } from "../features/logs/logMiddleware";
@@ -18,6 +19,7 @@ export const store = configureStore({
         permissionsSlice,
         theme: themeSlice,
         logs: logSlice,
+        notifications: notificationSlice,
         [financeApi.reducerPath]: financeApi.reducer,
         [equipmentApi.reducerPath]: equipmentApi.reducer,
         [settingsApi.reducerPath]: settingsApi.reducer,
