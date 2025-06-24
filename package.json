@@ -10,7 +10,9 @@
     "lint": "eslint . --ext ts,tsx",
     "preview": "vite preview",
     "test": "vitest",
-    "test:watch": "vitest --watch"
+    "test:watch": "vitest --watch",
+    "test:bail": "vitest --bail 1",
+    "test:watch:bail": "vitest --watch --bail 1"
   },
   "dependencies": {
     "@ant-design/v5-patch-for-react-19": "^1.0.3",

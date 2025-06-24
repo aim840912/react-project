@@ -33,7 +33,7 @@ function EnterpriseForm(props: FormProps) {
 
     const onSubmit = async (data: User) => {
         try {
-            const payload = isEditing ? { ...initialData, ...data } : data;
+            const payload = isEditing ? { ...data, ...initialData, } : data;
             await updateUser(payload).unwrap();
             message.success("操作成功");
             onSuccess();
