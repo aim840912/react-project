@@ -1,11 +1,11 @@
 import React from "react";
 import { Navigate, RouteObject } from "react-router-dom";
-import RequireAuth from "../guard/RequireAuth";
-import ErrorPage from "../page/error";
+import RequireAuth from "@/guard/RequireAuth";
+import ErrorPage from "@/page/error";
 
-const MainLayout = React.lazy(() => import("../layout/mainLayout"));
-const Login = React.lazy(() => import("../features/user/pages/login/index"));
-const NotFound = React.lazy(() => import("../page/404"));
+const MainLayout = React.lazy(() => import("@/layout/mainLayout"));
+const Login = React.lazy(() => import("@/features/user/pages/login/index"));
+const NotFound = React.lazy(() => import("@/page/404"));
 
 export const baseRoutes: RouteObject[] = [
     {

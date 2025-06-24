@@ -1,6 +1,6 @@
 import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react';
 import type { SettingsDataType, AccountData } from '../types';
-import type { ApiResponse } from '../../user/types';
+import type { ApiResponse } from '@/features/user/types';
 
 interface AccountListResponse {
     list: SettingsDataType[];

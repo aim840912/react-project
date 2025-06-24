@@ -1,10 +1,10 @@
 import React, { useMemo } from 'react';
 import { Menu, MenuProps } from 'antd';
-import icons from './iconList';
-import logo from "../../assets/logo.png";
 import { useNavigate, useLocation } from 'react-router-dom';
+import { useAppSelector } from '@/app/hooks';
+import logo from "@/assets/logo.png";
+import icons from './iconList';
 import "./index.scss";
-import { useAppSelector } from '../../app/hooks';
 
 export interface MenuItem {
     key: string,

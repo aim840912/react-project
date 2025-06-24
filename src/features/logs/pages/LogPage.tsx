@@ -1,6 +1,6 @@
 import { Card, Table, Typography, Tag, Button, Popconfirm, message } from 'antd';
 import type { TableProps } from 'antd';
-import { useAppSelector, useAppDispatch } from '../../../app/hooks';
+import { useAppSelector, useAppDispatch } from '@/app/hooks';
 import { selectAllLogs, clearLogs, LogEntry } from '../logSlice';
 
 const { Text, Paragraph } = Typography;

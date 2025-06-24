@@ -1,11 +1,11 @@
 import { useState } from 'react';
 import { AutoComplete, Input, message } from 'antd';
 import { useNavigate } from 'react-router-dom';
-import { useGlobalSearchQuery, SearchResult } from '../../features/dashboard/api/dashboardApi';
-import useDebounce from '../../hooks/useDebounce';
-import { useAppDispatch } from '../../app/hooks';
-import { toggleTheme } from '../../features/theme/themeSlice';
-import { logout, setMenu } from '../../features/user/authSlice';
+import { useGlobalSearchQuery, SearchResult } from '@/features/dashboard/api/dashboardApi';
+import useDebounce from '@/hooks/useDebounce';
+import { useAppDispatch } from '@/app/hooks';
+import { toggleTheme } from '@/features/theme/themeSlice';
+import { logout, setMenu } from '@/features/user/authSlice';
 
 
 const GlobalSearch: React.FC = () => {

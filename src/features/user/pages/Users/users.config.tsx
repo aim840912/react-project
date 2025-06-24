@@ -1,7 +1,5 @@
 import { Button, Popconfirm, Tag, type TableProps } from "antd";
-import { User } from "../../types";
-
-// 定義傳入的事件處理函式型別
+import { User } from "@/features/user/types";
 interface ColumnsParams {
     onEdit: (record: User) => void;
     onDelete: (id: string) => void;

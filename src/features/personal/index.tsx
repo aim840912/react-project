@@ -1,11 +1,7 @@
 import { Card, Row, Col, Calendar, Avatar, List, Tag, Progress, Badge } from 'antd';
 import "./index.scss"
 
-const data = [
-    {
-        title: 'Ant Design Title 1',
-    }
-];
+const data = [{ title: 'Ant Design Title 1', }];
 export default function Personal() {
     return <div>
         <Row gutter={16}>

@@ -1,18 +1,17 @@
 import "./index.scss";
-import logo from "../../../../assets/logo.png";
-import bg from "../../../../assets/bg.jpg";
-import lgbg from "../../../../assets/lgbg.jpg";
+import logo from "@/assets/logo.png";
+import bg from "@/assets/bg.jpg";
+import lgbg from "@/assets/lgbg.jpg";
 
 import { Button, Form, Input, message } from 'antd';
 import { UserOutlined, LockOutlined } from '@ant-design/icons';
 import { useNavigate, useLocation } from "react-router-dom";
 import { useTranslation } from 'react-i18next';
-import { useAppDispatch } from "../../../../app/hooks";
-import { setAuth } from "../../authSlice";
-import { setPermissions } from "../../permissionSlice";
-import { LoginCredentials } from "../../types";
-// 1. 引入我們在 userApi.ts 中建立的 Mutation Hook
-import { useLoginMutation } from "../../api/userApi";
+import { useAppDispatch } from "@/app/hooks";
+import { setAuth } from "@/features/user/authSlice";
+import { setPermissions } from "@/features/user/permissionSlice";
+import { LoginCredentials } from "@/features/user/types";
+import { useLoginMutation } from "@/features/user/api/userApi";
 
 function Login() {
     const [form] = Form.useForm();

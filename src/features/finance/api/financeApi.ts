@@ -1,8 +1,6 @@
-// src/features/contract/contractApi.ts
 import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
 import { BillDataType, BillSearchType, ContractDataType } from "../types";
-import { EquipmentDataType, SearchType as EquipmentSearchType } from "../../equipment/types";
-import { ApiResponse } from "../../user/types";
+import { EquipmentDataType, SearchType as EquipmentSearchType } from "@/features/equipment/types";
 
 export interface Contract {
     id: string;

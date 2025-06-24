@@ -1,5 +1,3 @@
-// src/features/logs/logSlice.test.ts
-
 import logReducer, { addLog, clearLogs, LogEntry } from './logSlice';
 
 describe('logSlice 狀態管理', () => {
@@ -18,11 +16,10 @@ describe('logSlice 狀態管理', () => {
         };
         const firstState = logReducer(initialState, addLog(firstLogPayload));
 
-        // 驗證第一筆日誌
         expect(firstState.entries).toHaveLength(1);
         expect(firstState.entries[0].username).toBe('admin');
         expect(firstState.entries[0].action).toBe('USER_LOGIN');
-        // 驗證 id 和 timestamp 是否已自動產生
+
         expect(firstState.entries[0]).toHaveProperty('id');
         expect(firstState.entries[0]).toHaveProperty('timestamp');
 
@@ -33,7 +30,6 @@ describe('logSlice 狀態管理', () => {
         };
         const secondState = logReducer(firstState, addLog(secondLogPayload));
 
-        // 驗證第二筆日誌被加到最前方
         expect(secondState.entries).toHaveLength(2);
         expect(secondState.entries[0].username).toBe('tester');
         expect(secondState.entries[1].username).toBe('admin');

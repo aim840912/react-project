@@ -1,5 +1,3 @@
-// src/features/user/permissionSlice.test.ts
-
 import permissionsReducer, {
     setPermissions,
     addPermission,

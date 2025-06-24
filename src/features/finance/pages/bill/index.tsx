@@ -1,12 +1,12 @@
 import { Card, Row, Col, Input, Table, Pagination, Statistic, DatePicker, Select, Button } from "antd";
-import { DownloadOutlined, DeleteOutlined } from '@ant-design/icons';
-import { useMemo, useState } from "react";
-import { exportToExcel } from "../../../../utils/exportToExcel";
 import type { RangePickerProps } from "antd/es/date-picker";
-import type { BillDataType, BillSearchType } from "../../types";
+import { DownloadOutlined, DeleteOutlined } from '@ant-design/icons';
+import { useGetBillListQuery } from "@/features/finance/api/financeApi";
+import type { BillDataType } from "@/features/finance/types";
+import { useAppSelector } from "@/app/hooks";
+import { useMemo, useState } from "react";
+import { exportToExcel } from "@/utils/exportToExcel";
 import { billColumns } from "./bill.config";
-import { useGetBillListQuery } from "../../api/financeApi";
-import { useAppSelector } from "../../../../app/hooks";
 
 const { RangePicker } = DatePicker;
 

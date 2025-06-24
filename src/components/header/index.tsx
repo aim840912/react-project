@@ -8,14 +8,14 @@ import {
 } from '@ant-design/icons';
 import type { MenuProps } from 'antd';
 import { Avatar, Dropdown, message, Space, Switch, Badge, List, Button } from 'antd';
-import { logout, setMenu } from '../../features/user/authSlice';
-import { useAppDispatch, useAppSelector } from '../../app/hooks';
+import { logout, setMenu } from '@/features/user/authSlice';
+import { useAppDispatch, useAppSelector } from '@/app/hooks';
 import { useNavigate } from 'react-router-dom';
 import './index.scss'
 import { memo, useMemo } from 'react';
 import GlobalSearch from '../GlobalSearch';
-import { toggleTheme } from '../../features/theme/themeSlice';
-import { selectNotifications, selectUnreadCount, markAllAsRead, clearNotifications } from '../../features/notifications/notificationSlice';
+import { toggleTheme } from '@/features/theme/themeSlice';
+import { selectNotifications, selectUnreadCount, markAllAsRead, clearNotifications } from '@/features/notifications/notificationSlice';
 
 enum UserMenuKey {
     PROFILE = 'profile',

@@ -1,10 +1,9 @@
-import React, { Suspense } from "react";
+import { Suspense } from "react";
 import { RouteObject, Outlet } from "react-router";
 import { componentMap } from "./routerMap";
-import RequireAuth from "../guard/RequireAuth";
-// import { MenuType } from "../types";
-import LoadingPage from "../page/loading";
-import ErrorPage from "../page/error";
+import RequireAuth from "@/guard/RequireAuth";
+import LoadingPage from "@/page/loading";
+import ErrorPage from "@/page/error";
 
 export interface MenuType {
     label: string;

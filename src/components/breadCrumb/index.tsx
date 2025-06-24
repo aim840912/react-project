@@ -1,7 +1,7 @@
 import { useLocation } from "react-router-dom";
 import { Breadcrumb } from "antd";
 import { useMemo } from "react";
-import { useAppSelector } from "../../app/hooks";
+import { useAppSelector } from "@/app/hooks";
 
 interface MenuItem {
     key: string;

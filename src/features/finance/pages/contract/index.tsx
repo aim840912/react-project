@@ -1,8 +1,8 @@
-import { Card, Table, Row, Col, Input, Button, Tag, Pagination, TableProps, PaginationProps } from "antd"
+import { Card, Table, Row, Col, Input, Button, Tag, Pagination, TableProps } from "antd"
 import { useState } from "react"
 import { useNavigate, useSearchParams } from "react-router";
-import { ContractDataType, ContractSearchType } from "../../types";
-import { useGetContractsQuery, useUpdateContractMutation } from '../../api/financeApi';
+import { ContractDataType, ContractSearchType } from "@/features/finance/types";
+import { useGetContractsQuery, useUpdateContractMutation } from '@/features/finance/api/financeApi';
 
 function Dashboard() {
     const [formData, setFormData] = useState<ContractSearchType>({

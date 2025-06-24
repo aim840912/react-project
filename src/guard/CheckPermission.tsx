@@ -1,5 +1,5 @@
 import React from 'react';
-import { usePermissions } from '../features/user/usePermissions';
+import { usePermissions } from '@/features/user/usePermissions';
 
 interface CheckPermissionProps {
 

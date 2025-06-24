@@ -2,13 +2,9 @@ import type { FormProps } from 'antd';
 import { Button, Form, Input, Card, DatePicker, Radio } from 'antd';
 import { ArticleFieldType } from '../types';
 
-const onFinish: FormProps<ArticleFieldType>['onFinish'] = (values) => {
+const onFinish: FormProps<ArticleFieldType>['onFinish'] = (values) => { };
 
-};
-
-const onFinishFailed: FormProps<ArticleFieldType>['onFinishFailed'] = (errorInfo) => {
-
-};
+const onFinishFailed: FormProps<ArticleFieldType>['onFinishFailed'] = (errorInfo) => { };
 
 function Article() {
     return <div>

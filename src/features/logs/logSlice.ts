@@ -9,7 +9,6 @@ export interface LogEntry {
     details: Record<string, any>;
 }
 
-
 interface LogState {
     entries: LogEntry[];
 }

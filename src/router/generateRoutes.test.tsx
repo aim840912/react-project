@@ -1,7 +1,5 @@
-import React from 'react';
 import { render } from '@testing-library/react';
 import { generateRoutes, MenuType } from './generatesRoutes';
-import { componentMap } from './routerMap';
 
 vi.mock('./routerMap', () => ({
     componentMap: {

@@ -1,5 +1,3 @@
-// src/features/user/authSlice.test.ts
-
 import authReducer, { setAuth, logout, setMenu, AuthState } from './authSlice';
 
 describe('authSlice 狀態管理', () => {

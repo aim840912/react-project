@@ -1,5 +1,3 @@
-// src/features/user/authMiddleware.test.ts
-
 import { configureStore } from '@reduxjs/toolkit';
 import { authListenerMiddleware } from './authMiddleware';
 import authSlice, { setAuth, logout } from './authSlice';

@@ -1,5 +1,5 @@
 import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react';
-import type { EnergyItem, EnergyApiResponse } from '../../energy/types';
+import type { EnergyItem, EnergyApiResponse } from '@/features/energy/types';
 
 export interface SearchResult {
     type: 'user' | 'contract' | 'equipment' | 'action';

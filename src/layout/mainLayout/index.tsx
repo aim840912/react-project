@@ -1,11 +1,11 @@
 import { useEffect, useState } from 'react';
 import { Layout, theme } from 'antd';
-import NavLeft from '../../components/navLeft';
-import MyBreadCrumb from '../../components/breadCrumb';
-import MyHeader from '../../components/header';
+import NavLeft from '@/components/navLeft';
+import MyBreadCrumb from '@/components/breadCrumb';
+import MyHeader from '@/components/header';
 import { Outlet, useLocation, useNavigate } from 'react-router-dom';
-import { useAppDispatch } from '../../app/hooks';
-import { addNotification } from '../../features/notifications/notificationSlice';
+import { useAppDispatch } from '@/app/hooks';
+import { addNotification } from '@/features/notifications/notificationSlice';
 
 const { Header, Content, Footer, Sider } = Layout;
 

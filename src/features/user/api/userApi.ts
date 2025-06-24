@@ -1,13 +1,13 @@
 import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react';
 import type { User, UserListResponse, UserSearchType, ApiResponse, LoginResponse, LoginCredentials } from '../types';
-import { MenuType } from '../../settings/types';
+import { MenuType } from '@/features/settings/types';
 
 export const userApi = createApi({
     reducerPath: 'userApi',
     baseQuery: fetchBaseQuery({
         baseUrl: '/api',
         prepareHeaders: (headers, { getState }) => {
-            const token = (getState() as any).authSlice.token; // 根據您的 store 結構獲取 token
+            const token = (getState() as any).authSlice.token;
             if (token) {
                 headers.set('authorization', `Bearer ${token}`);
             }

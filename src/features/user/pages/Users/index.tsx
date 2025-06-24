@@ -1,7 +1,7 @@
 import { Card, Row, Col, Input, Button, Table, Pagination, Popconfirm, message } from "antd";
 import React, { useState, useMemo, useEffect, useCallback } from "react";
 import { useSearchParams } from "react-router-dom";
-import EnterpriseForm from "../../pages/enterpriseForm";
+import EnterpriseForm from "@/features/user/pages/enterpriseForm/index";
 import type { User, UserSearchType } from "../../types";
 import { getUsersColumns } from "./users.config";
 import {

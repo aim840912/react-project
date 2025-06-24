@@ -2,7 +2,7 @@ import { Card, Table, Row, Col, Input, Button, Pagination } from "antd";
 import { useState } from "react";
 import { equipmentColumns } from "../equipment.config";
 import { useGetEquipmentListQuery } from "../api/equipmentApi";
-import { useAppSelector } from "../../../app/hooks";
+import { useAppSelector } from "@/app/hooks";
 
 
 function Equipment() {

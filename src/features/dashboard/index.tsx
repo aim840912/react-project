@@ -1,15 +1,14 @@
-import { Row, Col, Card, Progress, Statistic, Timeline, Tag } from "antd";
-import { RadarChartOutlined, SnippetsOutlined, DollarOutlined, LaptopOutlined } from "@ant-design/icons";
-import ReactECharts from "echarts-for-react";
 import "./index.scss";
+import { EnergyChartSeries, EnergyItem } from '@/features/energy/types';
+import { useLoadEnergyDataQuery } from "@/features/dashboard/api/dashboardApi";
+import { initialOption, option, nightingaleOption } from '@/features/dashboard/dashboard.charts';
+import { Card, Progress, Statistic, Timeline, Tag } from "antd";
 import { useMemo, useState } from "react";
+import ReactECharts from "echarts-for-react";
+import { RadarChartOutlined, SnippetsOutlined, DollarOutlined, LaptopOutlined } from "@ant-design/icons";
 import { Responsive, WidthProvider } from "react-grid-layout";
-import type { Layout } from "react-grid-layout";
-
-import { EnergyChartSeries, EnergyItem } from '../energy/types';
 import type { EChartsOption } from 'echarts';
-import { initialOption, option, nightingaleOption } from './dashboard.charts';
-import { useLoadEnergyDataQuery } from "./api/dashboardApi";
+import type { Layout } from "react-grid-layout";
 
 const ResponsiveGridLayout = WidthProvider(Responsive);
 

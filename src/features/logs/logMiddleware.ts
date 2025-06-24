@@ -1,7 +1,7 @@
 import { createListenerMiddleware, isAnyOf } from "@reduxjs/toolkit";
-import { userApi } from '../user/api/userApi';
+import { userApi } from '@/features/user/api/userApi';
 import { addLog } from './logSlice';
-import { RootState } from "../../app/store";
+import { RootState } from "@/app/store";
 
 export const logListenerMiddleware = createListenerMiddleware();
 

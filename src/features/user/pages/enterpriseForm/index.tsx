@@ -1,9 +1,8 @@
 import { Modal, Form, message } from "antd";
-import { useEffect } from "react";
 import { useForm } from "react-hook-form";
-import type { User } from "../../types";
+import type { User } from "@/features/user/types";
 import EnterpriseFormFields from "./enterpriseFormFields";
-import { useUpdateUserMutation } from "../../api/userApi";
+import { useUpdateUserMutation } from "@/features/user/api/userApi";
 
 interface FormProps {
     open: boolean;
@@ -19,7 +18,7 @@ function EnterpriseForm(props: FormProps) {
     const {
         control,
         handleSubmit,
-        // reset,
+        reset,
         formState: { errors }
     } = useForm<User>({
         defaultValues: initialData || {

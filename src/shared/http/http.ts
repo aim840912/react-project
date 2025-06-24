@@ -1,7 +1,7 @@
 import axios, { AxiosInstance, InternalAxiosRequestConfig, AxiosResponse } from 'axios';
 import { message } from 'antd';
-import { store } from '../../app/store';
-import { logout } from '../../features/user/authSlice';
+import { store } from '@/app/store';
+import { logout } from '@/features/user/authSlice';
 
 type GetTokenFunction = () => string | null;
 

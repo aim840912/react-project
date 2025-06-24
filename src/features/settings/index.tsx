@@ -1,11 +1,11 @@
-import { Card, Row, Col, Table, Input, Button, Pagination, Popconfirm, Tree } from "antd";
+import { Card, Row, Col, Table, Input, Button, Popconfirm, Tree } from "antd";
 import type { TreeProps } from 'antd';
-import { useEffect, useState, useMemo } from "react";
-import { useAppSelector } from "../../app/hooks";
+import { useEffect, useState } from "react";
+import { useAppSelector } from "@/app/hooks";
 import { MenuType, SettingsDataType } from "./types";
 import { treeData, getSettingsColumns } from "./settings.config";
 import { extractTreeKeys } from "./settings.utils";
-import { CheckPermission } from '../../guard/CheckPermission';
+import { CheckPermission } from '@/guard/CheckPermission';
 import { useGetAccountListQuery } from "./api/settingsApi";
 
 function Settings() {
