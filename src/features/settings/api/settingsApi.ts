@@ -9,7 +9,9 @@ interface AccountListResponse {
 
 export const settingsApi = createApi({
     reducerPath: 'settingsApi',
-    baseQuery: fetchBaseQuery({ baseUrl: '/api' }),
+    baseQuery: fetchBaseQuery({
+        baseUrl: import.meta.env.VITE_API_BASE_URL,
+    }),
     tagTypes: ['Account'],
     endpoints: (builder) => ({
         getAccountList: builder.query<AccountListResponse, AccountData>({

@@ -5,7 +5,7 @@ import { MenuType } from '@/features/settings/types';
 export const userApi = createApi({
     reducerPath: 'userApi',
     baseQuery: fetchBaseQuery({
-        baseUrl: '/api',
+        baseUrl: import.meta.env.VITE_API_BASE_URL,
         prepareHeaders: (headers, { getState }) => {
             const token = (getState() as any).authSlice.token;
             if (token) {

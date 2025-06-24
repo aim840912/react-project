@@ -28,7 +28,7 @@ interface EquipmentListResponse {
 export const financeApi = createApi({
     reducerPath: "financeApi",
     baseQuery: fetchBaseQuery({
-        baseUrl: "/api",
+        baseUrl: import.meta.env.VITE_API_BASE_URL,
     }),
     tagTypes: ["Contract", "Bill", "Equipment"],
 

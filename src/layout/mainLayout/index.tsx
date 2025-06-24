@@ -1,11 +1,11 @@
 import { useEffect, useState } from 'react';
 import { Layout, theme } from 'antd';
-import NavLeft from '@/components/navLeft';
-import MyBreadCrumb from '@/components/breadCrumb';
-import MyHeader from '@/components/header';
+import NavLeft from '../../components/navLeft';
+import MyBreadCrumb from '../../components/breadCrumb';
+import MyHeader from '../../components/header';
 import { Outlet, useLocation, useNavigate } from 'react-router-dom';
-import { useAppDispatch } from '@/app/hooks';
-import { addNotification } from '@/features/notifications/notificationSlice';
+import { useAppDispatch } from '../../app/hooks';
+import { addNotification } from '../../features/notifications/notificationSlice';
 
 const { Header, Content, Footer, Sider } = Layout;
 
@@ -26,7 +26,6 @@ function MainLayout() {
     }, [location, navigate])
 
     useEffect(() => {
-        let cleanup: () => void;
 
         if (import.meta.env.DEV) {
             console.log("⚡️ Using Mock WebSocket for development.");
@@ -63,7 +62,6 @@ function MainLayout() {
                 }
             };
 
-            // 每隔 50 秒模擬收到一條消息
             mockSocket.intervalId = setInterval(() => {
                 const mockMessages = [
                     { title: "新的報修單", description: `A1棟的電梯需要維修` },
@@ -74,55 +72,32 @@ function MainLayout() {
                 mockSocket.onmessage({ data: JSON.stringify(randomMessage) });
             }, 50000);
 
-            cleanup = () => mockSocket.close();
 
-        } else {
-            const ws = new WebSocket("ws://your-production-ws-url/ws");
-
-            ws.onopen = () => console.log("WebSocket connected");
-
-            ws.onmessage = (event) => {
-                try {
-                    const message = JSON.parse(event.data);
-                    if (message.title && message.description) {
-                        dispatch(addNotification({
-                            title: message.title,
-                            description: message.description
-                        }));
-                    }
-                } catch (error) {
-                    console.error("Failed to parse WebSocket message:", error);
-                }
-            };
-
-            ws.onclose = () => console.log("WebSocket disconnected");
-            ws.onerror = (error) => console.error("WebSocket error:", error);
-
-            cleanup = () => ws.close();
+            return () => mockSocket.close();
         }
-
-        return cleanup;
     }, [dispatch]);
 
-    return <div className='home'>
-        <Layout style={{ minHeight: '100vh' }}>
-            <Sider collapsible collapsed={collapsed} onCollapse={(value) => setCollapsed(value)}>
-                <NavLeft />
-            </Sider>
-            <Layout>
-                <Header style={{ padding: "0 24px", background: colorBgContainer }}>
-                    <MyHeader />
-                </Header>
-                <Content style={{ margin: '0 16px', height: "90vh", overflowY: "auto", overflowX: "hidden" }}>
-                    <MyBreadCrumb />
-                    <Outlet />
-                </Content>
-                <Footer style={{ textAlign: 'center' }}>
-                    Ant Design ©{new Date().getFullYear()} Created by Ant UED
-                </Footer>
+    return (
+        <div className='home'>
+            <Layout style={{ minHeight: '100vh' }}>
+                <Sider collapsible collapsed={collapsed} onCollapse={(value) => setCollapsed(value)}>
+                    <NavLeft />
+                </Sider>
+                <Layout>
+                    <Header style={{ padding: "0 24px", background: colorBgContainer }}>
+                        <MyHeader />
+                    </Header>
+                    <Content style={{ margin: '0 16px', height: "90vh", overflowY: "auto", overflowX: "hidden" }}>
+                        <MyBreadCrumb />
+                        <Outlet />
+                    </Content>
+                    <Footer style={{ textAlign: 'center' }}>
+                        Ant Design ©{new Date().getFullYear()} Created by Ant UED
+                    </Footer>
+                </Layout>
             </Layout>
-        </Layout>
-    </div>
+        </div>
+    );
 }
 
 export default MainLayout;

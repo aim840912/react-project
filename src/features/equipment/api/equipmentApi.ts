@@ -8,9 +8,11 @@ interface EquipmentListResponse {
 }
 
 export const equipmentApi = createApi({
-    reducerPath: 'equipmentApi', // ✨ 唯一的 reducerPath
-    baseQuery: fetchBaseQuery({ baseUrl: '/api' }),
-    tagTypes: ['Equipment'], // ✨ 只包含與設備相關的標籤
+    reducerPath: 'equipmentApi',
+    baseQuery: fetchBaseQuery({
+        baseUrl: import.meta.env.VITE_API_BASE_URL,
+    }),
+    tagTypes: ['Equipment'],
 
     endpoints: (builder) => ({
         getEquipmentList: builder.query<EquipmentListResponse, EquipmentSearchType>({

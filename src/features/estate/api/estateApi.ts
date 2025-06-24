@@ -8,7 +8,9 @@ interface RoomListResponse {
 
 export const estateApi = createApi({
     reducerPath: 'estateApi',
-    baseQuery: fetchBaseQuery({ baseUrl: '/api' }),
+    baseQuery: fetchBaseQuery({
+        baseUrl: import.meta.env.VITE_API_BASE_URL,
+    }),
     tagTypes: ['Room'],
 
     endpoints: (builder) => ({

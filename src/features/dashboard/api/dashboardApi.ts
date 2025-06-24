@@ -11,7 +11,9 @@ export interface SearchResult {
 
 export const dashboardApi = createApi({
     reducerPath: 'dashboardApi',
-    baseQuery: fetchBaseQuery({ baseUrl: '/api' }),
+    baseQuery: fetchBaseQuery({
+        baseUrl: import.meta.env.VITE_API_BASE_URL,
+    }),
     tagTypes: ['EnergyData', 'GlobalSearch'],
 
     endpoints: (builder) => ({
