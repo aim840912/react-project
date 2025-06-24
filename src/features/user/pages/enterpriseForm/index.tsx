@@ -19,7 +19,7 @@ function EnterpriseForm(props: FormProps) {
     const {
         control,
         handleSubmit,
-        reset,
+        // reset,
         formState: { errors }
     } = useForm<User>({
         defaultValues: initialData || {
@@ -33,7 +33,7 @@ function EnterpriseForm(props: FormProps) {
 
     const onSubmit = async (data: User) => {
         try {
-            const payload = isEditing ? { ...data, ...initialData, } : data;
+            const payload = isEditing ? { ...initialData, ...data } : data;
             await updateUser(payload).unwrap();
             message.success("操作成功");
             onSuccess();
@@ -44,11 +44,11 @@ function EnterpriseForm(props: FormProps) {
         }
     };
 
-    useEffect(() => {
-        if (open) {
-            reset(initialData);
-        }
-    }, [open, initialData, reset]);
+    // useEffect(() => {
+    //     if (open) {
+    //         reset(initialData);
+    //     }
+    // }, [open, initialData, reset]);
 
     return (
         <>

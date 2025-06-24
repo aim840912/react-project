@@ -17,7 +17,6 @@ function EnterpriseFormFields({ control }: EnterpriseFormFieldsProps) {
                         rules={{ required: "客戶名稱不能為空" }}
                         render={({ field, fieldState: { error } }) => (
                             <Form.Item
-                                name="name"
                                 label="客戶名稱"
                                 required
                                 validateStatus={error ? 'error' : ''}
@@ -38,7 +37,6 @@ function EnterpriseFormFields({ control }: EnterpriseFormFieldsProps) {
                         }}
                         render={({ field, fieldState: { error } }) => (
                             <Form.Item
-                                name="tel"
                                 label="聯繫電話"
                                 required
                                 validateStatus={error ? 'error' : ''}
@@ -58,7 +56,6 @@ function EnterpriseFormFields({ control }: EnterpriseFormFieldsProps) {
                         rules={{ required: "經營狀態不能為空" }}
                         render={({ field, fieldState: { error } }) => (
                             <Form.Item
-                                name="status"
                                 label="經營狀態"
                                 required
                                 validateStatus={error ? 'error' : ''}
@@ -80,7 +77,6 @@ function EnterpriseFormFields({ control }: EnterpriseFormFieldsProps) {
                         rules={{ required: "所屬行業不能為空" }}
                         render={({ field, fieldState: { error } }) => (
                             <Form.Item
-                                name="business"
                                 label="所屬行業"
                                 required
                                 validateStatus={error ? 'error' : ''}
@@ -103,7 +99,6 @@ function EnterpriseFormFields({ control }: EnterpriseFormFieldsProps) {
                         }}
                         render={({ field, fieldState: { error } }) => (
                             <Form.Item
-                                name="email" // ✅ 修正
                                 label="郵箱"
                                 required
                                 validateStatus={error ? 'error' : ''}
@@ -121,7 +116,6 @@ function EnterpriseFormFields({ control }: EnterpriseFormFieldsProps) {
                         rules={{ required: "統一信用代碼不能為空" }}
                         render={({ field, fieldState: { error } }) => (
                             <Form.Item
-                                name="creditCode" // ✅ 修正
                                 label="統一信用代碼"
                                 required
                                 validateStatus={error ? 'error' : ''}
@@ -141,7 +135,6 @@ function EnterpriseFormFields({ control }: EnterpriseFormFieldsProps) {
                         rules={{ required: "工商註冊號不能為空" }}
                         render={({ field, fieldState: { error } }) => (
                             <Form.Item
-                                name="industryNum" // ✅ 修正
                                 label="工商註冊號"
                                 required
                                 validateStatus={error ? 'error' : ''}
@@ -159,7 +152,6 @@ function EnterpriseFormFields({ control }: EnterpriseFormFieldsProps) {
                         rules={{ required: "組織機構代碼不能為空" }}
                         render={({ field, fieldState: { error } }) => (
                             <Form.Item
-                                name="organizationCode" // ✅ 修正
                                 label="組織機構代碼"
                                 required
                                 validateStatus={error ? 'error' : ''}
@@ -179,7 +171,6 @@ function EnterpriseFormFields({ control }: EnterpriseFormFieldsProps) {
                         rules={{ required: "法人名不能為空" }}
                         render={({ field, fieldState: { error } }) => (
                             <Form.Item
-                                name="legalPerson" // ✅ 修正
                                 label="法人名"
                                 required
                                 validateStatus={error ? 'error' : ''}

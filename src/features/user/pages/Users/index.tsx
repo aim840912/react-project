@@ -131,6 +131,7 @@ function Users() {
     return (
         <div className="users">
             <EnterpriseForm
+                key={editingRecord ? editingRecord.id : 'add'}
                 open={isModalOpen}
                 isEditing={!!editingRecord}
                 initialData={editingRecord}
